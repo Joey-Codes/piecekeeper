@@ -1,13 +1,16 @@
 <template>
-    <div class="min-h-screen bg-white">
+    <div class="min-h-screen bg-linear-to-b from-amber-50/80 via-white to-stone-50 relative overflow-hidden">
+        <FloatingNotes />
+
         <div class="relative max-w-4xl mx-auto px-6 py-12">
-            <header class="mb-10">
-                <p class="text-lg font-semibold tracking-wide text-amber-500 uppercase mb-1">
+            <header class="mb-10 text-center">
+                <p class="text-sm font-semibold tracking-widest text-amber-500/80 uppercase mb-2">
                     IT'S {{ formattedDate }}
                 </p>
-                <h1 class="text-3xl font-serif font-bold tracking-wide text-stone-800">
-                    Welcome Back, <span class="text-amber-700 normal-case">{{ name }}</span>
+                <h1 class="text-4xl font-serif font-bold tracking-wide text-stone-800">
+                    Welcome Back, <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">{{ name }}</span>
                 </h1>
+                <div class="mt-3 mx-auto w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
             </header>
 
             <PracticeSession @update:active="sessionActive = $event" />
@@ -26,6 +29,7 @@ import StatsRow from './StatsRow.vue'
 import PracticeChecklist from './PracticeChecklist.vue'
 import PracticeStreak from './PracticeStreak.vue'
 import ComposerQuote from './ComposerQuote.vue'
+import FloatingNotes from '../ui/FloatingNotes.vue'
 
 const name = ref('James')
 const sessionActive = ref(false)

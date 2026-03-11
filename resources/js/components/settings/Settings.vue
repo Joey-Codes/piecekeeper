@@ -1,18 +1,22 @@
 <template>
-    <div class="min-h-screen bg-white">
+    <div class="min-h-screen bg-linear-to-b from-amber-50/80 via-white to-stone-50 relative overflow-hidden">
+        <FloatingNotes />
+
         <div class="relative max-w-4xl mx-auto px-6 py-12">
-            <header class="mb-10">
-                <h1 class="text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                    <span class="text-amber-700">Settings</span>
+            <header class="mb-10 text-center">
+                <h1 class="text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                    <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">Settings</span>
                 </h1>
-                <p class="font-semibold text-stone-600 mt-1">
+                <p class="font-semibold text-stone-500 mt-2">
                     Customize your practice experience
                 </p>
+                <div class="mt-3 mx-auto w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
             </header>
 
             <!-- Practice Schedule -->
-            <section class="card px-6 py-6 mb-6">
-                <div class="flex items-center gap-3 mb-6">
+            <section class="card px-6 py-6 mb-6 bg-linear-to-br from-amber-50/60 to-orange-50/30 border-amber-100/60 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
+                <span class="absolute -bottom-3 -right-3 text-6xl text-amber-200/20 rotate-[-10deg] font-serif select-none">&#128197;</span>
+                <div class="relative flex items-center gap-3 mb-6">
                     <div class="w-9 h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm">
                         <span class="text-white text-sm">&#128197;</span>
                     </div>
@@ -20,7 +24,7 @@
                         <h2 class="text-lg font-serif font-bold uppercase tracking-wide text-stone-800">
                             Practice Schedule
                         </h2>
-                        <p class="text-md font-semibold text-stone-500">
+                        <p class="text-sm font-semibold text-stone-400">
                             How often and how much you want to practice
                         </p>
                     </div>
@@ -67,9 +71,9 @@
                     </div>
 
                     <!-- Summary -->
-                    <div class="mt-2 px-4 py-3 bg-stone-50 rounded-xl border border-stone-200">
+                    <div class="relative mt-2 px-4 py-3 bg-white/70 rounded-xl border border-amber-200/50 shadow-sm">
                         <p class="text-md font-semibold text-stone-600">
-                            <span class="font-semibold uppercase text-amber-600">Your schedule:</span>
+                            <span class="font-bold uppercase text-amber-600">Your schedule:</span>
                             {{ piecesPerDay }} {{ piecesPerDay === 1 ? 'piece' : 'pieces' }} {{ frequencyLabel }}
                         </p>
                     </div>
@@ -77,9 +81,10 @@
             </section>
 
             <!-- Placeholder sections for future settings -->
-            <section class="card px-6 py-6 mb-6 opacity-50">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-linear-to-br from-stone-300 to-stone-400 flex items-center justify-center shadow-sm">
+            <section class="card px-6 py-6 mb-6 bg-linear-to-br from-violet-50/40 to-purple-50/20 border-violet-100/40 opacity-60 relative overflow-hidden">
+                <span class="absolute -bottom-2 -right-2 text-5xl text-violet-200/20 rotate-[-10deg] font-serif select-none">&#9881;</span>
+                <div class="relative flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-linear-to-br from-violet-300 to-purple-400 flex items-center justify-center shadow-sm">
                         <span class="text-white text-sm">&#9881;</span>
                     </div>
                     <div>
@@ -93,9 +98,10 @@
                 </div>
             </section>
 
-            <section class="card px-6 py-6 opacity-50">
-                <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-linear-to-br from-stone-300 to-stone-400 flex items-center justify-center shadow-sm">
+            <section class="card px-6 py-6 bg-linear-to-br from-sky-50/40 to-blue-50/20 border-sky-100/40 opacity-60 relative overflow-hidden">
+                <span class="absolute -bottom-2 -right-2 text-5xl text-sky-200/20 rotate-10 font-serif select-none">&#128100;</span>
+                <div class="relative flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-linear-to-br from-sky-300 to-blue-400 flex items-center justify-center shadow-sm">
                         <span class="text-white text-sm">&#128100;</span>
                     </div>
                     <div>
@@ -114,6 +120,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import FloatingNotes from '../ui/FloatingNotes.vue'
 
 const piecesPerDay = ref(3)
 const frequency = ref('every_day')

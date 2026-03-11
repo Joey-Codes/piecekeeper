@@ -1,9 +1,13 @@
 <template>
-    <div class="mt-8 text-center px-6">
-        <p class="text-sm italic font-semibold text-slate-400">
+    <div class="mt-10 text-center px-8 py-6 relative">
+        <!-- Decorative quote marks -->
+        <span class="absolute top-1 left-4 text-5xl font-serif text-amber-300/25 leading-none select-none">&ldquo;</span>
+        <span class="absolute bottom-1 right-4 text-5xl font-serif text-amber-300/25 leading-none select-none">&rdquo;</span>
+
+        <p class="text-base italic font-medium text-stone-400 font-serif leading-relaxed max-w-lg mx-auto">
             "{{ quote.text }}"
         </p>
-        <p class="text-sm font-semibold text-slate-300 mt-1">
+        <p class="text-sm font-semibold text-stone-300 mt-2">
             &mdash; {{ quote.author }}
         </p>
     </div>

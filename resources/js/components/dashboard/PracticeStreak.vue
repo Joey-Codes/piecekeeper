@@ -1,8 +1,18 @@
 <template>
-    <section class="mt-8 card px-6 py-5">
-        <h3 class="text-sm font-semibold text-stone-600 mb-3">
-            Last 4 Weeks
-        </h3>
+    <section class="mt-8 card px-6 py-5 bg-linear-to-br from-stone-50/50 to-amber-50/30 border-stone-200/80">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xs font-bold text-stone-500 uppercase tracking-widest">
+                Last 4 Weeks
+            </h3>
+            <div class="flex items-center gap-2 text-xs font-semibold text-stone-400">
+                <span>Less</span>
+                <div class="w-3 h-3 rounded bg-stone-200/80" />
+                <div class="w-3 h-3 rounded bg-amber-200" />
+                <div class="w-3 h-3 rounded bg-amber-400" />
+                <div class="w-3 h-3 rounded bg-amber-600" />
+                <span>More</span>
+            </div>
+        </div>
         <div class="flex gap-1.5 justify-between">
             <div
                 v-for="(day, i) in days"
@@ -10,22 +20,14 @@
                 class="flex flex-col items-center gap-1"
             >
                 <div
-                    class="w-5 h-5 rounded-md transition-colors"
-                    :class="day.level === 0 ? 'bg-stone-100'
+                    class="w-5 h-5 rounded-md transition-all duration-300 hover:scale-125"
+                    :class="day.level === 0 ? 'bg-stone-200/60'
                         : day.level === 1 ? 'bg-amber-200'
                             : day.level === 2 ? 'bg-amber-400'
-                                : 'bg-amber-600'"
+                                : 'bg-amber-600 shadow-sm shadow-amber-300/40'"
                     :title="day.label"
                 />
             </div>
-        </div>
-        <div class="flex items-center gap-2 mt-3 text-sm font-semibold text-stone-400">
-            <span>Less</span>
-            <div class="w-3.5 h-3.5 rounded bg-stone-100" />
-            <div class="w-3.5 h-3.5 rounded bg-amber-200" />
-            <div class="w-3.5 h-3.5 rounded bg-amber-400" />
-            <div class="w-3.5 h-3.5 rounded bg-amber-600" />
-            <span>More</span>
         </div>
     </section>
 </template>

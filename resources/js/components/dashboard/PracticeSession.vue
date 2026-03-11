@@ -1,18 +1,34 @@
 <template>
     <div class="mb-8">
-        <div v-if="!session.active" class="flex justify-center">
+        <div
+            v-if="!session.active"
+            class="flex justify-center"
+        >
             <button
+                class="group flex items-center gap-3 px-8 py-4 bg-linear-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-2xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200"
                 @click="startSession"
-                class="group flex items-center gap-3 px-8 py-4 bg-linear-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-200"
             >
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z" />
+                <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z"
+                    />
                 </svg>
                 Start Practice
             </button>
         </div>
 
-        <div v-else class="card px-6 py-5">
+        <div
+            v-else
+            class="card px-6 py-5"
+        >
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <div
@@ -27,7 +43,10 @@
                         <p class="text-sm font-semibold text-stone-500">
                             {{ paused ? 'Session paused' : 'Session in progress' }}
                         </p>
-                        <p class="text-2xl font-bold tabular-nums" :class="paused ? 'text-stone-400' : 'text-stone-800'">
+                        <p
+                            class="text-2xl font-bold tabular-nums"
+                            :class="paused ? 'text-stone-400' : 'text-stone-800'"
+                        >
                             {{ elapsedTime }}
                         </p>
                     </div>
@@ -35,29 +54,61 @@
                 <div class="flex items-center gap-2">
                     <!-- Pause / Resume button -->
                     <button
-                        @click="togglePause"
                         class="flex items-center gap-2 px-5 py-3 font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
                         :class="paused
                             ? 'bg-linear-to-r from-emerald-500 to-green-500 text-white'
                             : 'bg-stone-100 text-stone-600 hover:bg-stone-200'"
+                        @click="togglePause"
                     >
                         <!-- Pause icon -->
-                        <svg v-if="!paused" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25v13.5m-7.5-13.5v13.5" />
+                        <svg
+                            v-if="!paused"
+                            class="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.75 5.25v13.5m-7.5-13.5v13.5"
+                            />
                         </svg>
                         <!-- Play/Resume icon -->
-                        <svg v-else class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z" />
+                        <svg
+                            v-else
+                            class="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z"
+                            />
                         </svg>
                         {{ paused ? 'Resume' : 'Pause' }}
                     </button>
                     <!-- End Session button -->
                     <button
-                        @click="promptEnd"
                         class="flex items-center gap-2 px-5 py-3 bg-linear-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                        @click="promptEnd"
                     >
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 7.5A2.25 2.25 0 017.5 5.25h9a2.25 2.25 0 012.25 2.25v9a2.25 2.25 0 01-2.25 2.25h-9a2.25 2.25 0 01-2.25-2.25v-9z" />
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M5.25 7.5A2.25 2.25 0 017.5 5.25h9a2.25 2.25 0 012.25 2.25v9a2.25 2.25 0 01-2.25 2.25h-9a2.25 2.25 0 01-2.25-2.25v-9z"
+                            />
                         </svg>
                         End
                     </button>

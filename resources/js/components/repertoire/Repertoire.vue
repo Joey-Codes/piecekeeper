@@ -1,19 +1,22 @@
 <template>
-    <div class="min-h-screen bg-white">
+    <div class="min-h-screen bg-linear-to-b from-amber-50/80 via-white to-stone-50 relative overflow-hidden">
+        <FloatingNotes />
+
         <div class="relative max-w-4xl mx-auto px-6 py-12">
-            <header class="mb-10">
-                <h1 class="text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                    My <span class="text-amber-700">Repertoire</span>
+            <header class="mb-10 text-center">
+                <h1 class="text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                    My <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">Repertoire</span>
                 </h1>
-                <p class="font-semibold text-stone-600 mt-1">
+                <p class="font-semibold text-stone-500 mt-2">
                     {{ pieces.length }} {{ pieces.length === 1 ? 'piece' : 'pieces' }} in your collection
                 </p>
+                <div class="mt-3 mx-auto w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
             </header>
 
             <!-- Add piece button -->
-            <div class="mb-6">
+            <div class="mb-6 flex justify-center">
                 <button
-                    class="px-5 py-2 text-md font-semibold text-white bg-linear-to-r from-amber-500 to-orange-400 rounded-lg shadow-sm hover:from-amber-600 hover:to-orange-500 transition-all"
+                    class="px-6 py-2.5 text-md font-semibold text-white bg-linear-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200"
                     @click="showAddPiece = true"
                 >
                     + Add Piece
@@ -30,15 +33,30 @@
 
             <!-- Filters -->
             <div class="flex items-center gap-3 mb-6">
-                <input
-                    v-model="search"
-                    type="text"
-                    placeholder="Search pieces..."
-                    class="flex-1 px-4 py-2 text-md bg-white/60 border border-stone-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-700"
-                >
+                <div class="relative flex-1">
+                    <svg
+                        class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                    </svg>
+                    <input
+                        v-model="search"
+                        type="text"
+                        placeholder="Search pieces..."
+                        class="w-full pl-10 pr-4 py-2.5 text-md bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 transition-shadow hover:shadow-md"
+                    >
+                </div>
                 <select
                     v-model="statusFilter"
-                    class="px-4 py-2 text-md font-semibold bg-white/60 border border-stone-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 text-stone-700 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2378716c%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-size-[12px] bg-position-[right_12px_center] bg-no-repeat pr-9"
+                    class="px-4 py-2.5 text-md font-semibold bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 text-stone-600 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2378716c%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-size-[12px] bg-position-[right_12px_center] bg-no-repeat pr-9 transition-shadow hover:shadow-md"
                 >
                     <option value="">
                         All statuses
@@ -59,11 +77,12 @@
             </div>
 
             <!-- Piece list -->
-            <section class="card overflow-hidden">
+            <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div
                     v-if="filteredPieces.length === 0"
-                    class="px-6 py-12 text-center"
+                    class="px-6 py-16 text-center"
                 >
+                    <span class="text-4xl text-stone-200 block mb-3">&#9835;</span>
                     <p class="text-stone-400 font-serif italic">
                         {{ pieces.length === 0 ? 'No pieces yet — add your first one above!' : 'No pieces match your filters.' }}
                     </p>
@@ -143,18 +162,19 @@
             </section>
 
             <!-- Want to Learn section -->
-            <header class="mt-14 mb-6">
-                <h2 class="text-2xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                    Want to <span class="text-amber-700">Learn</span>
+            <header class="mt-16 mb-6 text-center">
+                <h2 class="text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                    Want to <span class="bg-linear-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent">Learn</span>
                 </h2>
-                <p class="font-semibold text-stone-600 mt-1">
+                <p class="font-semibold text-stone-500 mt-2">
                     {{ wishlist.length }} {{ wishlist.length === 1 ? 'piece' : 'pieces' }} on your wishlist
                 </p>
+                <div class="mt-3 mx-auto w-12 h-1 rounded-full bg-linear-to-r from-violet-400 to-purple-400 opacity-60" />
             </header>
 
-            <div class="mb-6">
+            <div class="mb-6 flex justify-center">
                 <button
-                    class="px-5 py-2 text-md font-semibold text-white bg-linear-to-r from-amber-500 to-orange-400 rounded-lg shadow-sm hover:from-amber-600 hover:to-orange-500 transition-all"
+                    class="px-6 py-2.5 text-md font-semibold text-white bg-linear-to-r from-violet-500 to-purple-500 rounded-xl shadow-lg shadow-violet-300/30 hover:shadow-xl hover:shadow-violet-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200"
                     @click="showAddWish = true"
                 >
                     + Add to Wishlist
@@ -169,11 +189,12 @@
                 @close="showAddWish = false"
             />
 
-            <section class="card overflow-hidden">
+            <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div
                     v-if="wishlist.length === 0"
-                    class="px-6 py-12 text-center"
+                    class="px-6 py-16 text-center"
                 >
+                    <span class="text-4xl text-stone-200 block mb-3">&#9834;</span>
                     <p class="text-stone-400 font-serif italic">
                         No pieces on your wishlist yet — add something you'd love to learn!
                     </p>
@@ -202,7 +223,7 @@
 
                         <!-- Start learning button -->
                         <button
-                            class="text-sm font-semibold px-3 py-1 rounded-lg text-amber-600 bg-amber-50 hover:bg-amber-300 transition-colors"
+                            class="text-sm font-semibold px-3.5 py-1.5 rounded-lg text-amber-700 bg-amber-50 border border-amber-200/60 hover:bg-amber-100 hover:border-amber-300 transition-all duration-200"
                             title="Move to repertoire"
                             @click.stop="startLearning(item)"
                         >
@@ -261,6 +282,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import ConfirmModal from '../ui/ConfirmModal.vue'
+import FloatingNotes from '../ui/FloatingNotes.vue'
 import AddPieceForm from './AddPieceForm.vue'
 import PieceDetail from './PieceDetail.vue'
 
