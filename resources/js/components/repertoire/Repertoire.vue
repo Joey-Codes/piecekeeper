@@ -79,11 +79,9 @@
                         @click="selectedPiece = piece"
                     >
                         <div
-                            class="w-9 h-9 rounded-xl flex items-center justify-center shadow-sm shrink-0 bg-linear-to-br"
-                            :class="statusIconClass(piece.status)"
-                        >
-                            <span class="text-white text-sm">&#9835;</span>
-                        </div>
+                            class="w-1 self-stretch rounded-full shrink-0"
+                            :class="statusBarClass(piece.status)"
+                        />
 
                         <!-- Piece info -->
                         <div class="flex-1 min-w-0">
@@ -190,10 +188,6 @@
                         class="group px-6 py-4 flex items-center gap-4 hover:bg-stone-50 transition-colors duration-200 cursor-pointer"
                         @click="selectedWishPiece = item"
                     >
-                        <div class="w-9 h-9 rounded-xl bg-linear-to-br from-stone-300 to-stone-400 flex items-center justify-center shadow-sm shrink-0">
-                            <span class="text-white text-sm">&#9834;</span>
-                        </div>
-
                         <div class="flex-1 min-w-0">
                             <p class="text-md font-semibold text-stone-800">
                                 {{ item.title }}
@@ -316,14 +310,14 @@ const filteredPieces = computed(() => {
     return result
 })
 
-function statusIconClass(status) {
+function statusBarClass(status) {
     const classes = {
-        learning: 'from-blue-500 to-blue-400',
-        learned: 'from-emerald-500 to-emerald-400',
-        polishing: 'from-amber-500 to-orange-400',
-        shelved: 'from-stone-400 to-stone-500',
+        learning: 'bg-blue-400',
+        learned: 'bg-emerald-400',
+        polishing: 'bg-amber-400',
+        shelved: 'bg-stone-400',
     }
-    return classes[status] || 'from-amber-500 to-orange-400'
+    return classes[status] || 'bg-amber-400'
 }
 
 function statusClass(status) {

@@ -113,7 +113,8 @@
                                 <div
                                     v-for="(file, i) in files"
                                     :key="i"
-                                    class="group/file relative rounded-lg border border-stone-200 bg-stone-50 overflow-hidden"
+                                    class="group/file relative rounded-lg border border-stone-200 bg-stone-50 overflow-hidden cursor-pointer hover:border-amber-300 transition-colors"
+                                    @click="openPdf(i)"
                                 >
                                     <!-- PDF preview thumbnail -->
                                     <div class="aspect-3/4 flex flex-col items-center justify-center p-3 bg-white">
@@ -237,10 +238,17 @@
             </div>
         </Transition>
     </Teleport>
+
+    <PdfViewer
+        :files="pdfViewerOpen ? files : []"
+        :start-index="pdfStartIndex"
+        @close="pdfViewerOpen = false"
+    />
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
+import PdfViewer from '../ui/PdfViewer.vue'
 
 const props = defineProps({
     piece: { type: Object, default: null },
@@ -255,6 +263,8 @@ const status = ref('learning')
 const link = ref('')
 const files = ref([])
 const fileInput = ref(null)
+const pdfViewerOpen = ref(false)
+const pdfStartIndex = ref(0)
 
 watch(() => props.piece, (p) => {
     if (p) {
@@ -265,6 +275,11 @@ watch(() => props.piece, (p) => {
         files.value = p.files ? [...p.files] : []
     }
 }, { immediate: true })
+
+function openPdf(index) {
+    pdfStartIndex.value = index
+    pdfViewerOpen.value = true
+}
 
 function handleFiles(e) {
     const selected = Array.from(e.target.files)

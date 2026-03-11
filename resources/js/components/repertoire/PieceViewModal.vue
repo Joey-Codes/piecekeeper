@@ -67,7 +67,8 @@
                                 <div
                                     v-for="(file, i) in piece.files"
                                     :key="i"
-                                    class="rounded-lg border border-stone-200 bg-stone-50 overflow-hidden"
+                                    class="rounded-lg border border-stone-200 bg-stone-50 overflow-hidden cursor-pointer hover:border-amber-300 hover:shadow-md transition-all"
+                                    @click="openPdf(i)"
                                 >
                                     <!-- PDF preview thumbnail -->
                                     <div class="aspect-3/4 flex flex-col items-center justify-center p-4 bg-white">
@@ -141,16 +142,32 @@
             </div>
         </Transition>
     </Teleport>
+
+    <PdfViewer
+        v-if="piece"
+        :files="pdfViewerOpen ? piece.files : []"
+        :start-index="pdfStartIndex"
+        @close="pdfViewerOpen = false"
+    />
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
+import PdfViewer from '../ui/PdfViewer.vue'
 
 const props = defineProps({
     piece: { type: Object, default: null },
 })
 
 defineEmits(['close'])
+
+const pdfViewerOpen = ref(false)
+const pdfStartIndex = ref(0)
+
+function openPdf(index) {
+    pdfStartIndex.value = index
+    pdfViewerOpen.value = true
+}
 
 const statusClass = computed(() => {
     if (!props.piece) return ''
