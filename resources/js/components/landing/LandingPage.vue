@@ -186,8 +186,8 @@
                     <div class="bg-linear-to-br from-amber-50 to-orange-50 rounded-3xl p-8 border border-amber-100">
                         <!-- Animated practice checklist visual -->
                         <div class="space-y-4">
-                            <div class="text-sm font-semibold text-amber-700 mb-2 flex items-center gap-2">
-                                <span class="text-lg">&#9835;</span> Today's Practice
+                            <div class="text-md font-semibold text-amber-700 mb-2 flex items-center gap-2">
+                                <span class="text-xl">&#9835;</span> Today's Practice
                             </div>
                             <div
                                 v-for="(item, i) in featureList1"
@@ -233,15 +233,15 @@
                 </div>
                 <!-- Text -->
                 <div>
-                    <p class="text-amber-600 font-semibold text-sm mb-2 uppercase tracking-wide">
-                        Smart Practice Lists
+                    <p class="text-amber-600 font-semibold text-lg mb-2 uppercase tracking-wide">
+                        Smart Practice Schedule
                     </p>
                     <h3 class="font-serif text-3xl font-bold text-stone-800 mb-4">
                         Know exactly what to practice
                     </h3>
-                    <p class="text-stone-500 text-lg leading-relaxed mb-6">
-                        No more staring at your sheet music wondering where to start. We generate a daily practice
-                        checklist tailored to your repertoire, rotating pieces so nothing gets neglected.
+                    <p class="text-stone-700 text-lg leading-relaxed mb-6">
+                        No more having to keep your repertoire in your head or with a pen and paper. We generate a daily practice
+                        schedule tailored to your preferences, rotating pieces so nothing gets neglected.
                     </p>
                     <ul class="space-y-3">
                         <li
@@ -264,7 +264,7 @@
                                     />
                                 </svg>
                             </div>
-                            <span class="text-stone-600">{{ point }}</span>
+                            <span class="text-stone-700">{{ point }}</span>
                         </li>
                     </ul>
                 </div>
@@ -276,15 +276,16 @@
             <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <!-- Text -->
                 <div class="order-2 md:order-1">
-                    <p class="text-violet-600 font-semibold text-sm mb-2 uppercase tracking-wide">
+                    <p class="text-violet-600 font-semibold text-lg mb-2 uppercase tracking-wide">
                         Track Your Growth
                     </p>
                     <h3 class="font-serif text-3xl font-bold text-stone-800 mb-4">
-                        Watch yourself improve over time
+                        Don't just repeat, improve over time
                     </h3>
-                    <p class="text-stone-500 text-lg leading-relaxed mb-6">
-                        See your practice streaks, time spent, and pieces mastered at a glance.
-                        Beautiful insights help you stay motivated and celebrate every milestone.
+                    <p class="text-stone-700 text-lg leading-relaxed mb-6">
+                        We provide insights into your practice to help you recognize trends and 
+                        other factors you can use to improve your performance over time. No more
+                        mindless repetition, track and celebrate your progress!
                     </p>
                     <ul class="space-y-3">
                         <li
@@ -307,7 +308,7 @@
                                     />
                                 </svg>
                             </div>
-                            <span class="text-stone-600">{{ point }}</span>
+                            <span class="text-stone-700">{{ point }}</span>
                         </li>
                     </ul>
                 </div>
@@ -398,15 +399,16 @@
                 </div>
                 <!-- Text -->
                 <div>
-                    <p class="text-emerald-600 font-semibold text-sm mb-2 uppercase tracking-wide">
+                    <p class="text-emerald-600 font-semibold text-lg mb-2 uppercase tracking-wide">
                         Repertoire Management
                     </p>
                     <h3 class="font-serif text-3xl font-bold text-stone-800 mb-4">
                         Your entire library, organized
                     </h3>
-                    <p class="text-stone-500 text-lg leading-relaxed mb-6">
-                        Keep track of pieces you're learning, ones you've mastered, and your wishlist.
-                        Filter by status, search instantly, and never lose track of where you are.
+                    <p class="text-stone-700 text-lg leading-relaxed mb-6">
+                        Keep track of the pieces you're learning, ones you've mastered, ones you've maybe
+                        forgotten over time, and ones you want to learn. Filter by status, search instantly,
+                        and never lose track of where you are.
                     </p>
                     <ul class="space-y-3">
                         <li
@@ -429,7 +431,7 @@
                                     />
                                 </svg>
                             </div>
-                            <span class="text-stone-600">{{ point }}</span>
+                            <span class="text-stone-700">{{ point }}</span>
                         </li>
                     </ul>
                 </div>
@@ -476,10 +478,10 @@
                         not just harder
                     </span>
                 </h2>
-                <p class="text-stone-500 text-lg max-w-2xl mx-auto leading-relaxed">
+                <p class="text-stone-700 text-lg max-w-2xl mx-auto leading-relaxed">
                     Every great pianist knows that quality practice matters more than quantity.
-                    Piano Piece Manager helps you build the habits that lead to real improvement —
-                    consistent, focused, and rewarding.
+                    Building good habits, reflecting on progress, and consistent, focused work
+                    leads to real imrpovement. Let Piano Piece Manager help you on that journey!
                 </p>
             </div>
         </section>
@@ -640,19 +642,19 @@ const featureList1 = [
 // Feature section bullet points
 const points1 = [
     'Auto-generated daily practice lists',
-    'Rotate through your full repertoire evenly',
+    'Rotate through your full repertoire on a set basis',
     'Check off pieces as you go',
 ]
 
 const points2 = [
     'Daily streak tracking to build consistency',
-    'Visual heatmaps of your practice history',
-    'Weekly and monthly practice summaries',
+    'Record notes as you practice',
+    'Detailed summaries of your sessions and playing',
 ]
 
 const points3 = [
-    'Track learning, polishing, and mastered pieces',
-    'Maintain a wishlist of pieces to learn next',
+    'Upload sheet music and links along with every piece',
+    'Maintain a wishlist of what to learn next',
     'Search and filter your entire library instantly',
 ]
 

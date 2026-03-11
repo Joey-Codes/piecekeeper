@@ -99,6 +99,19 @@
                             </div>
                         </div>
 
+                        <!-- Notes -->
+                        <div>
+                            <label class="block text-sm font-semibold text-stone-700 mb-1">
+                                Notes
+                            </label>
+                            <textarea
+                                v-model="notes"
+                                rows="3"
+                                placeholder="Practice notes, performance tips, things to work on..."
+                                class="w-full px-3 py-2 text-sm bg-white/70 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 resize-y"
+                            />
+                        </div>
+
                         <!-- Sheet Music -->
                         <div>
                             <label class="block text-sm font-semibold text-stone-700 mb-2">
@@ -261,6 +274,7 @@ const title = ref('')
 const composer = ref('')
 const status = ref('learning')
 const link = ref('')
+const notes = ref('')
 const files = ref([])
 const fileInput = ref(null)
 const pdfViewerOpen = ref(false)
@@ -272,6 +286,7 @@ watch(() => props.piece, (p) => {
         composer.value = p.composer || ''
         status.value = p.status || 'learning'
         link.value = p.link || ''
+        notes.value = p.notes || ''
         files.value = p.files ? [...p.files] : []
     }
 }, { immediate: true })
@@ -300,6 +315,7 @@ function handleSave() {
         composer: composer.value.trim() || null,
         status: status.value,
         link: link.value.trim() || null,
+        notes: notes.value.trim() || null,
         files: [...files.value],
     })
 }

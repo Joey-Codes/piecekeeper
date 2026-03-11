@@ -371,6 +371,7 @@ function savePiece(data) {
         piece.composer = data.composer
         piece.status = data.status
         piece.link = data.link
+        piece.notes = data.notes
         piece.files = data.files
     }
     selectedPiece.value = null
@@ -408,6 +409,7 @@ function saveWishPiece(data) {
         item.title = data.title
         item.composer = data.composer
         item.link = data.link
+        item.notes = data.notes
         item.files = data.files
     }
     selectedWishPiece.value = null

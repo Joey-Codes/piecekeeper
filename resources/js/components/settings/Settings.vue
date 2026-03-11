@@ -5,7 +5,7 @@
         <div class="relative max-w-4xl mx-auto px-6 py-12">
             <header class="mb-10 text-center">
                 <h1 class="text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                    <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">Settings</span>
+                    <span class="bg-linear-to-r bg-clip-text">Settings</span>
                 </h1>
                 <p class="font-semibold text-stone-500 mt-2">
                     Customize your practice experience

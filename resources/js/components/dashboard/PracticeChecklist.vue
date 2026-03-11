@@ -52,20 +52,22 @@
         </div>
 
         <!-- Piece list -->
-        <ul class="divide-y divide-stone-100">
-            <li
-                v-for="piece in pieces"
+        <div class="p-4 space-y-3">
+            <div
+                v-for="(piece, index) in pieces"
                 :key="piece.id"
-                class="group px-6 py-4 flex items-center gap-4 transition-colors duration-200 cursor-pointer"
-                :class="piece.done ? 'bg-stone-50/60' : 'hover:bg-stone-50'"
+                class="flex items-center gap-3 p-3 rounded-xl transition-all duration-300 cursor-pointer"
+                :class="piece.done ? 'bg-emerald-50 border border-emerald-100' : 'bg-stone-50 border border-stone-100 hover:border-stone-200'"
                 @click="selectedPiece = piece"
             >
+                <!-- Check / number circle -->
                 <div
                     :class="disabled ? 'opacity-30 pointer-events-none' : ''"
                     @click.stop
                 >
                     <TrebleClefCheck
                         :checked="piece.done"
+                        :label="index + 1"
                         @toggle="toggle(piece)"
                     />
                 </div>
@@ -73,25 +75,34 @@
                 <!-- Piece info -->
                 <div class="flex-1 min-w-0">
                     <p
-                        class="text-md font-semibold transition-all duration-300"
-                        :class="piece.done ? 'text-stone-400 line-through' : 'text-black'"
+                        class="text-sm font-semibold transition-all duration-300"
+                        :class="piece.done ? 'text-emerald-700' : 'text-stone-700'"
                     >
                         {{ piece.title }}
                     </p>
-                    <p class="text-sm text-stone-600 mt-0.5">
+                    <p
+                        class="text-xs mt-0.5 transition-all duration-300"
+                        :class="piece.done ? 'text-emerald-500' : 'text-stone-400'"
+                    >
                         {{ piece.composer }}
                     </p>
                 </div>
 
-                <!-- Musical accent -->
-                <span
-                    class="text-lg transition-all duration-300"
-                    :class="piece.done ? 'text-emerald-300 opacity-100' : 'text-stone-300 opacity-0 group-hover:opacity-40'"
+                <!-- Done / Up next tag -->
+                <div
+                    v-if="piece.done"
+                    class="text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap bg-emerald-100 text-emerald-600"
                 >
-                    &#9834;
-                </span>
-            </li>
-        </ul>
+                    Done
+                </div>
+                <div
+                    v-else-if="piece.id === nextUpId"
+                    class="text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap bg-amber-100 text-amber-600"
+                >
+                    Up next
+                </div>
+            </div>
+        </div>
 
         <!-- Footer -->
         <div
@@ -115,6 +126,8 @@
 
     <PieceViewModal
         :piece="selectedPiece"
+        :practice-active="!disabled"
+        @toggle-done="toggleDoneById"
         @close="selectedPiece = null"
     />
 </template>
@@ -131,19 +144,30 @@ const props = defineProps({
 const selectedPiece = ref(null)
 
 const pieces = ref([
-    { id: 1, title: 'Clair de Lune', composer: 'Debussy', status: 'polishing', done: false, link: 'https://youtube.com/watch?v=example1', files: [{ name: 'Clair_de_Lune.pdf', pages: 6 }] },
+    { id: 1, title: 'Clair de Lune', composer: 'Debussy', status: 'polishing', done: false, link: 'https://youtube.com/watch?v=example1', notes: "Play it slower", files: [{ name: 'Clair_de_Lune.pdf', pages: 6 }] },
     { id: 2, title: 'Nocturne Op. 9 No. 2', composer: 'Chopin', status: 'learning', done: false, files: [{ name: 'Nocturne_Op9_No2.pdf', pages: 4 }, { name: 'Nocturne_Annotations.pdf', pages: 2 }] },
     { id: 3, title: 'Gymnopédie No. 1', composer: 'Satie', status: 'learned', done: false, files: [] },
     { id: 4, title: 'Prelude in C Major', composer: 'Bach', status: 'learned', done: false, files: [{ name: 'Prelude_C_Major_BWV846.pdf', pages: 3 }] },
     { id: 5, title: 'Moonlight Sonata, Mvt. 1', composer: 'Beethoven', status: 'learning', done: false, files: [] },
 ])
 
+const nextUpId = computed(() => {
+    const next = pieces.value.find(p => !p.done)
+    return next ? next.id : null
+})
 const completedCount = computed(() => pieces.value.filter(p => p.done).length)
 const progressPercent = computed(() => (completedCount.value / pieces.value.length) * 100)
-const allDone = computed(() => completedCount.value === pieces.value.length)
+const allDone = computed(() => completedCount.value === pieces.value.length)    
 
 function toggle(piece) {
     if (props.disabled) return
     piece.done = !piece.done
+}   
+
+function toggleDoneById(id) {
+    const piece = pieces.value.find(p => p.id === id)
+    if (piece) toggle(piece)
 }
+
+
 </script>

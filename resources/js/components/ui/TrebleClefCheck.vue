@@ -3,11 +3,22 @@
         class="relative w-7 h-9 shrink-0 flex items-center justify-center cursor-pointer"
         @click="$emit('toggle')"
     >
-        <!-- Unchecked: faint circle -->
+        <!-- Unchecked: numbered circle or plain border -->
         <div
-            class="absolute inset-x-0.5 inset-y-1 rounded-lg border-2 transition-all duration-300"
-            :class="checked ? 'border-transparent scale-90 opacity-0' : 'border-stone-800 hover:border-amber-400 scale-100 opacity-100'"
-        />
+            class="absolute inset-0 flex items-center justify-center transition-all duration-300"
+            :class="checked ? 'scale-90 opacity-0' : 'scale-100 opacity-100'"
+        >
+            <div
+                v-if="label !== null"
+                class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-stone-200 text-stone-400 hover:bg-amber-100 hover:text-amber-600 transition-colors duration-200"
+            >
+                {{ label }}
+            </div>
+            <div
+                v-else
+                class="w-full h-full rounded-lg border-2 border-stone-800 hover:border-amber-400"
+            />
+        </div>
 
         <!-- Treble clef SVG with draw animation -->
         <svg
@@ -46,6 +57,10 @@ defineProps({
     checked: {
         type: Boolean,
         default: false,
+    },
+    label: {
+        type: [Number, String],
+        default: null,
     },
 })
 

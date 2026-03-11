@@ -4,44 +4,62 @@
             <div
                 v-if="piece"
                 class="fixed inset-0 z-50 flex items-center justify-center p-4"
-                @mousedown.self="$emit('close')"
+                @mousedown.self="close"
             >
                 <!-- Backdrop -->
                 <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" />
 
-                <!-- Modal panel — wider for PDF display -->
+                <!-- Modal panel -->
                 <div class="relative bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 max-h-[85vh] overflow-y-auto">
-                    <!-- Title -->
-                    <h3 class="text-xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center">
-                        {{ piece.title }}
-                    </h3>
-                    <p
-                        v-if="piece.composer"
-                        class="text-sm text-stone-500 text-center mt-1"
+                    <!-- Title (editable) -->
+                    <input
+                        v-model="title"
+                        type="text"
+                        class="w-full text-2xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center bg-transparent border-0 border-b-2 border-transparent focus:border-amber-400 focus:outline-none transition-colors px-2 py-1"
+                        placeholder="Title"
                     >
-                        {{ piece.composer }}
-                    </p>
+                    <!-- Composer (editable) -->
+                    <input
+                        v-model="composer"
+                        type="text"
+                        class="w-full text-base text-stone-500 text-center bg-transparent border-0 border-b-2 border-transparent focus:border-amber-400 focus:outline-none transition-colors mt-1 px-2 py-0.5"
+                        placeholder="Composer"
+                    >
 
                     <!-- Details -->
-                    <div class="mt-5 space-y-4">
-                        <!-- Status -->
+                    <div class="mt-6 space-y-5">
+                        <!-- Status (editable) -->
                         <div
                             v-if="piece.status"
-                            class="flex items-center gap-2"
+                            class="flex items-center gap-3"
                         >
-                            <span class="text-sm font-semibold text-stone-700">Status</span>
-                            <span
-                                class="text-sm font-semibold px-2.5 py-0.5 rounded-lg capitalize"
-                                :class="statusClass"
-                            >{{ piece.status }}</span>
+                            <span class="text-base font-semibold text-stone-700">Status</span>
+                            <select
+                                v-model="status"
+                                class="text-base font-semibold px-3 py-1 rounded-lg border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-300/50"
+                                :class="currentStatusClass"
+                            >
+                                <option value="learning">
+                                    Learning
+                                </option>
+                                <option value="learned">
+                                    Learned
+                                </option>
+                                <option value="polishing">
+                                    Polishing
+                                </option>
+                                <option value="shelved">
+                                    Shelved
+                                </option>
+                            </select>
                         </div>
 
-                        <!-- Link -->
+                        <!-- Link (read-only) -->
                         <div v-if="piece.link">
-                            <span class="block text-sm font-semibold text-stone-700 mb-1">Reference Link</span>
+                            <span class="block text-base font-semibold text-stone-700 mb-1">Reference Link</span>
                             <div class="flex items-center gap-2 px-3 py-2 bg-stone-50 rounded-lg">
                                 <svg
-                                    class="w-4 h-4 text-stone-400 shrink-0"
+                                    class="w-5 h-5 text-stone-400 shrink-0"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -53,13 +71,24 @@
                                         d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                     />
                                 </svg>
-                                <span class="text-sm text-amber-700 truncate">{{ piece.link }}</span>
+                                <span class="text-base text-amber-700 truncate">{{ piece.link }}</span>
                             </div>
                         </div>
 
-                        <!-- Sheet Music PDFs -->
+                        <!-- Notes (editable) -->
+                        <div>
+                            <span class="block text-base font-semibold text-stone-700 mb-1">Notes</span>
+                            <textarea
+                                v-model="notes"
+                                rows="3"
+                                placeholder="Practice notes, performance tips, things to work on..."
+                                class="w-full px-3 py-2 text-base text-stone-600 bg-stone-50 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 resize-y"
+                            />
+                        </div>
+
+                        <!-- Sheet Music PDFs (read-only) -->
                         <div v-if="piece.files && piece.files.length">
-                            <span class="block text-sm font-semibold text-stone-700 mb-2">Sheet Music</span>
+                            <span class="block text-base font-semibold text-stone-700 mb-2">Sheet Music</span>
                             <div
                                 class="grid gap-3"
                                 :class="piece.files.length === 1 ? 'grid-cols-1 max-w-xs mx-auto' : 'grid-cols-2'"
@@ -110,10 +139,10 @@
                                         >
                                             <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z" />
                                         </svg>
-                                        <span class="text-xs text-stone-600 truncate flex-1">{{ file.name }}</span>
+                                        <span class="text-sm text-stone-600 truncate flex-1">{{ file.name }}</span>
                                         <span
                                             v-if="file.pages"
-                                            class="text-[10px] text-stone-400"
+                                            class="text-xs text-stone-400"
                                         >{{ file.pages }}p</span>
                                     </div>
                                 </div>
@@ -125,17 +154,27 @@
                             v-else
                             class="text-center py-3"
                         >
-                            <p class="text-sm text-stone-400 italic">No sheet music uploaded</p>
+                            <p class="text-base text-stone-400 italic">No sheet music uploaded</p>
                         </div>
                     </div>
 
-                    <!-- Close button -->
-                    <div class="flex justify-center pt-5">
+                    <!-- Action buttons -->
+                    <div class="flex gap-3 justify-center pt-6">
                         <button
-                            class="px-8 py-2.5 text-sm font-semibold text-stone-600 bg-stone-100 rounded-xl hover:bg-stone-200 transition-colors duration-150"
-                            @click="$emit('close')"
+                            class="px-8 py-2.5 text-base font-semibold text-stone-600 bg-stone-100 rounded-xl hover:bg-stone-200 transition-colors duration-150"
+                            @click="close"
                         >
                             Close
+                        </button>
+                        <button
+                            v-if="practiceActive"
+                            class="px-8 py-2.5 text-base font-semibold rounded-xl transition-all duration-200"
+                            :class="piece.done
+                                ? 'text-white bg-red-500 hover:bg-red-600 hover:scale-[1.02]'
+                                : 'text-white bg-emerald-500 hover:bg-emerald-600 hover:scale-[1.02]'"
+                            @click="toggleAndClose"
+                        >
+                            {{ piece.done ? 'Mark as incomplete' : 'Mark as done' }}
                         </button>
                     </div>
                 </div>
@@ -152,32 +191,55 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import PdfViewer from '../ui/PdfViewer.vue'
 
 const props = defineProps({
     piece: { type: Object, default: null },
+    practiceActive: { type: Boolean, default: false },
 })
 
-defineEmits(['close'])
+const emit = defineEmits(['close', 'toggle-done'])
 
+const title = ref('')
+const composer = ref('')
+const status = ref('learning')
+const notes = ref('')
 const pdfViewerOpen = ref(false)
 const pdfStartIndex = ref(0)
+
+watch(() => props.piece, (p) => {
+    if (p) {
+        title.value = p.title || ''
+        composer.value = p.composer || ''
+        status.value = p.status || 'learning'
+        notes.value = p.notes || ''
+    }
+}, { immediate: true })
 
 function openPdf(index) {
     pdfStartIndex.value = index
     pdfViewerOpen.value = true
 }
 
-const statusClass = computed(() => {
-    if (!props.piece) return ''
+
+function close() {
+    emit('close')
+}
+
+function toggleAndClose() {
+    emit('toggle-done', props.piece.id)
+    close()
+}
+
+const currentStatusClass = computed(() => {
     const classes = {
         learning: 'text-blue-600 bg-blue-50',
         learned: 'text-emerald-600 bg-emerald-50',
         polishing: 'text-amber-600 bg-amber-50',
         shelved: 'text-stone-500 bg-stone-100',
     }
-    return classes[props.piece.status] || ''
+    return classes[status.value] || ''
 })
 </script>
 
