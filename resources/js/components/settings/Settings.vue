@@ -14,17 +14,17 @@
             </header>
 
             <!-- Practice Schedule -->
-            <section class="card px-6 py-6 mb-6 bg-linear-to-br from-amber-50/60 to-orange-50/30 border-amber-100/60 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
+            <section class="card px-6 py-6 mb-6 bg-white border border-amber-300/50 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
                 <span class="absolute -bottom-3 -right-3 text-6xl text-amber-200/20 rotate-[-10deg] font-serif select-none">&#128197;</span>
                 <div class="relative flex items-center gap-3 mb-6">
                     <div class="w-9 h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm">
                         <span class="text-white text-sm">&#128197;</span>
                     </div>
                     <div>
-                        <h2 class="text-lg font-serif font-bold uppercase tracking-wide text-stone-800">
+                        <h2 class="text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
                             Practice Schedule
                         </h2>
-                        <p class="text-sm font-semibold text-stone-400">
+                        <p class="text-md font-semibold text-stone-600">
                             How often and how much you want to practice
                         </p>
                     </div>
@@ -33,7 +33,7 @@
                 <div class="space-y-6">
                     <!-- Pieces per day -->
                     <div>
-                        <label class="block text-md font-semibold text-stone-600 mb-2">Pieces per session</label>
+                        <label class="block text-md font-semibold text-stone-700 mb-2">Pieces per session</label>
                         <div class="flex items-center gap-3">
                             <button
                                 class="w-9 h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
@@ -54,7 +54,7 @@
 
                     <!-- Practice frequency -->
                     <div>
-                        <label class="block text-sm font-semibold text-stone-600 mb-2">Practice frequency</label>
+                        <label class="block text-md font-semibold text-stone-700 mb-2">Practice frequency</label>
                         <div class="flex flex-wrap gap-2">
                             <button
                                 v-for="option in frequencyOptions"
@@ -70,12 +70,31 @@
                         </div>
                     </div>
 
-                    <!-- Summary -->
-                    <div class="relative mt-2 px-4 py-3 bg-white/70 rounded-xl border border-amber-200/50 shadow-sm">
+                    <!-- Summary with calendar arrow -->
+                    <div class="relative mt-2 px-4 py-3 bg-white/70 rounded-xl border border-amber-200/50 shadow-sm flex items-center justify-between">
                         <p class="text-md font-semibold text-stone-600">
                             <span class="font-bold uppercase text-amber-600">Your schedule:</span>
                             {{ piecesPerDay }} {{ piecesPerDay === 1 ? 'piece' : 'pieces' }} {{ frequencyLabel }}
                         </p>
+                        <button
+                            class="w-8 h-8 rounded-lg border border-amber-300/60 bg-amber-50 text-amber-500 hover:bg-amber-100 hover:text-amber-700 transition-colors flex items-center justify-center"
+                            title="View calendar"
+                            @click="showCalendar = true"
+                        >
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M9 5l7 7-7 7"
+                                />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -115,12 +134,22 @@
                 </div>
             </section>
         </div>
+
+        <ScheduleCalendar
+            :show="showCalendar"
+            :pieces-per-day="piecesPerDay"
+            :frequency="frequency"
+            @close="showCalendar = false"
+        />
     </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import FloatingNotes from '../ui/FloatingNotes.vue'
+import ScheduleCalendar from './ScheduleCalendar.vue'
+
+const showCalendar = ref(false)
 
 const piecesPerDay = ref(3)
 const frequency = ref('every_day')
@@ -129,6 +158,12 @@ const frequencyOptions = [
     { value: 'every_day', label: 'Every day' },
     { value: 'every_2_days', label: 'Every 2 days' },
     { value: 'every_3_days', label: 'Every 3 days' },
+    { value: 'every_4_days', label: 'Every 4 days' },
+    { value: 'every_5_days', label: 'Every 5 days' },
+    { value: 'every_6_days', label: 'Every 6 days' },
+    { value: 'weekly', label: 'Weekly' },
+    { value: 'biweekly', label: 'Biweekly' },
+    { value: 'monthly', label: 'Monthly' },
     { value: 'weekdays', label: 'Weekdays only' },
     { value: 'weekends', label: 'Weekends only' },
 ]

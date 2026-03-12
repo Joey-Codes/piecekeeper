@@ -1,5 +1,8 @@
 <template>
-    <section class="card overflow-hidden relative mb-8 hover:shadow-lg transition-shadow duration-300">
+    <section
+        class="card overflow-hidden relative mb-8 hover:shadow-lg transition-shadow duration-300"
+        :class="allDone ? 'border-emerald-200' : 'border-orange-200'"
+    >
         <!-- Card header -->
         <div class="px-6 py-5 border-b border-stone-200 flex items-center justify-between">
             <div class="flex items-center gap-3">

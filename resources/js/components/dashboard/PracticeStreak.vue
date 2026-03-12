@@ -1,10 +1,10 @@
 <template>
-    <section class="mt-8 card px-6 py-5 bg-linear-to-br from-stone-50/50 to-amber-50/30 border-stone-200/80">
+    <section class="mt-8 card px-6 py-5 bg-white border-orange-200">
         <div class="flex items-center justify-between mb-4">
-            <h3 class="text-xs font-bold text-stone-500 uppercase tracking-widest">
+            <h3 class="text-sm font-bold text-stone-700 uppercase tracking-widest">
                 Last 4 Weeks
             </h3>
-            <div class="flex items-center gap-2 text-xs font-semibold text-stone-400">
+            <div class="flex items-center gap-2 text-xs font-semibold text-stone-600">
                 <span>Less</span>
                 <div class="w-3 h-3 rounded bg-stone-200/80" />
                 <div class="w-3 h-3 rounded bg-amber-200" />

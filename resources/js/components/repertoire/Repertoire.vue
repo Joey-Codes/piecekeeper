@@ -77,7 +77,7 @@
             </div>
 
             <!-- Piece list -->
-            <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-orange-200">
                 <div
                     v-if="filteredPieces.length === 0"
                     class="px-6 py-16 text-center"
@@ -118,7 +118,7 @@
                         <!-- Status badge -->
                         <select
                             :value="piece.status"
-                            class="text-sm font-semibold px-2 py-1 rounded-lg border-0 bg-transparent cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-300/50"
+                            class="text-sm font-semibold px-3.5 py-1.5 rounded-lg border cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200"
                             :class="statusClass(piece.status)"
                             @click.stop
                             @change="updateStatus(piece, $event.target.value)"
@@ -144,7 +144,7 @@
                             @click.stop="deletePiece(piece)"
                         >
                             <svg
-                                class="w-4 h-4"
+                                class="w-5 h-5"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -189,7 +189,7 @@
                 @close="showAddWish = false"
             />
 
-            <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-violet-200">
                 <div
                     v-if="wishlist.length === 0"
                     class="px-6 py-16 text-center"
@@ -237,7 +237,7 @@
                             @click.stop="deleteWishlistPiece(item)"
                         >
                             <svg
-                                class="w-4 h-4"
+                                class="w-5 h-5"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -344,10 +344,10 @@ function statusBarClass(status) {
 
 function statusClass(status) {
     const classes = {
-        learning: 'text-blue-600 bg-blue-50',
-        learned: 'text-emerald-600 bg-emerald-50',
-        polishing: 'text-amber-600 bg-amber-50',
-        shelved: 'text-stone-500 bg-stone-100',
+        learning: 'text-blue-700 bg-blue-50 border-blue-200/60',
+        learned: 'text-emerald-700 bg-emerald-50 border-emerald-200/60',
+        polishing: 'text-amber-700 bg-amber-50 border-amber-200/60',
+        shelved: 'text-stone-600 bg-stone-100 border-stone-200/60',
     }
     return classes[status] || ''
 }

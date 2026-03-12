@@ -11,20 +11,14 @@
 
                 <!-- Modal panel -->
                 <div class="relative bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 max-h-[85vh] overflow-y-auto">
-                    <!-- Title (editable) -->
-                    <input
-                        v-model="title"
-                        type="text"
-                        class="w-full text-2xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center bg-transparent border-0 border-b-2 border-transparent focus:border-amber-400 focus:outline-none transition-colors px-2 py-1"
-                        placeholder="Title"
-                    >
-                    <!-- Composer (editable) -->
-                    <input
-                        v-model="composer"
-                        type="text"
-                        class="w-full text-base text-stone-500 text-center bg-transparent border-0 border-b-2 border-transparent focus:border-amber-400 focus:outline-none transition-colors mt-1 px-2 py-0.5"
-                        placeholder="Composer"
-                    >
+                    <!-- Title (read-only) -->
+                    <h2 class="w-full text-2xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center px-2 py-1">
+                        {{ piece.title }}
+                    </h2>
+                    <!-- Composer (read-only) -->
+                    <p class="w-full text-lg text-stone-700 text-center mt-1 px-2 py-0.5">
+                        {{ piece.composer }}
+                    </p>
 
                     <!-- Details -->
                     <div class="mt-6 space-y-5">
@@ -81,7 +75,7 @@
                             <textarea
                                 v-model="notes"
                                 rows="3"
-                                placeholder="Practice notes, performance tips, things to work on..."
+                                placeholder="Write down practice notes, performance tips, things to work on..."
                                 class="w-full px-3 py-2 text-base text-stone-600 bg-stone-50 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 resize-y"
                             />
                         </div>
@@ -154,7 +148,9 @@
                             v-else
                             class="text-center py-3"
                         >
-                            <p class="text-base text-stone-400 italic">No sheet music uploaded</p>
+                            <p class="text-base text-stone-400 italic">
+                                No sheet music uploaded
+                            </p>
                         </div>
                     </div>
 
@@ -201,8 +197,6 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'toggle-done'])
 
-const title = ref('')
-const composer = ref('')
 const status = ref('learning')
 const notes = ref('')
 const pdfViewerOpen = ref(false)
@@ -210,8 +204,6 @@ const pdfStartIndex = ref(0)
 
 watch(() => props.piece, (p) => {
     if (p) {
-        title.value = p.title || ''
-        composer.value = p.composer || ''
         status.value = p.status || 'learning'
         notes.value = p.notes || ''
     }

@@ -36,17 +36,17 @@
                                 v-html="stat.icon"
                             />
                         </div>
-                        <p class="text-xs font-bold text-stone-500 uppercase tracking-widest">
+                        <p class="text-sm font-bold text-stone-700 uppercase tracking-widest">
                             {{ stat.label }}
                         </p>
                     </div>
                     <p class="relative text-3xl font-bold text-stone-800">
                         {{ stat.value }}<span
                             v-if="stat.unit"
-                            class="text-sm font-semibold text-stone-400 ml-1.5"
+                            class="text-sm font-semibold text-stone-600 ml-1.5"
                         >{{ stat.unit }}</span>
                     </p>
-                    <p class="relative text-sm font-semibold text-stone-400 mt-1">
+                    <p class="relative text-sm font-semibold text-stone-600 mt-1">
                         {{ stat.detail }}
                     </p>
                 </div>
@@ -55,12 +55,12 @@
             <!-- Monthly breakdown -->
             <header class="mt-16 mb-6 text-center">
                 <h2 class="text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                    This <span class="bg-linear-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">Month</span>
+                    This <span class="bg-linear-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent">Month</span>
                 </h2>
-                <div class="mt-3 mx-auto w-12 h-1 rounded-full bg-linear-to-r from-emerald-400 to-teal-400 opacity-60" />
+                <div class="mt-3 mx-auto w-12 h-1 rounded-full bg-linear-to-r from-violet-400 to-purple-400 opacity-60" />
             </header>
 
-            <section class="card px-6 py-5 bg-linear-to-br from-stone-50/50 to-amber-50/30 border-stone-200/80 hover:shadow-lg transition-shadow duration-300">
+            <section class="card px-6 py-5 bg-white border-stone-200 hover:shadow-lg transition-shadow duration-300">
                 <div class="grid grid-cols-7 gap-2">
                     <div
                         v-for="(day, i) in monthDays"
@@ -70,7 +70,7 @@
                         :title="day.label"
                     />
                 </div>
-                <div class="flex items-center justify-end gap-2 mt-4 text-xs font-semibold text-stone-400">
+                <div class="flex items-center justify-end gap-2 mt-4 text-xs font-semibold text-stone-600">
                     <span>Less</span>
                     <div class="w-3 h-3 rounded bg-stone-200/80" />
                     <div class="w-3 h-3 rounded bg-amber-200" />
@@ -95,7 +95,7 @@ const stats = ref([
         detail: 'Best streak: 21 days',
         icon: '&#128293;',
         bgClass: 'bg-linear-to-br from-rose-400 to-pink-500',
-        tintClass: 'bg-linear-to-br from-rose-50/80 to-pink-50/50 border-rose-100/80',
+        tintClass: 'bg-white border-rose-200',
         watermarkClass: 'text-rose-200',
     },
     {
@@ -105,7 +105,7 @@ const stats = ref([
         detail: '5 learning \u00b7 7 polished',
         icon: '&#9835;',
         bgClass: 'bg-linear-to-br from-violet-400 to-purple-500',
-        tintClass: 'bg-linear-to-br from-violet-50/80 to-purple-50/50 border-violet-100/80',
+        tintClass: 'bg-white border-violet-200',
         watermarkClass: 'text-violet-200',
     },
     {
@@ -115,7 +115,7 @@ const stats = ref([
         detail: '5 sessions',
         icon: '&#9201;',
         bgClass: 'bg-linear-to-br from-amber-400 to-orange-500',
-        tintClass: 'bg-linear-to-br from-amber-50/80 to-orange-50/50 border-amber-100/80',
+        tintClass: 'bg-white border-amber-200',
         watermarkClass: 'text-amber-200',
     },
     {
@@ -125,7 +125,7 @@ const stats = ref([
         detail: 'Since you started',
         icon: '&#9200;',
         bgClass: 'bg-linear-to-br from-emerald-400 to-teal-500',
-        tintClass: 'bg-linear-to-br from-emerald-50/80 to-teal-50/50 border-emerald-100/80',
+        tintClass: 'bg-white border-emerald-200',
         watermarkClass: 'text-emerald-200',
     },
     {
@@ -135,7 +135,7 @@ const stats = ref([
         detail: 'Trending up this month',
         icon: '&#9889;',
         bgClass: 'bg-linear-to-br from-sky-400 to-blue-500',
-        tintClass: 'bg-linear-to-br from-sky-50/80 to-blue-50/50 border-sky-100/80',
+        tintClass: 'bg-white border-sky-200',
         watermarkClass: 'text-sky-200',
     },
     {
@@ -145,7 +145,7 @@ const stats = ref([
         detail: '2 this month',
         icon: '&#127942;',
         bgClass: 'bg-linear-to-br from-yellow-400 to-amber-500',
-        tintClass: 'bg-linear-to-br from-yellow-50/80 to-amber-50/50 border-yellow-100/80',
+        tintClass: 'bg-white border-yellow-200',
         watermarkClass: 'text-yellow-200',
     },
 ])

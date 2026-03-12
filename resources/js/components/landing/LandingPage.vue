@@ -1,11 +1,28 @@
 <template>
     <div class="landing-page">
+        <!-- Header -->
+        <header class="absolute top-0 left-0 right-0 z-20 px-6 py-5">
+            <div class="max-w-6xl mx-auto flex items-center">
+                <div
+                    class="flex items-center gap-2.5 cursor-pointer"
+                    @click="$emit('get-started')"
+                >
+                    <div class="w-9 h-9 rounded-lg bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center shadow-sm">
+                        <span class="text-white text-lg">&#9835;</span>
+                    </div>
+                    <span class="font-serif font-semibold text-lg text-stone-800">
+                        Piano <span class="text-amber-500">Piece Manager</span>
+                    </span>
+                </div>
+            </div>
+        </header>
+
         <!-- Hero Section -->
         <section class="relative overflow-hidden bg-linear-to-b from-amber-50 via-white to-white">
             <!-- Decorative piano keys along the top -->
             <div class="absolute top-0 left-0 right-0 flex justify-center opacity-[0.07] pointer-events-none">
                 <div
-                    v-for="i in 28"
+                    v-for="i in 26"
                     :key="'key-'+i"
                     class="flex-shrink-0"
                 >
@@ -140,7 +157,7 @@
                         </div>
                     </div>
                     <!-- Glow effect behind the card -->
-                    <div class="absolute -inset-4 bg-linear-to-r from-amber-200/30 via-orange-200/20 to-violet-200/30 rounded-[2rem] -z-10 blur-2xl" />
+                    <div class="absolute -inset-4 bg-linear-to-r from-amber-200/30 via-orange-200/20 to-violet-200/30 rounded-4xl -z-10 blur-2xl" />
                 </div>
             </div>
 
@@ -163,17 +180,17 @@
         <!-- Features Intro -->
         <section
             ref="featuresSection"
-            class="py-20 bg-white"
+            class="py-20 bg-linear-to-br from-amber-500 to-orange-500"
         >
             <div class="max-w-6xl mx-auto px-6 text-center">
-                <p class="text-amber-600 font-semibold tracking-wide uppercase text-sm mb-3">
-                    Why Piano Piece Manager?
-                </p>
-                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-stone-800 mb-4">
-                    Everything you need to improve
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
+                    Piano Piece Manager
                 </h2>
-                <p class="text-stone-500 text-lg max-w-xl mx-auto">
-                    Built by pianists, for pianists. We make it easy to stay on top of your pieces and see real progress.
+                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
+                    is everything you need to improve
+                </h2>
+                <p class="text-amber-100 text-xl max-w-xl mx-auto">
+                    We make it easy to stay on top of your pieces and see real progress.
                 </p>
             </div>
         </section>
@@ -240,7 +257,7 @@
                         Know exactly what to practice
                     </h3>
                     <p class="text-stone-700 text-lg leading-relaxed mb-6">
-                        No more having to keep your repertoire in your head or with a pen and paper. We generate a daily practice
+                        No more having to keep your repertoire in your head or manually with a pen and paper. We generate a daily practice
                         schedule tailored to your preferences, rotating pieces so nothing gets neglected.
                     </p>
                     <ul class="space-y-3">
@@ -249,7 +266,7 @@
                             :key="i"
                             class="flex items-start gap-3"
                         >
-                            <div class="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <div class="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center shrink-0 mt-0.5">
                                 <svg
                                     class="w-3.5 h-3.5 text-amber-600"
                                     fill="none"
@@ -293,7 +310,7 @@
                             :key="i"
                             class="flex items-start gap-3"
                         >
-                            <div class="w-6 h-6 rounded-full bg-violet-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <div class="w-6 h-6 rounded-full bg-violet-100 flex items-center justify-center shrink-0 mt-0.5">
                                 <svg
                                     class="w-3.5 h-3.5 text-violet-600"
                                     fill="none"
@@ -416,7 +433,7 @@
                             :key="i"
                             class="flex items-start gap-3"
                         >
-                            <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 mt-0.5">
                                 <svg
                                     class="w-3.5 h-3.5 text-emerald-600"
                                     fill="none"
@@ -439,49 +456,39 @@
         </section>
 
         <!-- Big Centered Section: Piano keyboard visual -->
-        <section class="py-24 bg-linear-to-b from-stone-50 to-white relative overflow-hidden">
-            <!-- Decorative staff lines -->
-            <div class="absolute inset-0 flex flex-col justify-center pointer-events-none opacity-[0.04]">
-                <div
-                    v-for="i in 5"
-                    :key="'staff-'+i"
-                    class="h-px bg-stone-900 my-3 mx-12"
-                />
-            </div>
-
+        <section class="py-24 bg-stone-900 relative overflow-hidden">
             <div class="relative max-w-4xl mx-auto px-6 text-center">
                 <div class="mb-8">
                     <!-- Piano keyboard illustration -->
-                    <div class="flex justify-center items-end gap-0 mx-auto w-fit">
-                        <div
+                    <div class="inline-flex justify-center items-start mx-auto">
+                        <template
                             v-for="(key, i) in pianoKeysDisplay"
                             :key="'piano-'+i"
-                            class="relative"
                         >
                             <div
                                 v-if="key.type === 'white'"
-                                class="w-8 sm:w-10 h-28 sm:h-36 border border-stone-200 rounded-b-lg transition-colors duration-300"
-                                :class="key.highlight ? 'bg-linear-to-b from-amber-100 to-amber-200 border-amber-300' : 'bg-white'"
+                                class="w-8 sm:w-10 h-28 sm:h-36 border border-stone-600 rounded-t-lg transition-colors duration-300 -ml-px"
+                                :class="key.highlight ? 'bg-linear-to-t from-amber-200 to-amber-400 border-amber-500' : 'bg-stone-100'"
                             />
                             <div
                                 v-else
-                                class="absolute -top-0 w-5 sm:w-6 h-18 sm:h-24 bg-stone-800 rounded-b-md z-10 -ml-2.5 sm:-ml-3"
-                                :class="key.highlight ? 'bg-linear-to-b from-amber-600 to-amber-800' : ''"
+                                class="w-5 sm:w-6 h-18 sm:h-24 rounded-t-md z-10 -mx-2.5 sm:-mx-3 relative"
+                                :class="key.highlight ? 'bg-linear-to-t from-amber-600 to-amber-800' : 'bg-stone-950 border border-stone-700'"
                             />
-                        </div>
+                        </template>
                     </div>
                 </div>
 
-                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-stone-800 mb-6">
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mb-6">
                     Practice smarter,<br>
                     <span class="text-transparent bg-clip-text bg-linear-to-r from-amber-500 via-orange-500 to-violet-500">
                         not just harder
                     </span>
                 </h2>
-                <p class="text-stone-700 text-lg max-w-2xl mx-auto leading-relaxed">
+                <p class="text-stone-300 text-lg max-w-2xl mx-auto leading-relaxed">
                     Every great pianist knows that quality practice matters more than quantity.
                     Building good habits, reflecting on progress, and consistent, focused work
-                    leads to real imrpovement. Let Piano Piece Manager help you on that journey!
+                    leads to real improvement. Let Piano Piece Manager help you on that journey!
                 </p>
             </div>
         </section>
