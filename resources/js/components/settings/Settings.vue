@@ -135,19 +135,85 @@
             </section>
         </div>
 
-        <ScheduleCalendar
-            :show="showCalendar"
-            :pieces-per-day="piecesPerDay"
-            :frequency="frequency"
-            @close="showCalendar = false"
-        />
+        <!-- Schedule Calendar Modal -->
+        <Teleport to="body">
+            <Transition name="modal">
+                <div
+                    v-if="showCalendar"
+                    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    @mousedown.self="showCalendar = false"
+                >
+                    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+
+                    <div class="relative bg-white rounded-2xl shadow-xl w-[75vw] max-h-[92vh] overflow-y-auto p-10">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm">
+                                    <span class="text-white text-sm">&#128197;</span>
+                                </div>
+                                <h3 class="text-2xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                                    Practice Schedule
+                                </h3>
+                            </div>
+                            <button
+                                class="w-8 h-8 rounded-lg border border-stone-200 bg-white text-stone-400 hover:bg-stone-50 hover:text-stone-600 transition-colors flex items-center justify-center"
+                                title="Close"
+                                @click="showCalendar = false"
+                            >
+                                <svg
+                                    class="w-4 h-4"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="2"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <Calendar
+                            :attributes="calendarAttributes"
+                            class="schedule-calendar"
+                            expanded
+                            borderless
+                        >
+                            <template #day-content="{ day }">
+                                <div
+                                    class="w-full h-full flex flex-col p-2 rounded-lg border transition-colors duration-150"
+                                    :class="getDayClass(day)"
+                                >
+                                    <span
+                                        class="text-sm font-bold mb-1"
+                                        :class="isToday(day) ? 'text-amber-600' : 'text-stone-500'"
+                                    >{{ day.day }}</span>
+                                    <div
+                                        v-for="piece in getPiecesForDay(day)"
+                                        :key="piece.id"
+                                        class="text-sm leading-snug text-stone-600 truncate"
+                                        :title="piece.title + ' - ' + piece.composer"
+                                    >
+                                        {{ piece.title }}
+                                    </div>
+                                </div>
+                            </template>
+                        </Calendar>
+                    </div>
+                </div>
+            </Transition>
+        </Teleport>
     </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import FloatingNotes from '../ui/FloatingNotes.vue'
-import ScheduleCalendar from './ScheduleCalendar.vue'
+import { Calendar } from 'v-calendar'
+import 'v-calendar/style.css'
 
 const showCalendar = ref(false)
 
@@ -174,4 +240,146 @@ const frequencyLabel = computed(() => {
     if (label === 'every day') return 'every day'
     return label
 })
+
+// Calendar logic
+const calendarAttributes = ref([])
+
+const allPieces = [
+    { id: 1, title: 'Clair de Lune', composer: 'Debussy' },
+    { id: 2, title: 'Nocturne Op. 9 No. 2', composer: 'Chopin' },
+    { id: 3, title: 'Gymnopédie No. 1', composer: 'Satie' },
+    { id: 4, title: 'Prelude in C Major', composer: 'Bach' },
+    { id: 5, title: 'Moonlight Sonata, Mvt. 1', composer: 'Beethoven' },
+]
+
+const now = new Date()
+const calYear = now.getFullYear()
+const calMonth = now.getMonth()
+
+function isToday(day) {
+    const d = new Date(day.id)
+    return d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
+}
+
+function shouldPractice(date) {
+    const dayOfWeek = date.getDay()
+    switch (frequency.value) {
+        case 'every_day':
+            return true
+        case 'weekdays':
+            return dayOfWeek >= 1 && dayOfWeek <= 5
+        case 'weekends':
+            return dayOfWeek === 0 || dayOfWeek === 6
+        case 'weekly':
+            return dayOfWeek === 1
+        case 'biweekly': {
+            const firstDay = new Date(calYear, calMonth, 1)
+            const diff = Math.floor((date - firstDay) / (1000 * 60 * 60 * 24))
+            return dayOfWeek === 1 && Math.floor(diff / 7) % 2 === 0
+        }
+        case 'monthly':
+            return date.getDate() === 1
+        default: {
+            const match = frequency.value.match(/every_(\d+)_days/)
+            if (match) {
+                const interval = parseInt(match[1])
+                const epoch = new Date(calYear, calMonth, 1)
+                const diff = Math.floor((date - epoch) / (1000 * 60 * 60 * 24))
+                return diff % interval === 0
+            }
+            return false
+        }
+    }
+}
+
+function countPracticeDaysBefore(day) {
+    let count = 0
+    for (let d = 1; d < day; d++) {
+        if (shouldPractice(new Date(calYear, calMonth, d))) count++
+    }
+    return count
+}
+
+function getPiecesForDay(day) {
+    const date = new Date(day.id)
+    if (!shouldPractice(date)) return []
+    const practiceDayIndex = countPracticeDaysBefore(date.getDate())
+    const count = Math.min(piecesPerDay.value, allPieces.length)
+    const startIdx = (practiceDayIndex * count) % allPieces.length
+    const result = []
+    for (let i = 0; i < count; i++) {
+        result.push(allPieces[(startIdx + i) % allPieces.length])
+    }
+    return result
+}
+
+function getDayClass(day) {
+    if (isToday(day)) return 'border-amber-400 bg-amber-50/60'
+    const date = new Date(day.id)
+    if (shouldPractice(date)) return 'border-stone-200 bg-white'
+    return 'border-stone-100 bg-stone-50/50'
+}
 </script>
+
+<style scoped>
+:deep(.schedule-calendar .vc-header) {
+    padding: 0.5rem 0 1.5rem;
+}
+
+:deep(.schedule-calendar .vc-title) {
+    font-family: 'Comfortaa', ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: rgb(28 25 23);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+:deep(.schedule-calendar .vc-arrow) {
+    color: rgb(120 113 108);
+    border-radius: 0.5rem;
+}
+
+:deep(.schedule-calendar .vc-arrow:hover) {
+    background-color: rgb(254 243 199);
+    color: rgb(180 83 9);
+}
+
+:deep(.schedule-calendar .vc-weekday) {
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: rgb(120 113 108);
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+}
+
+:deep(.schedule-calendar .vc-day) {
+    padding: 0.2rem;
+    min-height: 6rem;
+}
+
+:deep(.schedule-calendar .vc-day-content) {
+    width: 100%;
+    height: 100%;
+}
+
+.modal-enter-active,
+.modal-leave-active {
+    transition: opacity 0.2s ease;
+}
+.modal-enter-active .relative,
+.modal-leave-active .relative {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+}
+.modal-enter-from .relative {
+    transform: scale(0.95);
+}
+.modal-leave-to .relative {
+    transform: scale(0.95);
+}
+</style>

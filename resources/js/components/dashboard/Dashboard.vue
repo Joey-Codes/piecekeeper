@@ -17,7 +17,6 @@
             <PracticeChecklist :disabled="!sessionActive" />
             <StatsRow />
             <PracticeStreak />
-            <ComposerQuote />
         </div>
     </div>
 </template>
@@ -28,7 +27,6 @@ import PracticeSession from './PracticeSession.vue'
 import StatsRow from './StatsRow.vue'
 import PracticeChecklist from './PracticeChecklist.vue'
 import PracticeStreak from './PracticeStreak.vue'
-import ComposerQuote from './ComposerQuote.vue'
 import FloatingNotes from '../ui/FloatingNotes.vue'
 
 const name = ref('James')

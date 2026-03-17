@@ -10,7 +10,15 @@
                         Piano <span class="text-amber-400">Piece Manager</span>
                     </span>
                 </div>
-                <div class="text-sm">
+                <div class="flex items-center gap-4 text-sm text-white">
+                    <router-link to="/terms" class="hover:text-amber-400 transition-colors">
+                        Terms of Service
+                    </router-link>
+                    <router-link to="/privacy" class="hover:text-amber-400 transition-colors">
+                        Privacy Policy
+                    </router-link>
+                </div>
+                <div class="text-sm text-white">
                     &copy; {{ currentYear }} Piano Piece Manager. Made with &#9829; for pianists.
                 </div>
             </div>

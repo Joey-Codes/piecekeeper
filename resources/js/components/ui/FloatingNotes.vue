@@ -27,17 +27,27 @@ const colors = [
     'text-orange-500',
     'text-yellow-400',
 ]
-const count = 20
 const rand = (min, max) => Math.random() * (max - min) + min
 
-const notes = Array.from({ length: count }, (_, i) => ({
-    id: i,
-    symbol: symbols[Math.floor(Math.random() * symbols.length)],
-    color: colors[Math.floor(Math.random() * colors.length)],
-    top: rand(2, 93),
-    left: rand(3, 90),
-    size: rand(2, 5.5),
-    rotation: rand(-25, 25),
-    opacity: rand(0.12, 0.25),
-}))
+// Grid-based placement: divide viewport into cells, place one note per cell with jitter
+const cols = 5
+const rows = 4
+const cellW = 100 / cols
+const cellH = 100 / rows
+const padding = 15 // % inset from cell edges to avoid overlap
+
+const notes = Array.from({ length: cols * rows }, (_, i) => {
+    const col = i % cols
+    const row = Math.floor(i / cols)
+    return {
+        id: i,
+        symbol: symbols[Math.floor(Math.random() * symbols.length)],
+        color: colors[Math.floor(Math.random() * colors.length)],
+        top: row * cellH + rand(padding, cellH - padding),
+        left: col * cellW + rand(padding, cellW - padding),
+        size: rand(2, 5.5),
+        rotation: rand(-25, 25),
+        opacity: rand(0.12, 0.25),
+    }
+})
 </script>

@@ -55,28 +55,45 @@
             <!-- Monthly breakdown -->
             <header class="mt-16 mb-6 text-center">
                 <h2 class="text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                    This <span class="bg-linear-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent">Month</span>
+                    This Month's<span class="bg-linear-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent"> Progress</span>
                 </h2>
                 <div class="mt-3 mx-auto w-12 h-1 rounded-full bg-linear-to-r from-violet-400 to-purple-400 opacity-60" />
             </header>
 
             <section class="card px-6 py-5 bg-white border-stone-200 hover:shadow-lg transition-shadow duration-300">
-                <div class="grid grid-cols-7 gap-2">
-                    <div
-                        v-for="(day, i) in monthDays"
-                        :key="i"
-                        class="aspect-square rounded-lg transition-all duration-300 hover:scale-110"
-                        :class="dayClass(day)"
-                        :title="day.label"
-                    />
-                </div>
-                <div class="flex items-center justify-end gap-2 mt-4 text-xs font-semibold text-stone-600">
-                    <span>Less</span>
-                    <div class="w-3 h-3 rounded bg-stone-200/80" />
-                    <div class="w-3 h-3 rounded bg-amber-200" />
-                    <div class="w-3 h-3 rounded bg-amber-400" />
-                    <div class="w-3 h-3 rounded bg-amber-600" />
-                    <span>More</span>
+                <Calendar
+                    :attributes="calendarAttributes"
+                    class="custom-calendar"
+                    expanded
+                    borderless
+                >
+                    <template #day-content="{ day }">
+                        <div
+                            class="w-full h-full flex flex-col p-1.5 rounded-lg"
+                            :class="getDayBoxClass(day)"
+                        >
+                            <span
+                                class="text-xs font-bold leading-none w-6 h-6 flex items-center justify-center rounded-full"
+                                :class="isToday(day) ? 'bg-amber-500 text-white' : 'text-stone-500'"
+                            >{{ day.day }}</span>
+                            <div class="flex-1 flex items-center justify-center">
+                                <span
+                                    v-if="practicedDates.has(day.id)"
+                                    class="w-7 h-7 rounded-full bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white text-sm font-bold shadow-sm"
+                                >&#10003;</span>
+                            </div>
+                        </div>
+                    </template>
+                </Calendar>
+                <div class="flex items-center justify-end gap-4 mt-4 text-xs font-semibold text-stone-500">
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-3 h-3 rounded-full bg-amber-500" />
+                        <span>Today</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-3 h-3 rounded-full bg-linear-to-br from-amber-400 to-orange-500" />
+                        <span>Practiced</span>
+                    </div>
                 </div>
             </section>
         </div>
@@ -84,8 +101,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import FloatingNotes from '../ui/FloatingNotes.vue'
+import { Calendar } from 'v-calendar'
+import 'v-calendar/style.css'
 
 const stats = ref([
     {
@@ -150,18 +169,80 @@ const stats = ref([
     },
 ])
 
-// Generate mock data for 31 days
-const monthDays = ref(
-    Array.from({ length: 31 }, (_, i) => {
-        const mins = [0, 0, 20, 35, 0, 50, 45, 0, 30, 60, 40, 0, 0, 25, 55, 70, 0, 40, 30, 0, 45, 50, 60, 0, 0, 35, 40, 55, 0, 50, 45][i]
-        return { minutes: mins, label: `Mar ${i + 1}: ${mins} min` }
+// Set random dates to have checkmarks for demo
+const practicedDates = computed(() => {
+    const dates = new Set()
+    // Add some random dates in this month for demo
+    const randomDays = [3, 5, 7, 8, 12, 14, 18, 21, 25, 27, 30]
+    const year = new Date().getFullYear()
+    const month = String(new Date().getMonth() + 1).padStart(2, '0')
+    randomDays.forEach(day => {
+        dates.add(`${year}-${month}-${String(day).padStart(2, '0')}`)
     })
-)
+    return dates
+})
 
-function dayClass(day) {
-    if (day.minutes === 0) return 'bg-stone-200/60'
-    if (day.minutes < 30) return 'bg-amber-200'
-    if (day.minutes < 50) return 'bg-amber-400'
-    return 'bg-amber-600 shadow-sm shadow-amber-300/40'
+const calendarAttributes = ref([])
+
+const now = new Date()
+
+function isToday(day) {
+    const d = new Date(day.id)
+    return d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
+}
+
+function getDayBoxClass(day) {
+    const base = 'border transition-all duration-200 hover:shadow-md cursor-default'
+    if (isToday(day)) return `${base} border-amber-400 bg-amber-50/80 shadow-sm`
+    if (practicedDates.value.has(day.id)) return `${base} border-amber-200 bg-linear-to-br from-amber-50/80 to-orange-50/60 hover:border-amber-400`
+    return `${base} border-stone-200 bg-white hover:border-stone-300`
 }
 </script>
+
+<style scoped>
+:deep(.vc-container) {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+:deep(.vc-header) {
+    padding: 0.75rem 0 1.75rem;
+}
+
+:deep(.vc-title) {
+    font-family: 'Comfortaa', ui-sans-serif, system-ui, sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: rgb(28 25 23);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+:deep(.vc-arrow) {
+    color: rgb(120 113 108);
+    border-radius: 0.5rem;
+}
+
+:deep(.vc-arrow:hover) {
+    background-color: rgb(254 243 199);
+    color: rgb(180 83 9);
+}
+
+:deep(.vc-weekday) {
+    font-weight: 700;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: rgb(120 113 108);
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+}
+
+:deep(.vc-day) {
+    padding: 0.2rem;
+    min-height: 5rem;
+}
+
+:deep(.vc-day-content) {
+    width: 100%;
+    height: 100%;
+}
+</style>

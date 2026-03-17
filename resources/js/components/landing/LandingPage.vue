@@ -24,7 +24,7 @@
                 <div
                     v-for="i in 26"
                     :key="'key-'+i"
-                    class="flex-shrink-0"
+                    class="shrink-0"
                 >
                     <div
                         v-if="isBlackKey(i)"
@@ -84,13 +84,13 @@
 
                 <!-- Hero visual: stylized dashboard preview -->
                 <div class="relative max-w-3xl mx-auto">
-                    <div class="bg-white rounded-3xl shadow-2xl shadow-stone-200/60 border border-stone-100 p-6 sm:p-8">
+                    <div class="bg-white rounded-3xl shadow-2xl shadow-stone-200/60 border border-amber-300 p-6 sm:p-8">
                         <!-- Mini dashboard mockup -->
-                        <div class="flex items-center gap-3 mb-6">
-                            <div class="w-3 h-3 rounded-full bg-rose-400" />
-                            <div class="w-3 h-3 rounded-full bg-amber-400" />
-                            <div class="w-3 h-3 rounded-full bg-emerald-400" />
-                            <div class="flex-1 h-6 bg-stone-100 rounded-full max-w-xs" />
+                        <div class="flex items-center gap-2 mb-6">
+                            <span class="text-lg">&#128197;</span>
+                            <h3 class="text-sm font-serif font-bold uppercase tracking-wide text-stone-700">
+                                Today's Practice
+                            </h3>
                         </div>
                         <div class="grid grid-cols-3 gap-4 mb-6">
                             <div class="bg-linear-to-br from-amber-50 to-orange-50 rounded-2xl p-4 text-center border border-amber-100">
@@ -200,7 +200,7 @@
             <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <!-- Visual -->
                 <div class="relative">
-                    <div class="bg-linear-to-br from-amber-50 to-orange-50 rounded-3xl p-8 border border-amber-100">
+                    <div class="bg-linear-to-br from-amber-50 to-orange-50 rounded-3xl p-8 border-2 border-amber-200">
                         <!-- Animated practice checklist visual -->
                         <div class="space-y-4">
                             <div class="text-md font-semibold text-amber-700 mb-2 flex items-center gap-2">
@@ -331,18 +331,36 @@
                 </div>
                 <!-- Visual -->
                 <div class="order-1 md:order-2 relative">
-                    <div class="bg-linear-to-br from-violet-50 to-purple-50 rounded-3xl p-8 border border-violet-100">
-                        <!-- Streak heatmap mockup -->
+                    <div class="bg-linear-to-br from-violet-50 to-purple-50 rounded-3xl p-8 border-2 border-violet-200">
+                        <!-- Mini calendar mockup -->
                         <div class="text-sm font-semibold text-violet-700 mb-4 flex items-center gap-2">
-                            <span class="text-lg">&#x1F4C8;</span> Your Progress
+                            <span class="text-lg">&#x1F4C8;</span> March 2026
                         </div>
-                        <div class="grid grid-cols-7 gap-1.5 mb-6">
+                        <div class="grid grid-cols-7 gap-1 text-center mb-1">
+                            <span
+                                v-for="d in ['S','M','T','W','T','F','S']"
+                                :key="d"
+                                class="text-[0.6rem] font-bold text-violet-400 uppercase tracking-wider py-1"
+                            >{{ d }}</span>
+                        </div>
+                        <div class="grid grid-cols-7 gap-1 mb-6">
                             <div
-                                v-for="(val, i) in streakData"
-                                :key="'streak-'+i"
-                                class="aspect-square rounded-md transition-colors"
-                                :class="streakColor(val)"
-                            />
+                                v-for="(val, i) in calendarPreviewDays"
+                                :key="'cal-'+i"
+                                class="aspect-square rounded-lg border flex flex-col items-start p-1 relative"
+                                :class="val.practiced ? 'border-amber-200 bg-linear-to-br from-amber-50 to-orange-50' : val.day ? 'border-stone-200 bg-white' : 'border-transparent'"
+                            >
+                                <span
+                                    v-if="val.day"
+                                    class="text-[0.65rem] font-bold"
+                                    :class="val.today ? 'text-white bg-amber-500 w-4 h-4 rounded-full flex items-center justify-center' : 'text-stone-400'"
+                                >{{ val.day }}</span>
+                                <span
+                                    v-if="val.practiced"
+                                    class="w-5 h-5 rounded-full bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white self-center mx-auto mt-auto mb-1"
+                                    style="font-size: 0.65rem;"
+                                >&#10003;</span>
+                            </div>
                         </div>
                         <!-- Mini stats -->
                         <div class="grid grid-cols-2 gap-3">
@@ -377,7 +395,7 @@
             <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <!-- Visual -->
                 <div class="relative">
-                    <div class="bg-linear-to-br from-emerald-50 to-teal-50 rounded-3xl p-8 border border-emerald-100">
+                    <div class="bg-linear-to-br from-emerald-50 to-teal-50 rounded-3xl p-8 border-2 border-emerald-200">
                         <!-- Repertoire management mockup -->
                         <div class="text-sm font-semibold text-emerald-700 mb-4 flex items-center gap-2">
                             <span class="text-lg">&#127926;</span> My Repertoire
@@ -487,14 +505,14 @@
                 </h2>
                 <p class="text-stone-300 text-lg max-w-2xl mx-auto leading-relaxed">
                     Every great pianist knows that quality practice matters more than quantity.
-                    Building good habits, reflecting on progress, and consistent, focused work
+                    Building good habits, reflecting on your play, and doing consistent, focused work
                     leads to real improvement. Let Piano Piece Manager help you on that journey!
                 </p>
             </div>
         </section>
 
         <!-- Stats / Social Proof Section -->
-        <section class="py-20 bg-white">
+        <section class="py-20 bg-linear-to-br from-amber-50 via-orange-50 to-amber-50 relative overflow-hidden">
             <div class="max-w-5xl mx-auto px-6">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                     <div
@@ -503,43 +521,13 @@
                         class="p-6"
                     >
                         <div
-                            class="text-3xl sm:text-4xl font-bold mb-2"
-                            :class="stat.color"
+                            class="font-bold mb-2 h-12 flex items-end justify-center"
+                            :class="[stat.color, stat.sizeClass || 'text-3xl sm:text-4xl']"
                         >
                             {{ stat.value }}
                         </div>
-                        <div class="text-sm text-stone-500">
+                        <div class="text-xl font-semibold text-stone-700">
                             {{ stat.label }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Testimonial / Quote Section (centered) -->
-        <section class="py-20 bg-linear-to-br from-amber-50 via-orange-50 to-amber-50 relative overflow-hidden">
-            <!-- Decorative large quote marks -->
-            <div class="absolute top-8 left-8 text-amber-200/40 text-[120px] font-serif leading-none pointer-events-none">
-                &ldquo;
-            </div>
-            <div class="absolute bottom-8 right-8 text-amber-200/40 text-[120px] font-serif leading-none pointer-events-none">
-                &rdquo;
-            </div>
-
-            <div class="relative max-w-3xl mx-auto px-6 text-center">
-                <blockquote class="font-serif text-2xl sm:text-3xl text-stone-700 leading-relaxed mb-8 italic">
-                    &ldquo;The beautiful thing about learning is that nobody can take it away from you.&rdquo;
-                </blockquote>
-                <div class="flex items-center justify-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-linear-to-br from-amber-400 to-orange-400 flex items-center justify-center text-white text-sm">
-                        &#9835;
-                    </div>
-                    <div class="text-left">
-                        <div class="font-semibold text-stone-700">
-                            B.B. King
-                        </div>
-                        <div class="text-sm text-stone-500">
-                            Musician
                         </div>
                     </div>
                 </div>
@@ -563,9 +551,9 @@
                     <span class="text-white text-3xl">&#9835;</span>
                 </div>
                 <h2 class="font-serif text-3xl sm:text-5xl font-bold text-stone-800 mb-6">
-                    Ready to transform your practice?
+                    Ready to transform your playing?
                 </h2>
-                <p class="text-stone-500 text-lg mb-10 max-w-xl mx-auto">
+                <p class="text-stone-700 text-lg mb-10 max-w-xl mx-auto">
                     Join and start building the practice routine you've always wanted.
                     It's free, it's simple, and your piano will thank you.
                 </p>
@@ -591,7 +579,21 @@
                             Piano <span class="text-amber-400">Piece Manager</span>
                         </span>
                     </div>
-                    <div class="text-sm">
+                    <div class="flex items-center gap-4 text-sm text-white">
+                        <router-link
+                            to="/terms"
+                            class="hover:text-amber-400 transition-colors"
+                        >
+                            Terms of Service
+                        </router-link>
+                        <router-link
+                            to="/privacy"
+                            class="hover:text-amber-400 transition-colors"
+                        >
+                            Privacy Policy
+                        </router-link>
+                    </div>
+                    <div class="text-sm text-white">
                         &copy; {{ currentYear }} Piano Piece Manager. Made with &#9829; for pianists.
                     </div>
                 </div>
@@ -665,20 +667,16 @@ const points3 = [
     'Search and filter your entire library instantly',
 ]
 
-// Streak heatmap mock data (28 days)
-const streakData = [
-    3, 2, 3, 0, 2, 3, 1,
-    2, 3, 3, 2, 0, 1, 3,
-    3, 2, 0, 3, 3, 2, 3,
-    1, 3, 3, 2, 3, 3, 2,
-]
-
-function streakColor(val) {
-    if (val === 0) return 'bg-stone-100'
-    if (val === 1) return 'bg-amber-200'
-    if (val === 2) return 'bg-amber-400'
-    return 'bg-amber-600'
-}
+// Mini calendar preview data (March 2026 starts on Sunday)
+const practicedPreviewDays = new Set([3, 5, 7, 8, 10, 12, 14, 15, 17])
+const calendarPreviewDays = (() => {
+    const days = []
+    // March 2026 starts on Sunday (offset 0), show first 3 weeks
+    for (let d = 1; d <= 21; d++) {
+        days.push({ day: d, practiced: practicedPreviewDays.has(d), today: d === 17 })
+    }
+    return days
+})()
 
 // Repertoire demo items
 const repertoireDemo = [
@@ -712,7 +710,7 @@ const pianoKeysDisplay = (() => {
 // Stats data
 const stats = [
     { value: '100%', label: 'Free to use', color: 'text-amber-600' },
-    { value: '∞', label: 'Pieces to track', color: 'text-violet-600' },
+    { value: '∞', label: 'Pieces to track', color: 'text-violet-600', sizeClass: 'text-5xl sm:text-6xl leading-none' },
     { value: '5min', label: 'To get started', color: 'text-emerald-600' },
     { value: '♫', label: 'Pure musical joy', color: 'text-orange-500' },
 ]
