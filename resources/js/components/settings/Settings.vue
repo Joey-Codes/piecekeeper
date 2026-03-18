@@ -2,64 +2,64 @@
     <div class="min-h-screen bg-linear-to-b from-amber-50/80 via-white to-stone-50 relative overflow-hidden">
         <FloatingNotes />
 
-        <div class="relative max-w-4xl mx-auto px-6 py-12">
-            <header class="mb-10 text-center">
-                <h1 class="text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+            <header class="mb-6 sm:mb-10 text-center">
+                <h1 class="text-2xl sm:text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
                     <span class="bg-linear-to-r bg-clip-text">Settings</span>
                 </h1>
-                <p class="font-semibold text-stone-500 mt-2">
+                <p class="text-sm sm:text-base font-semibold text-stone-500 mt-1.5 sm:mt-2">
                     Customize your practice experience
                 </p>
-                <div class="mt-3 mx-auto w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
+                <div class="mt-2.5 sm:mt-3 mx-auto w-12 sm:w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
             </header>
 
             <!-- Practice Schedule -->
-            <section class="card px-6 py-6 mb-6 bg-white border border-amber-300/50 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
-                <span class="absolute -bottom-3 -right-3 text-6xl text-amber-200/20 rotate-[-10deg] font-serif select-none">&#128197;</span>
-                <div class="relative flex items-center gap-3 mb-6">
-                    <div class="w-9 h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm">
-                        <span class="text-white text-sm">&#128197;</span>
+            <section class="card px-4 sm:px-6 py-4 sm:py-6 mb-4 sm:mb-6 bg-white border border-amber-300/50 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
+                <span class="absolute -bottom-3 -right-3 text-5xl sm:text-6xl text-amber-200/20 rotate-[-10deg] font-serif select-none">&#128197;</span>
+                <div class="relative flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm shrink-0">
+                        <span class="text-white text-xs sm:text-sm">&#128197;</span>
                     </div>
                     <div>
-                        <h2 class="text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                        <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
                             Practice Schedule
                         </h2>
-                        <p class="text-md font-semibold text-stone-600">
+                        <p class="text-sm sm:text-md font-semibold text-stone-600">
                             How often and how much you want to practice
                         </p>
                     </div>
                 </div>
 
-                <div class="space-y-6">
+                <div class="space-y-4 sm:space-y-6">
                     <!-- Pieces per day -->
                     <div>
-                        <label class="block text-md font-semibold text-stone-700 mb-2">Pieces per session</label>
-                        <div class="flex items-center gap-3">
+                        <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Pieces per session</label>
+                        <div class="flex items-center gap-2.5 sm:gap-3">
                             <button
-                                class="w-9 h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
+                                class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
                                 @click="piecesPerDay = Math.max(1, piecesPerDay - 1)"
                             >
                                 &minus;
                             </button>
-                            <span class="text-2xl font-bold text-stone-800 w-10 text-center">{{ piecesPerDay }}</span>
+                            <span class="text-xl sm:text-2xl font-bold text-stone-800 w-8 sm:w-10 text-center">{{ piecesPerDay }}</span>
                             <button
-                                class="w-9 h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
+                                class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
                                 @click="piecesPerDay = Math.min(20, piecesPerDay + 1)"
                             >
                                 +
                             </button>
-                            <span class="text-md font-semibold text-stone-600 ml-2">{{ piecesPerDay === 1 ? 'piece' : 'pieces' }}</span>
+                            <span class="text-sm sm:text-md font-semibold text-stone-600 ml-1 sm:ml-2">{{ piecesPerDay === 1 ? 'piece' : 'pieces' }}</span>
                         </div>
                     </div>
 
                     <!-- Practice frequency -->
                     <div>
-                        <label class="block text-md font-semibold text-stone-700 mb-2">Practice frequency</label>
-                        <div class="flex flex-wrap gap-2">
+                        <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Practice frequency</label>
+                        <div class="flex flex-wrap gap-1.5 sm:gap-2">
                             <button
                                 v-for="option in frequencyOptions"
                                 :key="option.value"
-                                class="px-4 py-2 text-sm font-semibold rounded-lg border transition-all duration-200"
+                                class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg border transition-all duration-200"
                                 :class="frequency === option.value
                                     ? 'border-amber-400 bg-amber-500 text-white shadow-sm'
                                     : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:text-stone-700'"
@@ -71,13 +71,13 @@
                     </div>
 
                     <!-- Summary with calendar arrow -->
-                    <div class="relative mt-2 px-4 py-3 bg-white/70 rounded-xl border border-amber-200/50 shadow-sm flex items-center justify-between">
-                        <p class="text-md font-semibold text-stone-600">
+                    <div class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/70 rounded-xl border border-amber-200/50 shadow-sm flex items-center justify-between gap-2">
+                        <p class="text-sm sm:text-md font-semibold text-stone-600">
                             <span class="font-bold uppercase text-amber-600">Your schedule:</span>
                             {{ piecesPerDay }} {{ piecesPerDay === 1 ? 'piece' : 'pieces' }} {{ frequencyLabel }}
                         </p>
                         <button
-                            class="w-8 h-8 rounded-lg border border-amber-300/60 bg-amber-50 text-amber-500 hover:bg-amber-100 hover:text-amber-700 transition-colors flex items-center justify-center"
+                            class="w-8 h-8 rounded-lg border border-amber-300/60 bg-amber-50 text-amber-500 hover:bg-amber-100 hover:text-amber-700 transition-colors flex items-center justify-center shrink-0"
                             title="View calendar"
                             @click="showCalendar = true"
                         >
@@ -100,34 +100,34 @@
             </section>
 
             <!-- Placeholder sections for future settings -->
-            <section class="card px-6 py-6 mb-6 bg-linear-to-br from-violet-50/40 to-purple-50/20 border-violet-100/40 opacity-60 relative overflow-hidden">
-                <span class="absolute -bottom-2 -right-2 text-5xl text-violet-200/20 rotate-[-10deg] font-serif select-none">&#9881;</span>
-                <div class="relative flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-linear-to-br from-violet-300 to-purple-400 flex items-center justify-center shadow-sm">
-                        <span class="text-white text-sm">&#9881;</span>
+            <section class="card px-4 sm:px-6 py-4 sm:py-6 mb-4 sm:mb-6 bg-linear-to-br from-violet-50/40 to-purple-50/20 border-violet-100/40 opacity-60 relative overflow-hidden">
+                <span class="absolute -bottom-2 -right-2 text-4xl sm:text-5xl text-violet-200/20 rotate-[-10deg] font-serif select-none">&#9881;</span>
+                <div class="relative flex items-center gap-2.5 sm:gap-3">
+                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-violet-300 to-purple-400 flex items-center justify-center shadow-sm shrink-0">
+                        <span class="text-white text-xs sm:text-sm">&#9881;</span>
                     </div>
                     <div>
-                        <h2 class="text-base font-serif font-bold uppercase tracking-wide text-stone-800">
+                        <h2 class="text-sm sm:text-base font-serif font-bold uppercase tracking-wide text-stone-800">
                             Preferences
                         </h2>
-                        <p class="text-sm font-semibold text-stone-400">
+                        <p class="text-xs sm:text-sm font-semibold text-stone-400">
                             Coming soon
                         </p>
                     </div>
                 </div>
             </section>
 
-            <section class="card px-6 py-6 bg-linear-to-br from-sky-50/40 to-blue-50/20 border-sky-100/40 opacity-60 relative overflow-hidden">
-                <span class="absolute -bottom-2 -right-2 text-5xl text-sky-200/20 rotate-10 font-serif select-none">&#128100;</span>
-                <div class="relative flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-xl bg-linear-to-br from-sky-300 to-blue-400 flex items-center justify-center shadow-sm">
-                        <span class="text-white text-sm">&#128100;</span>
+            <section class="card px-4 sm:px-6 py-4 sm:py-6 bg-linear-to-br from-sky-50/40 to-blue-50/20 border-sky-100/40 opacity-60 relative overflow-hidden">
+                <span class="absolute -bottom-2 -right-2 text-4xl sm:text-5xl text-sky-200/20 rotate-10 font-serif select-none">&#128100;</span>
+                <div class="relative flex items-center gap-2.5 sm:gap-3">
+                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-sky-300 to-blue-400 flex items-center justify-center shadow-sm shrink-0">
+                        <span class="text-white text-xs sm:text-sm">&#128100;</span>
                     </div>
                     <div>
-                        <h2 class="text-base font-serif font-bold uppercase tracking-wide text-stone-800">
+                        <h2 class="text-sm sm:text-base font-serif font-bold uppercase tracking-wide text-stone-800">
                             Account
                         </h2>
-                        <p class="text-sm font-semibold text-stone-400">
+                        <p class="text-xs sm:text-sm font-semibold text-stone-400">
                             Coming soon
                         </p>
                     </div>
@@ -140,18 +140,18 @@
             <Transition name="modal">
                 <div
                     v-if="showCalendar"
-                    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4"
                     @mousedown.self="showCalendar = false"
                 >
                     <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" />
 
-                    <div class="relative bg-white rounded-2xl shadow-xl w-[75vw] max-h-[92vh] overflow-y-auto p-10">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-9 h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm">
-                                    <span class="text-white text-sm">&#128197;</span>
+                    <div class="relative bg-white rounded-2xl shadow-xl calendar-modal-panel sm:w-[75vw] max-h-[92vh] overflow-y-auto p-4 sm:p-10">
+                        <div class="flex items-center justify-between mb-3 sm:mb-4">
+                            <div class="flex items-center gap-2.5 sm:gap-3">
+                                <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm shrink-0">
+                                    <span class="text-white text-xs sm:text-sm">&#128197;</span>
                                 </div>
-                                <h3 class="text-2xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                                <h3 class="text-lg sm:text-2xl font-serif font-bold uppercase tracking-wide text-stone-800">
                                     Practice Schedule
                                 </h3>
                             </div>
@@ -184,17 +184,17 @@
                         >
                             <template #day-content="{ day }">
                                 <div
-                                    class="w-full h-full flex flex-col p-2 rounded-lg border transition-colors duration-150"
+                                    class="w-full h-full flex flex-col p-1 sm:p-2 rounded-lg border transition-colors duration-150"
                                     :class="getDayClass(day)"
                                 >
                                     <span
-                                        class="text-sm font-bold mb-1"
+                                        class="text-xs sm:text-sm font-bold mb-0.5 sm:mb-1"
                                         :class="isToday(day) ? 'text-amber-600' : 'text-stone-500'"
                                     >{{ day.day }}</span>
                                     <div
                                         v-for="piece in getPiecesForDay(day)"
                                         :key="piece.id"
-                                        class="text-sm leading-snug text-stone-600 truncate"
+                                        class="text-[10px] sm:text-sm leading-snug text-stone-600 truncate"
                                         :title="piece.title + ' - ' + piece.composer"
                                     >
                                         {{ piece.title }}
@@ -355,8 +355,28 @@ function getDayClass(day) {
 }
 
 :deep(.schedule-calendar .vc-day) {
-    padding: 0.2rem;
-    min-height: 6rem;
+    padding: 0.1rem;
+    min-height: 3.5rem;
+}
+
+@media (max-width: 639px) {
+    .calendar-modal-panel {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+        width: 100vh;
+        height: 100vw;
+        max-height: none;
+        border-radius: 0;
+    }
+}
+
+@media (min-width: 640px) {
+    :deep(.schedule-calendar .vc-day) {
+        padding: 0.2rem;
+        min-height: 6rem;
+    }
 }
 
 :deep(.schedule-calendar .vc-day-content) {

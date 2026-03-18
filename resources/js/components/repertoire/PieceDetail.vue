@@ -10,9 +10,9 @@
                 <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" />
 
                 <!-- Modal panel -->
-                <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-6">
+                <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-4 sm:p-6">
                     <!-- Title -->
-                    <h3 class="text-xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center mb-5">
+                    <h3 class="text-lg sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center mb-4 sm:mb-5">
                         Piece Details
                     </h3>
 

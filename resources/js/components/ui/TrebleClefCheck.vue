@@ -44,7 +44,7 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 class="treble-clef-path"
-                :class="checked ? 'text-amber-600 draw-in' : 'text-stone-300 draw-out'"
+                :class="checked ? 'text-emerald-800 draw-in' : 'text-stone-300 draw-out'"
             />
         </svg>
     </button>

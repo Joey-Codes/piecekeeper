@@ -10,18 +10,18 @@
                 <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" />
 
                 <!-- Modal panel -->
-                <div class="relative bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 max-h-[85vh] overflow-y-auto">
+                <div class="relative bg-white rounded-2xl shadow-xl max-w-2xl w-full p-4 sm:p-6 max-h-[85vh] overflow-y-auto">
                     <!-- Title (read-only) -->
-                    <h2 class="w-full text-2xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center px-2 py-1">
+                    <h2 class="w-full text-xl sm:text-2xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center px-2 py-1">
                         {{ piece.title }}
                     </h2>
                     <!-- Composer (read-only) -->
-                    <p class="w-full text-lg text-stone-700 text-center mt-1 px-2 py-0.5">
+                    <p class="w-full text-base sm:text-lg text-stone-700 text-center mt-1 px-2 py-0.5">
                         {{ piece.composer }}
                     </p>
 
                     <!-- Details -->
-                    <div class="mt-6 space-y-5">
+                    <div class="mt-4 sm:mt-6 space-y-4 sm:space-y-5">
                         <!-- Status (editable) -->
                         <div
                             v-if="piece.status"
@@ -155,16 +155,16 @@
                     </div>
 
                     <!-- Action buttons -->
-                    <div class="flex gap-3 justify-center pt-6">
+                    <div class="flex gap-2.5 sm:gap-3 justify-center pt-4 sm:pt-6">
                         <button
-                            class="px-8 py-2.5 text-base font-semibold text-stone-600 bg-stone-100 rounded-xl hover:bg-stone-200 transition-colors duration-150"
+                            class="px-6 sm:px-8 py-2 sm:py-2.5 text-sm sm:text-base font-semibold text-stone-600 bg-stone-100 rounded-xl hover:bg-stone-200 transition-colors duration-150"
                             @click="close"
                         >
                             Close
                         </button>
                         <button
                             v-if="practiceActive"
-                            class="px-8 py-2.5 text-base font-semibold rounded-xl transition-all duration-200"
+                            class="px-6 sm:px-8 py-2 sm:py-2.5 text-sm sm:text-base font-semibold rounded-xl transition-all duration-200"
                             :class="piece.done
                                 ? 'text-white bg-red-500 hover:bg-red-600 hover:scale-[1.02]'
                                 : 'text-white bg-emerald-500 hover:bg-emerald-600 hover:scale-[1.02]'"

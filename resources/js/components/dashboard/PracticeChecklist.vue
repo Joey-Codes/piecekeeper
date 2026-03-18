@@ -1,29 +1,29 @@
 <template>
     <section
-        class="card overflow-hidden relative mb-8 hover:shadow-lg transition-shadow duration-300"
+        class="card overflow-hidden relative mb-6 sm:mb-8 hover:shadow-lg transition-shadow duration-300"
         :class="allDone ? 'border-emerald-200' : 'border-orange-200'"
     >
         <!-- Card header -->
-        <div class="px-6 py-5 border-b border-stone-200 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center shadow-sm">
-                    <span class="text-white text-sm">&#9835;</span>
+        <div class="px-4 sm:px-6 py-4 sm:py-5 border-b border-stone-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center shadow-sm shrink-0">
+                    <span class="text-white text-xs sm:text-sm">&#9835;</span>
                 </div>
-                <h2 class="text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
                     Today's Practice<span
                         v-if="allDone"
                         class="text-emerald-500"
                     > (Completed)</span>
                 </h2>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2.5 sm:gap-3">
                 <span
-                    class="text-base font-semibold"
+                    class="text-sm sm:text-base font-semibold"
                     :class="allDone ? 'text-emerald-500' : 'text-stone-800'"
                 >
                     {{ completedCount }}/{{ pieces.length }}
                 </span>
-                <div class="w-44 h-4 bg-stone-100 rounded-full overflow-hidden">
+                <div class="flex-1 sm:flex-none sm:w-44 h-3 sm:h-4 bg-stone-100 rounded-full overflow-hidden">
                     <div
                         class="h-full rounded-full transition-all duration-500 ease-out"
                         :class="allDone ? 'bg-emerald-400' : 'bg-linear-to-r from-amber-400 to-orange-400'"
@@ -36,7 +36,7 @@
         <!-- Disabled hint banner -->
         <div
             v-if="disabled"
-            class="px-6 py-2.5 bg-stone-50 border-b border-stone-200 flex items-center gap-2"
+            class="px-4 sm:px-6 py-2 sm:py-2.5 bg-stone-50 border-b border-stone-200 flex items-center gap-2"
         >
             <svg
                 class="w-3.5 h-3.5 text-amber-400 shrink-0"
@@ -51,15 +51,15 @@
                     d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
             </svg>
-            <span class="text-md text-stone-600">Press <strong class="text-amber-700">Start Practice</strong> above to check off pieces</span>
+            <span class="text-sm sm:text-md text-stone-600">Press <strong class="text-amber-700">Start Practice</strong> above to check off pieces</span>
         </div>
 
         <!-- Piece list -->
-        <div class="p-4 space-y-3">
+        <div class="p-3 sm:p-4 space-y-2 sm:space-y-3">
             <div
                 v-for="(piece, index) in pieces"
                 :key="piece.id"
-                class="flex items-center gap-3 p-3 rounded-xl transition-all duration-300 cursor-pointer"
+                class="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl transition-all duration-300 cursor-pointer"
                 :class="piece.done ? 'bg-emerald-50 border border-emerald-100' : 'bg-stone-50 border border-stone-100 hover:border-stone-200'"
                 @click="selectedPiece = piece"
             >
@@ -78,7 +78,7 @@
                 <!-- Piece info -->
                 <div class="flex-1 min-w-0">
                     <p
-                        class="text-sm font-semibold transition-all duration-300"
+                        class="text-xs sm:text-sm font-semibold transition-all duration-300 truncate"
                         :class="piece.done ? 'text-emerald-700' : 'text-stone-700'"
                     >
                         {{ piece.title }}
@@ -109,18 +109,18 @@
 
         <!-- Footer -->
         <div
-            class="px-6 py-4 border-t border-stone-200 transition-colors duration-300"
+            class="px-4 sm:px-6 py-3 sm:py-4 border-t border-stone-200 transition-colors duration-300"
             :class="allDone ? 'bg-emerald-400' : 'bg-linear-to-r from-amber-400 to-orange-300'"
         >
             <p
                 v-if="allDone"
-                class="text-lg text-white font-semibold text-center"
+                class="text-base sm:text-lg text-white font-semibold text-center"
             >
                 All done for today — great work! &#127929;
             </p>
             <p
                 v-else
-                class="text-lg font-semibold text-white text-center"
+                class="text-base sm:text-lg font-semibold text-white text-center"
             >
                 {{ pieces.length - completedCount }} {{ pieces.length - completedCount === 1 ? 'piece' : 'pieces' }} remaining
             </p>

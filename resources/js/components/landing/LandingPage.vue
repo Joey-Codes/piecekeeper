@@ -478,7 +478,7 @@
             <div class="relative max-w-4xl mx-auto px-6 text-center">
                 <div class="mb-8">
                     <!-- Piano keyboard illustration -->
-                    <div class="inline-flex justify-center items-start mx-auto">
+                    <div class="inline-flex justify-center items-start mx-auto max-w-full overflow-hidden">
                         <template
                             v-for="(key, i) in pianoKeysDisplay"
                             :key="'piano-'+i"
@@ -558,7 +558,7 @@
                     It's free, it's simple, and your piano will thank you.
                 </p>
                 <button
-                    class="group px-10 py-5 bg-linear-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-xl"
+                    class="group px-8 py-4 sm:px-10 sm:py-5 bg-linear-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-lg sm:text-xl"
                     @click="$emit('get-started')"
                 >
                     Get Started &mdash; It's Free

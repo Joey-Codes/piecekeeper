@@ -3,21 +3,21 @@
         <Transition name="modal">
             <div
                 v-if="show"
-                class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4"
                 @mousedown.self="$emit('close')"
             >
                 <!-- Backdrop -->
                 <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" />
 
                 <!-- Modal panel -->
-                <div class="relative bg-white rounded-2xl shadow-xl w-[75vw] max-h-[92vh] overflow-y-auto p-10">
+                <div class="relative bg-white rounded-2xl shadow-xl calendar-modal-panel sm:w-[75vw] max-h-[92vh] overflow-y-auto p-4 sm:p-10">
                     <!-- Header with month name and close button -->
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center gap-3">
-                            <div class="w-9 h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm">
-                                <span class="text-white text-sm">&#128197;</span>
+                    <div class="flex items-center justify-between mb-4 sm:mb-6">
+                        <div class="flex items-center gap-2.5 sm:gap-3">
+                            <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm shrink-0">
+                                <span class="text-white text-xs sm:text-sm">&#128197;</span>
                             </div>
-                            <h3 class="text-2xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                            <h3 class="text-lg sm:text-2xl font-serif font-bold uppercase tracking-wide text-stone-800">
                                 {{ monthName }} {{ year }}
                             </h3>
                         </div>
@@ -43,35 +43,35 @@
                     </div>
 
                     <!-- Day-of-week headers -->
-                    <div class="grid grid-cols-7 gap-1.5 mb-1.5">
+                    <div class="grid grid-cols-7 gap-1 sm:gap-1.5 mb-1 sm:mb-1.5">
                         <div
                             v-for="day in weekdays"
                             :key="day"
-                            class="text-center text-sm font-semibold text-stone-400 uppercase py-1.5"
+                            class="text-center text-xs sm:text-sm font-semibold text-stone-400 uppercase py-1 sm:py-1.5"
                         >
                             {{ day }}
                         </div>
                     </div>
 
                     <!-- Calendar grid -->
-                    <div class="grid grid-cols-7 gap-1.5">
+                    <div class="grid grid-cols-7 gap-1 sm:gap-1.5">
                         <!-- Empty cells for offset -->
                         <div
                             v-for="n in startOffset"
                             :key="'empty-' + n"
-                            class="min-h-24"
+                            class="min-h-14 sm:min-h-24"
                         />
 
                         <!-- Day cells -->
                         <div
                             v-for="day in daysInMonth"
                             :key="day"
-                            class="min-h-24 rounded-lg border p-2 transition-colors duration-150"
+                            class="min-h-14 sm:min-h-24 rounded-lg border p-1 sm:p-2 transition-colors duration-150"
                             :class="isToday(day) ? 'border-amber-400 bg-amber-50/60' : isPracticeDay(day) ? 'border-stone-200 bg-white' : 'border-stone-100 bg-stone-50/50'"
                         >
-                            <div class="mb-1">
+                            <div class="mb-0.5 sm:mb-1">
                                 <span
-                                    class="text-sm font-bold"
+                                    class="text-[10px] sm:text-sm font-bold"
                                     :class="isToday(day) ? 'text-amber-600' : 'text-stone-500'"
                                 >
                                     {{ day }}
@@ -80,7 +80,7 @@
                             <div
                                 v-for="piece in getPiecesForDay(day)"
                                 :key="piece.id"
-                                class="text-sm leading-snug text-stone-600 truncate"
+                                class="text-[10px] sm:text-sm leading-snug text-stone-600 truncate"
                                 :title="piece.title + ' - ' + piece.composer"
                             >
                                 {{ piece.title }}
@@ -194,6 +194,19 @@ function countPracticeDaysBefore(day) {
 </script>
 
 <style scoped>
+@media (max-width: 639px) {
+    .calendar-modal-panel {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+        width: 100vh;
+        height: 100vw;
+        max-height: none;
+        border-radius: 0;
+    }
+}
+
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.2s ease;

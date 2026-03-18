@@ -1,15 +1,15 @@
 <template>
-    <div class="mb-8">
+    <div class="mb-6 sm:mb-8">
         <div
             v-if="!session.active"
             class="flex justify-center"
         >
             <button
-                class="group flex items-center gap-3 px-8 py-4 bg-linear-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-2xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200"
+                class="group flex items-center gap-2.5 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-linear-to-r from-amber-500 to-orange-500 text-white text-sm sm:text-base font-semibold rounded-2xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200"
                 @click="startSession"
             >
                 <svg
-                    class="w-5 h-5"
+                    class="w-4 h-4 sm:w-5 sm:h-5"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -27,24 +27,24 @@
 
         <div
             v-else
-            class="card px-6 py-5"
+            class="card px-4 sm:px-6 py-4 sm:py-5"
         >
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+                <div class="flex items-center gap-3 sm:gap-4">
                     <div
-                        class="w-10 h-10 rounded-xl flex items-center justify-center shadow-sm"
+                        class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shadow-sm shrink-0"
                         :class="paused
                             ? 'bg-linear-to-br from-amber-300 to-yellow-400'
                             : 'bg-linear-to-br from-emerald-400 to-green-500 animate-pulse'"
                     >
-                        <div class="w-3 h-3 bg-white rounded-full" />
+                        <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-white rounded-full" />
                     </div>
                     <div>
-                        <p class="text-sm font-semibold text-stone-500">
+                        <p class="text-xs sm:text-sm font-semibold text-stone-500">
                             {{ paused ? 'Session paused' : 'Session in progress' }}
                         </p>
                         <p
-                            class="text-2xl font-bold tabular-nums"
+                            class="text-xl sm:text-2xl font-bold tabular-nums"
                             :class="paused ? 'text-stone-400' : 'text-stone-800'"
                         >
                             {{ elapsedTime }}
@@ -54,7 +54,7 @@
                 <div class="flex items-center gap-2">
                     <!-- Pause / Resume button -->
                     <button
-                        class="flex items-center gap-2 px-5 py-3 font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                        class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
                         :class="paused
                             ? 'bg-linear-to-r from-emerald-500 to-green-500 text-white'
                             : 'bg-stone-100 text-stone-600 hover:bg-stone-200'"
@@ -94,7 +94,7 @@
                     </button>
                     <!-- End Session button -->
                     <button
-                        class="flex items-center gap-2 px-5 py-3 bg-linear-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                        class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base bg-linear-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
                         @click="promptEnd"
                     >
                         <svg

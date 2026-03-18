@@ -30,10 +30,10 @@
         </div>
 
         <!-- Back to home -->
-        <div class="relative z-10 px-6 pt-6">
+        <div class="relative z-10 px-4 sm:px-6 pt-4 sm:pt-6">
             <router-link
                 to="/"
-                class="inline-flex items-center gap-2 text-stone-600 hover:text-amber-600 transition-colors font-medium"
+                class="inline-flex items-center gap-2 text-sm sm:text-base text-stone-600 hover:text-amber-600 transition-colors font-medium"
             >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -43,29 +43,29 @@
         </div>
 
         <!-- Main content -->
-        <div class="relative z-10 flex-1 flex items-center justify-center px-6 py-12">
+        <div class="relative z-10 flex-1 flex items-center justify-center px-4 sm:px-6 py-6 sm:py-12">
             <div class="w-full max-w-md">
                 <!-- Logo & heading -->
-                <div class="text-center mb-8">
-                    <div class="flex items-center justify-center gap-3 mb-6">
-                        <div class="w-12 h-12 rounded-xl bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center shadow-lg shadow-amber-200/50">
-                            <span class="text-white text-2xl">&#9835;</span>
+                <div class="text-center mb-5 sm:mb-8">
+                    <div class="flex items-center justify-center gap-3 mb-4 sm:mb-6">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center shadow-lg shadow-amber-200/50">
+                            <span class="text-white text-xl sm:text-2xl">&#9835;</span>
                         </div>
                     </div>
-                    <h1 class="font-serif text-4xl font-bold text-stone-800 mb-3">
+                    <h1 class="font-serif text-2xl sm:text-4xl font-bold text-stone-800 mb-2 sm:mb-3">
                         Welcome back
                     </h1>
-                    <p class="text-lg text-stone-600">
+                    <p class="text-sm sm:text-lg text-stone-600">
                         Log in to continue practicing
                     </p>
                 </div>
 
                 <!-- Login form -->
-                <div class="bg-white rounded-3xl shadow-xl shadow-stone-200/50 border border-stone-100 p-8">
-                    <form @submit.prevent="handleLogin" class="space-y-5">
+                <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-stone-200/50 border border-stone-100 p-5 sm:p-8">
+                    <form @submit.prevent="handleLogin" class="space-y-4 sm:space-y-5">
                         <!-- Email -->
                         <div>
-                            <label for="email" class="block text-base font-semibold text-stone-700 mb-2">
+                            <label for="email" class="block text-sm sm:text-base font-semibold text-stone-700 mb-1.5 sm:mb-2">
                                 Email address
                             </label>
                             <input
@@ -74,19 +74,19 @@
                                 type="email"
                                 required
                                 placeholder="you@example.com"
-                                class="w-full px-4 py-3.5 text-base rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
+                                class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-sm sm:text-base rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                             />
                         </div>
 
                         <!-- Password -->
                         <div>
-                            <div class="flex items-center justify-between mb-2">
-                                <label for="password" class="block text-base font-semibold text-stone-700">
+                            <div class="flex items-center justify-between mb-1.5 sm:mb-2">
+                                <label for="password" class="block text-sm sm:text-base font-semibold text-stone-700">
                                     Password
                                 </label>
                                 <router-link
                                     to="/forgot-password"
-                                    class="text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors"
+                                    class="text-xs sm:text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors"
                                 >
                                     Forgot password?
                                 </router-link>
@@ -97,12 +97,12 @@
                                 type="password"
                                 required
                                 placeholder="Enter your password"
-                                class="w-full px-4 py-3.5 text-base rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
+                                class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-sm sm:text-base rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                             />
                         </div>
 
                         <!-- Error message -->
-                        <p v-if="error" class="text-base text-red-500 font-medium">
+                        <p v-if="error" class="text-sm sm:text-base text-red-500 font-medium">
                             {{ error }}
                         </p>
 
@@ -110,7 +110,7 @@
                         <button
                             type="submit"
                             :disabled="loading"
-                            class="w-full py-3.5 text-lg bg-linear-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:pointer-events-none"
+                            class="w-full py-2.5 sm:py-3.5 text-base sm:text-lg bg-linear-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-60 disabled:pointer-events-none"
                         >
                             <span v-if="!loading">Log In</span>
                             <span v-else class="flex items-center justify-center gap-2">
@@ -124,16 +124,16 @@
                     </form>
 
                     <!-- Divider -->
-                    <div class="flex items-center gap-4 my-6">
+                    <div class="flex items-center gap-4 my-4 sm:my-6">
                         <div class="flex-1 h-px bg-stone-200" />
-                        <span class="text-sm text-stone-500 font-medium uppercase tracking-wider">or</span>
+                        <span class="text-xs sm:text-sm text-stone-500 font-medium uppercase tracking-wider">or</span>
                         <div class="flex-1 h-px bg-stone-200" />
                     </div>
 
                     <!-- Sign in with Google -->
                     <button
                         type="button"
-                        class="w-full flex items-center justify-center gap-3 py-3.5 text-base font-semibold rounded-xl border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:border-stone-300 transition-all duration-200"
+                        class="w-full flex items-center justify-center gap-2.5 sm:gap-3 py-2.5 sm:py-3.5 text-sm sm:text-base font-semibold rounded-xl border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:border-stone-300 transition-all duration-200"
                     >
                         <svg class="w-5 h-5" viewBox="0 0 24 24">
                             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
@@ -144,9 +144,9 @@
                         Sign in with Google
                     </button>
 
-                    <div class="mt-6">
+                    <div class="mt-4 sm:mt-6">
                         <!-- Sign up link -->
-                        <p class="text-center text-base text-stone-600">
+                        <p class="text-center text-sm sm:text-base text-stone-600">
                             Don't have an account?
                             <router-link
                                 to="/signup"
