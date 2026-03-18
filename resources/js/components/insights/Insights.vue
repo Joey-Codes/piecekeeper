@@ -53,7 +53,7 @@
             </div>
 
             <!-- Monthly breakdown -->
-            <header class="mt-10 sm:mt-16 mb-4 sm:mb-6 text-center">
+            <header id="calendar" class="mt-10 sm:mt-16 mb-4 sm:mb-6 text-center">
                 <h2 class="text-xl sm:text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
                     This Month's<span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent"> Progress</span>
                 </h2>

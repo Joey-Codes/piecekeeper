@@ -290,7 +290,7 @@ let nextId = 6
 let nextWishId = 3
 
 const pieces = ref([
-    { id: 1, title: 'Clair de Lune', composer: 'Debussy', status: 'polishing', link: 'https://youtube.com/watch?v=example1', files: [{ name: 'Clair_de_Lune.pdf', pages: 6 }] },
+    { id: 1, title: 'Clair de Lune', composer: 'Debussy', status: 'polishing', links: ['https://youtube.com/watch?v=example1'], files: [{ name: 'Clair_de_Lune.pdf', pages: 6 }] },
     { id: 2, title: 'Nocturne Op. 9 No. 2', composer: 'Chopin', status: 'learning', files: [{ name: 'Nocturne_Op9_No2.pdf', pages: 4 }, { name: 'Nocturne_Annotations.pdf', pages: 2 }] },
     { id: 3, title: 'Gymnopédie No. 1', composer: 'Satie', status: 'learned', files: [] },
     { id: 4, title: 'Prelude in C Major', composer: 'Bach', status: 'learned', files: [{ name: 'Prelude_C_Major_BWV846.pdf', pages: 3 }] },
@@ -357,7 +357,7 @@ function addPiece(data) {
         id: nextId++,
         title: data.title,
         composer: data.composer,
-        link: data.link,
+        links: data.links,
         files: data.files,
         status: 'learning',
     })
@@ -370,7 +370,7 @@ function savePiece(data) {
         piece.title = data.title
         piece.composer = data.composer
         piece.status = data.status
-        piece.link = data.link
+        piece.links = data.links
         piece.notes = data.notes
         piece.files = data.files
     }
@@ -408,7 +408,7 @@ function saveWishPiece(data) {
     if (item) {
         item.title = data.title
         item.composer = data.composer
-        item.link = data.link
+        item.links = data.links
         item.notes = data.notes
         item.files = data.files
     }
@@ -420,7 +420,7 @@ function addWishlistPiece(data) {
         id: nextWishId++,
         title: data.title,
         composer: data.composer,
-        link: data.link,
+        links: data.links,
         files: data.files,
     })
     showAddWish.value = false

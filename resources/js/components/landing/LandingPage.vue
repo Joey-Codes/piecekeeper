@@ -68,14 +68,14 @@
 
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
                     <button
-                        class="group px-8 py-4 bg-linear-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-lg"
+                        class="group px-6 py-3 sm:px-8 sm:py-4 bg-linear-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-base sm:text-lg"
                         @click="$emit('get-started')"
                     >
                         Start Practicing Free
                         <span class="inline-block ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
                     </button>
                     <button
-                        class="px-8 py-4 bg-white border-2 border-stone-200 text-stone-600 font-semibold rounded-2xl hover:border-amber-300 hover:text-amber-700 transition-all duration-200 text-lg"
+                        class="px-6 py-3 sm:px-8 sm:py-4 bg-white border-2 border-stone-200 text-stone-600 font-semibold rounded-2xl hover:border-amber-300 hover:text-amber-700 transition-all duration-200 text-base sm:text-lg"
                         @click="scrollToFeatures"
                     >
                         See How It Works
@@ -558,7 +558,7 @@
                     It's free, it's simple, and your piano will thank you.
                 </p>
                 <button
-                    class="group px-8 py-4 sm:px-10 sm:py-5 bg-linear-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-lg sm:text-xl"
+                    class="group px-6 py-3 sm:px-10 sm:py-5 bg-linear-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-base sm:text-xl"
                     @click="$emit('get-started')"
                 >
                     Get Started &mdash; It's Free

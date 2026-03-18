@@ -10,7 +10,7 @@
                 <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" />
 
                 <!-- Modal panel -->
-                <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-4 sm:p-6">
+                <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto p-4 sm:p-6">
                     <!-- Title -->
                     <h3 class="text-lg sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center mb-4 sm:mb-5">
                         Piece Details
@@ -71,32 +71,55 @@
                             </select>
                         </div>
 
-                        <!-- Reference Link -->
+                        <!-- Reference Links -->
                         <div>
                             <label class="block text-sm font-semibold text-stone-700 mb-1">
-                                Reference Link
+                                Reference Links
+                                <span class="text-xs font-normal text-stone-400 ml-1">{{ links.filter(l => l.trim()).length }}/5</span>
                             </label>
-                            <div class="relative">
-                                <svg
-                                    class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
+                            <div class="space-y-2">
+                                <div
+                                    v-for="(_, i) in links"
+                                    :key="i"
+                                    class="relative flex items-center gap-1.5"
                                 >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                                    />
-                                </svg>
-                                <input
-                                    v-model="link"
-                                    type="text"
-                                    placeholder="https://youtube.com/..."
-                                    class="w-full pl-9 pr-3 py-2 text-sm bg-white/70 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400"
-                                >
+                                    <svg
+                                        class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                        />
+                                    </svg>
+                                    <input
+                                        v-model="links[i]"
+                                        type="text"
+                                        placeholder="https://youtube.com/..."
+                                        class="w-full pl-9 pr-3 py-2 text-sm bg-white/70 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400"
+                                    >
+                                    <button
+                                        v-if="links.length > 1"
+                                        type="button"
+                                        class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-stone-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                                        @click="removeLink(i)"
+                                    >
+                                        &times;
+                                    </button>
+                                </div>
                             </div>
+                            <button
+                                v-if="links.length < 5"
+                                type="button"
+                                class="mt-1.5 text-xs font-semibold text-amber-600 hover:text-amber-700 transition-colors"
+                                @click="addLink"
+                            >
+                                + Add another link
+                            </button>
                         </div>
 
                         <!-- Notes -->
@@ -116,6 +139,7 @@
                         <div>
                             <label class="block text-sm font-semibold text-stone-700 mb-2">
                                 Sheet Music
+                                <span class="text-xs font-normal text-stone-400 ml-1">{{ files.length }}/5</span>
                             </label>
 
                             <!-- Existing file previews -->
@@ -273,7 +297,7 @@ const emit = defineEmits(['save', 'close'])
 const title = ref('')
 const composer = ref('')
 const status = ref('learning')
-const link = ref('')
+const links = ref([''])
 const notes = ref('')
 const files = ref([])
 const fileInput = ref(null)
@@ -285,11 +309,19 @@ watch(() => props.piece, (p) => {
         title.value = p.title || ''
         composer.value = p.composer || ''
         status.value = p.status || 'learning'
-        link.value = p.link || ''
+        links.value = p.links && p.links.length ? [...p.links] : ['']
         notes.value = p.notes || ''
         files.value = p.files ? [...p.files] : []
     }
 }, { immediate: true })
+
+function addLink() {
+    if (links.value.length < 5) links.value.push('')
+}
+
+function removeLink(index) {
+    links.value.splice(index, 1)
+}
 
 function openPdf(index) {
     pdfStartIndex.value = index
@@ -314,7 +346,7 @@ function handleSave() {
         title: title.value.trim(),
         composer: composer.value.trim() || null,
         status: status.value,
-        link: link.value.trim() || null,
+        links: links.value.map(l => l.trim()).filter(l => l.length > 0) || null,
         notes: notes.value.trim() || null,
         files: [...files.value],
     })

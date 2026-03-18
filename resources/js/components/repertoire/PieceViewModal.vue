@@ -48,24 +48,30 @@
                             </select>
                         </div>
 
-                        <!-- Link (read-only) -->
-                        <div v-if="piece.link">
-                            <span class="block text-base font-semibold text-stone-700 mb-1">Reference Link</span>
-                            <div class="flex items-center gap-2 px-3 py-2 bg-stone-50 rounded-lg">
-                                <svg
-                                    class="w-5 h-5 text-stone-400 shrink-0"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
+                        <!-- Links (read-only) -->
+                        <div v-if="piece.links && piece.links.length">
+                            <span class="block text-base font-semibold text-stone-700 mb-1">Reference Links</span>
+                            <div class="space-y-2">
+                                <div
+                                    v-for="(link, i) in piece.links"
+                                    :key="i"
+                                    class="flex items-center gap-2 px-3 py-2 bg-stone-50 rounded-lg"
                                 >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                                    />
-                                </svg>
-                                <span class="text-base text-amber-700 truncate">{{ piece.link }}</span>
+                                    <svg
+                                        class="w-5 h-5 text-stone-400 shrink-0"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                                        />
+                                    </svg>
+                                    <span class="text-base text-amber-700 truncate">{{ link }}</span>
+                                </div>
                             </div>
                         </div>
 
