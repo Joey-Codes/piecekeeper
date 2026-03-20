@@ -4,7 +4,7 @@
 
         <div class="relative max-w-4xl mx-auto px-6 py-12">
             <header class="mb-10 text-center">
-                <p class="text-sm font-semibold tracking-widest text-amber-500/80 uppercase mb-2">
+                <p class="text-sm font-semibold tracking-widest text-amber-600 uppercase mb-2">
                     IT'S {{ formattedDate }}
                 </p>
                 <h1 class="text-4xl font-serif font-bold tracking-wide text-stone-800">

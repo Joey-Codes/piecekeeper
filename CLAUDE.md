@@ -2,10 +2,19 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## About and Key Rules
+## About
 - This project is a web app for managing a piano repetoire, designed to create a practice schedule and other related features.
-- We want to keep the backend as minimal as possible and generic, both in case we use it for a mobile api or other music non-piano uses.
-- NEVER delete any production data 
+
+## Project Structure
+- Composed of 4 main tabs: Dashboard (default), My Repertoire, Insights, and Settings.
+- When asked about one of these tabs, start at their respective folders under resources/js/components.
+
+## Specific Tips to Remember
+- Edits should be made with production use-case in mind, not just 'what works' for the moment
+- Any client api calls should use our api.js helper
+
+## General Rules
+- PROMPT before any potential irreversible actions such as deleting production data, NEVER do those automatically
 
 ## Stack
 

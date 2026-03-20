@@ -5,7 +5,7 @@
             <div class="max-w-6xl mx-auto flex items-center">
                 <div
                     class="flex items-center gap-2.5 cursor-pointer"
-                    @click="$emit('get-started')"
+                    @click="router.push({ name: 'signup' })"
                 >
                     <div class="w-9 h-9 rounded-lg bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center shadow-sm">
                         <span class="text-white text-lg">&#9835;</span>
@@ -14,6 +14,29 @@
                         Piano <span class="text-amber-500">Piece Manager</span>
                     </span>
                 </div>
+                <router-link
+                    :to="{ name: 'login' }"
+                    class="ml-auto flex items-center gap-1.5 text-sm font-semibold text-stone-600 hover:text-amber-600 transition-colors"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <circle
+                            cx="12"
+                            cy="8"
+                            r="4"
+                        />
+                        <path d="M20 21a8 8 0 0 0-16 0" />
+                    </svg>
+                    LOGIN
+                </router-link>
             </div>
         </header>
 
@@ -69,7 +92,7 @@
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
                     <button
                         class="group px-6 py-3 sm:px-8 sm:py-4 bg-linear-to-r from-amber-500 to-orange-500 text-white font-semibold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-base sm:text-lg"
-                        @click="$emit('get-started')"
+                        @click="router.push({ name: 'signup' })"
                     >
                         Start Practicing Free
                         <span class="inline-block ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
@@ -559,7 +582,7 @@
                 </p>
                 <button
                     class="group px-6 py-3 sm:px-10 sm:py-5 bg-linear-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-base sm:text-xl"
-                    @click="$emit('get-started')"
+                    @click="router.push({ name: 'signup' })"
                 >
                     Get Started &mdash; It's Free
                     <span class="inline-block ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
@@ -604,8 +627,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-defineEmits(['get-started'])
+const router = useRouter()
 
 const currentYear = new Date().getFullYear()
 const featuresSection = ref(null)

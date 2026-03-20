@@ -117,21 +117,29 @@
                 </div>
             </section>
 
-            <section class="card px-4 sm:px-6 py-4 sm:py-6 bg-linear-to-br from-sky-50/40 to-blue-50/20 border-sky-100/40 opacity-60 relative overflow-hidden">
-                <span class="absolute -bottom-2 -right-2 text-4xl sm:text-5xl text-sky-200/20 rotate-10 font-serif select-none">&#128100;</span>
-                <div class="relative flex items-center gap-2.5 sm:gap-3">
-                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-sky-300 to-blue-400 flex items-center justify-center shadow-sm shrink-0">
+            <section class="card px-4 sm:px-6 py-4 sm:py-6 bg-white border border-red-200/50 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
+                <span class="absolute -bottom-2 -right-2 text-4xl sm:text-5xl text-red-200/20 rotate-10 font-serif select-none">&#128100;</span>
+                <div class="relative flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-red-400 to-rose-500 flex items-center justify-center shadow-sm shrink-0">
                         <span class="text-white text-xs sm:text-sm">&#128100;</span>
                     </div>
                     <div>
-                        <h2 class="text-sm sm:text-base font-serif font-bold uppercase tracking-wide text-stone-800">
+                        <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
                             Account
                         </h2>
-                        <p class="text-xs sm:text-sm font-semibold text-stone-400">
-                            Coming soon
+                        <p class="text-sm sm:text-md font-semibold text-stone-600">
+                            Manage your account
                         </p>
                     </div>
                 </div>
+
+                <button
+                    class="px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-semibold rounded-lg border border-red-300 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 transition-colors duration-200 disabled:opacity-50"
+                    :disabled="loggingOut"
+                    @click="logout"
+                >
+                    {{ loggingOut ? 'Logging out...' : 'Log out' }}
+                </button>
             </section>
         </div>
 
@@ -211,11 +219,28 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import FloatingNotes from '../ui/FloatingNotes.vue'
 import { Calendar } from 'v-calendar'
 import 'v-calendar/style.css'
+import api from '../../api.js'
+import { auth } from '@/auth'
+
+const router = useRouter()
 
 const showCalendar = ref(false)
+const loggingOut = ref(false)
+
+async function logout() {
+    loggingOut.value = true
+    try {
+        await api.post('/api/logout')
+        auth.clear()
+        router.push({ name: 'login' })
+    } catch {
+        loggingOut.value = false
+    }
+}
 
 const piecesPerDay = ref(3)
 const frequency = ref('every_day')
