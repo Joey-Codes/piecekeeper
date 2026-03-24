@@ -56,16 +56,19 @@
                                 v-model="status"
                                 class="w-full px-3 py-2 text-sm bg-white/70 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 cursor-pointer"
                             >
-                                <option value="learning">
+                                <option value="Learning">
                                     Learning
                                 </option>
-                                <option value="learned">
-                                    Learned
-                                </option>
-                                <option value="polishing">
+                                <option value="Polishing">
                                     Polishing
                                 </option>
-                                <option value="shelved">
+                                <option value="Mastered">
+                                    Mastered
+                                </option>
+                                <option value="Relearning">
+                                    Relearning
+                                </option>
+                                <option value="Shelved">
                                     Shelved
                                 </option>
                             </select>
@@ -285,6 +288,7 @@
 
 <script setup>
 import { ref, watch } from 'vue'
+import api from '@/api'
 import PdfViewer from '../ui/PdfViewer.vue'
 
 const props = defineProps({
@@ -296,7 +300,7 @@ const emit = defineEmits(['save', 'close'])
 
 const title = ref('')
 const composer = ref('')
-const status = ref('learning')
+const status = ref('Learning')
 const links = ref([''])
 const notes = ref('')
 const files = ref([])
@@ -308,8 +312,8 @@ watch(() => props.piece, (p) => {
     if (p) {
         title.value = p.title || ''
         composer.value = p.composer || ''
-        status.value = p.status || 'learning'
-        links.value = p.links && p.links.length ? [...p.links] : ['']
+        status.value = p.status || 'Learning'
+        links.value = p.reference_links && p.reference_links.length ? [...p.reference_links] : ['']
         notes.value = p.notes || ''
         files.value = p.files ? [...p.files] : []
     }
@@ -338,18 +342,24 @@ function removeFile(index) {
     files.value.splice(index, 1)
 }
 
-function handleSave() {
+async function handleSave() {
     if (!title.value.trim()) return
 
-    emit('save', {
-        id: props.piece.id,
-        title: title.value.trim(),
-        composer: composer.value.trim() || null,
-        status: status.value,
-        links: links.value.map(l => l.trim()).filter(l => l.length > 0) || null,
-        notes: notes.value.trim() || null,
-        files: [...files.value],
-    })
+    const trimmedLinks = links.value.map(l => l.trim()).filter(l => l.length > 0)
+
+    try {
+        const response = await api.put(`/api/pieces/${props.piece.id}`, {
+            title: title.value.trim(),
+            composer: composer.value.trim() || null,
+            status: status.value,
+            reference_links: trimmedLinks.length > 0 ? trimmedLinks : null,
+            notes: notes.value.trim() || null,
+        })
+
+        emit('save', response.data)
+    } catch (e) {
+        console.error('Failed to update piece:', e)
+    }
 }
 
 function close() {

@@ -147,11 +147,11 @@ const props = defineProps({
 const selectedPiece = ref(null)
 
 const pieces = ref([
-    { id: 1, title: 'Clair de Lune', composer: 'Debussy', status: 'polishing', done: false, links: ['https://youtube.com/watch?v=example1'], notes: "Play it slower", files: [{ name: 'Clair_de_Lune.pdf', pages: 6 }] },
-    { id: 2, title: 'Nocturne Op. 9 No. 2', composer: 'Chopin', status: 'learning', done: false, files: [{ name: 'Nocturne_Op9_No2.pdf', pages: 4 }, { name: 'Nocturne_Annotations.pdf', pages: 2 }] },
-    { id: 3, title: 'Gymnopédie No. 1', composer: 'Satie', status: 'learned', done: false, files: [] },
-    { id: 4, title: 'Prelude in C Major', composer: 'Bach', status: 'learned', done: false, files: [{ name: 'Prelude_C_Major_BWV846.pdf', pages: 3 }] },
-    { id: 5, title: 'Moonlight Sonata, Mvt. 1', composer: 'Beethoven', status: 'learning', done: false, files: [] },
+    { id: 1, title: 'Clair de Lune', composer: 'Debussy', status: 'Polishing', done: false, links: ['https://youtube.com/watch?v=example1'], notes: "Play it slower", files: [{ name: 'Clair_de_Lune.pdf', pages: 6 }] },
+    { id: 2, title: 'Nocturne Op. 9 No. 2', composer: 'Chopin', status: 'Learning', done: false, files: [{ name: 'Nocturne_Op9_No2.pdf', pages: 4 }, { name: 'Nocturne_Annotations.pdf', pages: 2 }] },
+    { id: 3, title: 'Gymnopédie No. 1', composer: 'Satie', status: 'Learned', done: false, files: [] },
+    { id: 4, title: 'Prelude in C Major', composer: 'Bach', status: 'Learned', done: false, files: [{ name: 'Prelude_C_Major_BWV846.pdf', pages: 3 }] },
+    { id: 5, title: 'Moonlight Sonata, Mvt. 1', composer: 'Beethoven', status: 'Learning', done: false, files: [] },
 ])
 
 const nextUpId = computed(() => {

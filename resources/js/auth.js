@@ -13,7 +13,8 @@ export const auth = {
 
     async fetchUser() {
         try {
-            state.user = await api.get('/api/user')
+            const res = await api.get('/api/user')
+            state.user = res.data
         } catch {
             state.user = null
         }

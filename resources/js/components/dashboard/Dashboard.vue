@@ -28,8 +28,9 @@ import StatsRow from './StatsRow.vue'
 import PracticeChecklist from './PracticeChecklist.vue'
 import PracticeStreak from './PracticeStreak.vue'
 import FloatingNotes from '../ui/FloatingNotes.vue'
+import { auth } from '@/auth'
 
-const name = ref('James')
+const name = computed(() => auth.user?.name || '')
 const sessionActive = ref(false)
 
 const formattedDate = computed(() => {

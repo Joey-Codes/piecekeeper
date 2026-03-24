@@ -48,6 +48,34 @@
                             >
                         </div>
 
+                        <!-- Status -->
+                        <div v-if="!wishlist">
+                            <label class="block text-sm font-semibold text-stone-700 mb-1">
+                                Status <span class="text-red-400">*</span>
+                            </label>
+                            <select
+                                v-model="status"
+                                required
+                                class="w-full px-3 py-2 text-sm bg-white/70 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 text-stone-700 cursor-pointer"
+                            >
+                                <option value="Learning">
+                                    Learning
+                                </option>
+                                <option value="Polishing">
+                                    Polishing
+                                </option>
+                                <option value="Mastered">
+                                    Mastered
+                                </option>
+                                <option value="Relearning">
+                                    Relearning
+                                </option>
+                                <option value="Shelved">
+                                    Shelved
+                                </option>
+                            </select>
+                        </div>
+
                         <!-- Reference Links -->
                         <div>
                             <label class="block text-sm font-semibold text-stone-700 mb-1">
@@ -195,17 +223,20 @@
 
 <script setup>
 import { ref, computed, watch, nextTick } from 'vue'
+import api from '@/api'
 
 const props = defineProps({
     open: { type: Boolean, default: false },
     modalTitle: { type: String, default: 'Add Piece' },
     submitLabel: { type: String, default: 'Add Piece' },
+    wishlist: { type: Boolean, default: false },
 })
 
 const emit = defineEmits(['submit', 'close'])
 
 const title = ref('')
 const composer = ref('')
+const status = ref('Learning')
 const links = ref([''])
 const files = ref([])
 const titleInput = ref(null)
@@ -244,21 +275,26 @@ function removeFile(index) {
     files.value.splice(index, 1)
 }
 
-function handleSubmit() {
+async function handleSubmit() {
     if (!title.value.trim()) return
 
     const trimmedLinks = links.value
         .map(l => l.trim())
         .filter(l => l.length > 0)
 
-    emit('submit', {
-        title: title.value.trim(),
-        composer: composer.value.trim() || null,
-        links: trimmedLinks.length > 0 ? trimmedLinks : null,
-        files: [...files.value],
-    })
+    try {
+        const response = await api.post('/api/pieces', {
+            title: title.value.trim(),
+            composer: composer.value.trim() || null,
+            status: props.wishlist ? 'Want to Learn' : status.value,
+            reference_links: trimmedLinks.length > 0 ? trimmedLinks : null,
+        })
 
-    resetForm()
+        emit('submit', response.data)
+        resetForm()
+    } catch (e) {
+        console.error('Failed to add piece:', e)
+    }
 }
 
 function cancel() {
@@ -269,6 +305,7 @@ function cancel() {
 function resetForm() {
     title.value = ''
     composer.value = ''
+    status.value = 'Learning'
     links.value = ['']
     files.value = []
 }

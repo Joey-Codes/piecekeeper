@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-linear-to-b from-amber-50/80 via-white to-stone-50 relative overflow-hidden">
         <FloatingNotes />
 
-        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
             <header class="mb-6 sm:mb-10 text-center">
                 <h1 class="text-2xl sm:text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
                     <span class="bg-linear-to-r bg-clip-text">Settings</span>
@@ -13,134 +13,327 @@
                 <div class="mt-2.5 sm:mt-3 mx-auto w-12 sm:w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
             </header>
 
-            <!-- Practice Schedule -->
-            <section class="card px-4 sm:px-6 py-4 sm:py-6 mb-4 sm:mb-6 bg-white border border-amber-300/50 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
-                <span class="absolute -bottom-3 -right-3 text-5xl sm:text-6xl text-amber-200/20 rotate-[-10deg] font-serif select-none">&#128197;</span>
-                <div class="relative flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
-                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm shrink-0">
-                        <span class="text-white text-xs sm:text-sm">&#128197;</span>
-                    </div>
-                    <div>
-                        <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                            Practice Schedule
-                        </h2>
-                        <p class="text-sm sm:text-md font-semibold text-stone-600">
-                            How often and how much you want to practice
-                        </p>
-                    </div>
-                </div>
-
-                <div class="space-y-4 sm:space-y-6">
-                    <!-- Pieces per day -->
-                    <div>
-                        <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Pieces per session</label>
-                        <div class="flex items-center gap-2.5 sm:gap-3">
-                            <button
-                                class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
-                                @click="piecesPerDay = Math.max(1, piecesPerDay - 1)"
-                            >
-                                &minus;
-                            </button>
-                            <span class="text-xl sm:text-2xl font-bold text-stone-800 w-8 sm:w-10 text-center">{{ piecesPerDay }}</span>
-                            <button
-                                class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
-                                @click="piecesPerDay = Math.min(20, piecesPerDay + 1)"
-                            >
-                                +
-                            </button>
-                            <span class="text-sm sm:text-md font-semibold text-stone-600 ml-1 sm:ml-2">{{ piecesPerDay === 1 ? 'piece' : 'pieces' }}</span>
-                        </div>
-                    </div>
-
-                    <!-- Practice frequency -->
-                    <div>
-                        <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Practice frequency</label>
-                        <div class="flex flex-wrap gap-1.5 sm:gap-2">
-                            <button
-                                v-for="option in frequencyOptions"
-                                :key="option.value"
-                                class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg border transition-all duration-200"
-                                :class="frequency === option.value
-                                    ? 'border-amber-400 bg-amber-500 text-white shadow-sm'
-                                    : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:text-stone-700'"
-                                @click="frequency = option.value"
-                            >
-                                {{ option.label }}
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Summary with calendar arrow -->
-                    <div class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/70 rounded-xl border border-amber-200/50 shadow-sm flex items-center justify-between gap-2">
-                        <p class="text-sm sm:text-md font-semibold text-stone-600">
-                            <span class="font-bold uppercase text-amber-600">Your schedule:</span>
-                            {{ piecesPerDay }} {{ piecesPerDay === 1 ? 'piece' : 'pieces' }} {{ frequencyLabel }}
-                        </p>
+            <div class="flex flex-col sm:flex-row gap-4 sm:gap-0 rounded-2xl bg-white border border-stone-200/70 shadow-sm overflow-hidden">
+                <!-- Sidebar Navigation -->
+                <nav class="sm:w-52 shrink-0 sm:border-r sm:border-amber-600/30 bg-amber-500 px-2 py-3 sm:py-5">
+                    <div class="flex sm:flex-col gap-1 sm:gap-0.5 overflow-x-auto sm:overflow-x-visible pb-2 sm:pb-0">
                         <button
-                            class="w-8 h-8 rounded-lg border border-amber-300/60 bg-amber-50 text-amber-500 hover:bg-amber-100 hover:text-amber-700 transition-colors flex items-center justify-center shrink-0"
-                            title="View calendar"
-                            @click="showCalendar = true"
+                            v-for="tab in tabs"
+                            :key="tab.id"
+                            class="flex items-center gap-2.5 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl text-left transition-all duration-200 whitespace-nowrap shrink-0 sm:shrink sm:w-full"
+                            :class="activeTab === tab.id
+                                ? 'bg-white/90 text-stone-800 shadow-sm'
+                                : 'text-white hover:bg-white/20 hover:text-white'"
+                            @click="activeTab = tab.id"
                         >
-                            <svg
-                                class="w-4 h-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                stroke-width="2"
+                            <div
+                                class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs"
+                                :class="tab.iconClass"
                             >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M9 5l7 7-7 7"
-                                />
-                            </svg>
+                                <span class="text-white">{{ tab.icon }}</span>
+                            </div>
+                            <span class="text-sm font-semibold">{{ tab.label }}</span>
                         </button>
                     </div>
-                </div>
-            </section>
+                </nav>
 
-            <!-- Placeholder sections for future settings -->
-            <section class="card px-4 sm:px-6 py-4 sm:py-6 mb-4 sm:mb-6 bg-linear-to-br from-violet-50/40 to-purple-50/20 border-violet-100/40 opacity-60 relative overflow-hidden">
-                <span class="absolute -bottom-2 -right-2 text-4xl sm:text-5xl text-violet-200/20 rotate-[-10deg] font-serif select-none">&#9881;</span>
-                <div class="relative flex items-center gap-2.5 sm:gap-3">
-                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-violet-300 to-purple-400 flex items-center justify-center shadow-sm shrink-0">
-                        <span class="text-white text-xs sm:text-sm">&#9881;</span>
+                <!-- Content Panel -->
+                <div class="flex-1 min-w-0 p-4 sm:p-8">
+                    <!-- Practice Schedule -->
+                    <div v-if="activeTab === 'schedule'">
+                        <div class="flex items-center gap-2.5 sm:gap-3 mb-5 sm:mb-7">
+                            <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm shrink-0">
+                                <span class="text-white text-xs sm:text-sm">&#128197;</span>
+                            </div>
+                            <div>
+                                <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                                    Practice Schedule
+                                </h2>
+                                <p class="text-sm sm:text-md font-semibold text-stone-600">
+                                    How often and how much you want to practice
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 sm:space-y-6">
+                            <!-- Pieces per day -->
+                            <div>
+                                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Pieces per session</label>
+                                <div class="flex items-center gap-2.5 sm:gap-3">
+                                    <button
+                                        class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
+                                        @click="piecesPerDay = Math.max(1, piecesPerDay - 1)"
+                                    >
+                                        &minus;
+                                    </button>
+                                    <span class="text-xl sm:text-2xl font-bold text-stone-800 w-8 sm:w-10 text-center">{{ piecesPerDay }}</span>
+                                    <button
+                                        class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
+                                        @click="piecesPerDay = Math.min(20, piecesPerDay + 1)"
+                                    >
+                                        +
+                                    </button>
+                                    <span class="text-sm sm:text-md font-semibold text-stone-600 ml-1 sm:ml-2">{{ piecesPerDay === 1 ? 'piece' : 'pieces' }}</span>
+                                </div>
+                            </div>
+
+                            <!-- Practice frequency -->
+                            <div>
+                                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Practice frequency</label>
+                                <div class="flex flex-wrap gap-1.5 sm:gap-2">
+                                    <button
+                                        v-for="option in frequencyOptions"
+                                        :key="option.value"
+                                        class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg border transition-all duration-200"
+                                        :class="frequency === option.value
+                                            ? 'border-amber-400 bg-amber-500 text-white shadow-sm'
+                                            : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:text-stone-700'"
+                                        @click="frequency = option.value"
+                                    >
+                                        {{ option.label }}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Summary with calendar arrow -->
+                            <div class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/70 rounded-xl border border-amber-200/50 shadow-sm flex items-center justify-between gap-2">
+                                <p class="text-sm sm:text-md text-stone-600">
+                                    <span class="font-bold uppercase text-amber-600">Your schedule:</span>
+                                    {{ piecesPerDay }} {{ piecesPerDay === 1 ? 'piece' : 'pieces' }} {{ frequencyLabel }}
+                                </p>
+                                <button
+                                    class="w-8 h-8 rounded-lg border border-amber-300/60 bg-amber-50 text-amber-500 hover:bg-amber-100 hover:text-amber-700 transition-colors flex items-center justify-center shrink-0"
+                                    title="View calendar"
+                                    @click="showCalendar = true"
+                                >
+                                    <svg
+                                        class="w-4 h-4"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="2"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M9 5l7 7-7 7"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <h2 class="text-sm sm:text-base font-serif font-bold uppercase tracking-wide text-stone-800">
-                            Preferences
-                        </h2>
-                        <p class="text-xs sm:text-sm font-semibold text-stone-400">
-                            Coming soon
-                        </p>
+
+                    <!-- Preferences -->
+                    <div v-else-if="activeTab === 'preferences'">
+                        <div class="flex items-center gap-2.5 sm:gap-3 mb-5 sm:mb-7">
+                            <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-violet-300 to-purple-400 flex items-center justify-center shadow-sm shrink-0">
+                                <span class="text-white text-xs sm:text-sm">&#9881;</span>
+                            </div>
+                            <div>
+                                <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                                    Preferences
+                                </h2>
+                                <p class="text-sm sm:text-md font-semibold text-stone-600">
+                                    Personalize your experience
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="px-4 py-8 text-center rounded-xl border border-dashed border-stone-300/60">
+                            <p class="text-sm font-semibold text-stone-400">
+                                Coming soon
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Account -->
+                    <div v-else-if="activeTab === 'account'">
+                        <div class="flex items-center gap-2.5 sm:gap-3 mb-5 sm:mb-7">
+                            <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-sky-400 to-blue-500 flex items-center justify-center shadow-sm shrink-0">
+                                <span class="text-white text-xs sm:text-sm">&#128100;</span>
+                            </div>
+                            <div>
+                                <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                                    Account
+                                </h2>
+                                <p class="text-sm sm:text-md font-semibold text-stone-600">
+                                    Manage your account
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 sm:space-y-6">
+                            <!-- Name -->
+                            <div>
+                                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Name</label>
+                                <div class="flex items-center gap-2.5 sm:gap-3">
+                                    <input
+                                        id="account-name"
+                                        v-model="accountName"
+                                        type="text"
+                                        class="w-full sm:w-80 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border border-stone-300 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-colors"
+                                        placeholder="Your name"
+                                    >
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Email</label>
+                                <div class="flex items-center gap-2.5 sm:gap-3">
+                                    <input
+                                        id="account-email"
+                                        v-model="accountEmail"
+                                        type="email"
+                                        class="w-full sm:w-80 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border border-stone-300 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-colors"
+                                        placeholder="your@email.com"
+                                    >
+                                </div>
+                                <!-- Email verification status -->
+                                <div class="flex items-center gap-2 mt-2">
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold rounded-full"
+                                        :class="emailVerified
+                                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                            : 'bg-amber-50 text-amber-700 border border-amber-200'"
+                                    >
+                                        <span
+                                            v-if="emailVerified"
+                                            class="text-emerald-500"
+                                        >&#10003;</span>
+                                        <span
+                                            v-else
+                                            class="text-amber-500"
+                                        >&#9888;</span>
+                                        {{ emailVerified ? 'Email verified' : 'Email not verified' }}
+                                    </span>
+                                    <button
+                                        v-if="!emailVerified"
+                                        class="px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold rounded-lg bg-amber-500 text-white hover:bg-amber-600 transition-colors duration-200 shadow-sm disabled:opacity-50"
+                                        :disabled="verificationSent"
+                                        @click="sendVerification"
+                                    >
+                                        {{ verificationSent ? 'Verification sent!' : 'Verify email' }}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Account messages -->
+                            <p
+                                v-if="!accountValid && accountDirty"
+                                class="text-sm text-red-500 font-medium"
+                            >
+                                Name and/or email cannot be blank.
+                            </p>
+                            <p
+                                v-if="accountError"
+                                class="text-sm text-red-500 font-medium"
+                            >
+                                {{ accountError }}
+                            </p>
+                            <p
+                                v-if="accountSuccess"
+                                class="text-sm text-emerald-600 font-medium"
+                            >
+                                {{ accountSuccess }}
+                            </p>
+
+                            <!-- Save changes summary bar -->
+                            <Transition name="fade">
+                                <div
+                                    v-if="accountDirty"
+                                    class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/70 rounded-xl border border-amber-200/50 shadow-sm flex items-center justify-between gap-2"
+                                >
+                                    <p class="text-sm sm:text-md font-semibold text-stone-600">
+                                        <span class="font-bold uppercase text-amber-600">Unsaved changes</span>
+                                    </p>
+                                    <button
+                                        class="px-4 sm:px-5 py-1.5 sm:py-2 text-sm sm:text-base font-semibold rounded-lg border border-amber-400 bg-amber-500 text-white hover:bg-amber-600 transition-colors duration-200 shadow-sm disabled:opacity-50 shrink-0"
+                                        :disabled="!accountValid || savingAccount"
+                                        @click="saveAccount"
+                                    >
+                                        {{ savingAccount ? 'Saving...' : 'Save changes' }}
+                                    </button>
+                                </div>
+                            </Transition>
+
+                            <!-- Change Password -->
+                            <div class="border-t border-stone-200/60 pt-4 sm:pt-5">
+                                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Change password</label>
+                                <div class="space-y-3">
+                                    <div>
+                                        <input
+                                            id="current-password"
+                                            v-model="currentPassword"
+                                            type="password"
+                                            class="w-full sm:w-80 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border border-stone-300 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-colors"
+                                            placeholder="Current password"
+                                        >
+                                    </div>
+                                    <div>
+                                        <input
+                                            id="new-password"
+                                            v-model="newPassword"
+                                            type="password"
+                                            class="w-full sm:w-80 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border border-stone-300 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-colors"
+                                            placeholder="New password"
+                                        >
+                                    </div>
+                                    <div>
+                                        <input
+                                            id="confirm-password"
+                                            v-model="confirmPassword"
+                                            type="password"
+                                            class="w-full sm:w-80 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border border-stone-300 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-colors"
+                                            placeholder="Confirm new password"
+                                        >
+                                        <p
+                                            v-if="passwordMismatch"
+                                            class="text-sm text-red-500 font-medium mt-1"
+                                        >
+                                            Passwords do not match.
+                                        </p>
+                                    </div>
+                                    <Transition name="fade">
+                                        <button
+                                            v-if="passwordDirty"
+                                            class="px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-semibold rounded-lg bg-amber-500 text-white hover:bg-amber-600 transition-colors duration-200 shadow-sm disabled:opacity-50"
+                                            :disabled="!passwordValid || savingPassword"
+                                            @click="changePassword"
+                                        >
+                                            {{ savingPassword ? 'Updating...' : 'Update password' }}
+                                        </button>
+                                    </Transition>
+                                    <p
+                                        v-if="passwordError"
+                                        class="text-sm text-red-500 font-medium"
+                                    >
+                                        {{ passwordError }}
+                                    </p>
+                                    <p
+                                        v-if="passwordSuccess"
+                                        class="text-sm text-emerald-600 font-medium"
+                                    >
+                                        {{ passwordSuccess }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Log out -->
+                            <div class="border-t border-stone-200/60 pt-4 sm:pt-5">
+                                <button
+                                    class="px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-semibold rounded-lg border border-red-300 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 transition-colors duration-200 disabled:opacity-50"
+                                    :disabled="loggingOut"
+                                    @click="logout"
+                                >
+                                    {{ loggingOut ? 'Logging out...' : 'Log out' }}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </section>
-
-            <section class="card px-4 sm:px-6 py-4 sm:py-6 bg-white border border-red-200/50 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden">
-                <span class="absolute -bottom-2 -right-2 text-4xl sm:text-5xl text-red-200/20 rotate-10 font-serif select-none">&#128100;</span>
-                <div class="relative flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
-                    <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-red-400 to-rose-500 flex items-center justify-center shadow-sm shrink-0">
-                        <span class="text-white text-xs sm:text-sm">&#128100;</span>
-                    </div>
-                    <div>
-                        <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                            Account
-                        </h2>
-                        <p class="text-sm sm:text-md font-semibold text-stone-600">
-                            Manage your account
-                        </p>
-                    </div>
-                </div>
-
-                <button
-                    class="px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-semibold rounded-lg border border-red-300 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 transition-colors duration-200 disabled:opacity-50"
-                    :disabled="loggingOut"
-                    @click="logout"
-                >
-                    {{ loggingOut ? 'Logging out...' : 'Log out' }}
-                </button>
-            </section>
+            </div>
         </div>
 
         <!-- Schedule Calendar Modal -->
@@ -228,8 +421,108 @@ import { auth } from '@/auth'
 
 const router = useRouter()
 
+const activeTab = ref('schedule')
+
+const tabs = [
+    { id: 'schedule', label: 'Practice Schedule', icon: '\u{1F4C5}', iconClass: 'bg-linear-to-br from-amber-400 to-orange-500' },
+    { id: 'preferences', label: 'Preferences', icon: '\u2699', iconClass: 'bg-linear-to-br from-violet-300 to-purple-400' },
+    { id: 'account', label: 'Account', icon: '\u{1F464}', iconClass: 'bg-linear-to-br from-sky-400 to-blue-500' },
+]
+
 const showCalendar = ref(false)
 const loggingOut = ref(false)
+
+// Account fields
+const accountName = ref(auth.user?.name || '')
+const accountEmail = ref(auth.user?.email || '')
+const savingAccount = ref(false)
+const accountError = ref('')
+const accountSuccess = ref('')
+const verificationSent = ref(false)
+
+const emailVerified = computed(() => !!auth.user?.email_verified_at)
+
+const accountDirty = computed(() => {
+    return accountName.value !== (auth.user?.name || '')
+        || accountEmail.value !== (auth.user?.email || '')
+})
+
+const accountValid = computed(() => {
+    return accountName.value.trim() !== '' && accountEmail.value.trim() !== ''
+})
+
+async function saveAccount() {
+    savingAccount.value = true
+    accountError.value = ''
+    accountSuccess.value = ''
+    try {
+        const data = {}
+        if (accountName.value !== (auth.user?.name || '')) data.name = accountName.value
+        if (accountEmail.value !== (auth.user?.email || '')) data.email = accountEmail.value
+
+        const res = await api.put('/api/user', data)
+        auth.setUser(res.data)
+        accountSuccess.value = 'Account updated.'
+    } catch (e) {
+        accountError.value = extractError(e)
+    } finally {
+        savingAccount.value = false
+    }
+}
+
+function sendVerification() {
+    // TODO: implement API call
+}
+
+// Password fields
+const currentPassword = ref('')
+const newPassword = ref('')
+const confirmPassword = ref('')
+const savingPassword = ref(false)
+const passwordError = ref('')
+const passwordSuccess = ref('')
+
+const passwordDirty = computed(() => {
+    return currentPassword.value !== '' || newPassword.value !== '' || confirmPassword.value !== ''
+})
+
+const passwordMismatch = computed(() => {
+    return confirmPassword.value !== '' && newPassword.value !== confirmPassword.value
+})
+
+const passwordValid = computed(() => {
+    return currentPassword.value !== ''
+        && newPassword.value !== ''
+        && newPassword.value === confirmPassword.value
+})
+
+async function changePassword() {
+    savingPassword.value = true
+    passwordError.value = ''
+    passwordSuccess.value = ''
+    try {
+        await api.put('/api/user', {
+            current_password: currentPassword.value,
+            new_password: newPassword.value,
+            new_password_confirmation: confirmPassword.value,
+        })
+        currentPassword.value = ''
+        newPassword.value = ''
+        confirmPassword.value = ''
+        passwordSuccess.value = 'Password updated.'
+    } catch (e) {
+        passwordError.value = extractError(e)
+    } finally {
+        savingPassword.value = false
+    }
+}
+
+function extractError(e) {
+    if (e.data?.errors) {
+        return Object.values(e.data.errors).flat()[0]
+    }
+    return e.data?.message || 'Something went wrong.'
+}
 
 async function logout() {
     loggingOut.value = true
@@ -426,5 +719,15 @@ function getDayClass(day) {
 }
 .modal-leave-to .relative {
     transform: scale(0.95);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-4px);
 }
 </style>

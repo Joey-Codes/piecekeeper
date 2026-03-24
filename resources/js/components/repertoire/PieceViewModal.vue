@@ -33,16 +33,16 @@
                                 class="text-base font-semibold px-3 py-1 rounded-lg border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-300/50"
                                 :class="currentStatusClass"
                             >
-                                <option value="learning">
+                                <option value="Learning">
                                     Learning
                                 </option>
-                                <option value="learned">
+                                <option value="Learned">
                                     Learned
                                 </option>
-                                <option value="polishing">
+                                <option value="Polishing">
                                     Polishing
                                 </option>
-                                <option value="shelved">
+                                <option value="Shelved">
                                     Shelved
                                 </option>
                             </select>
@@ -203,14 +203,14 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'toggle-done'])
 
-const status = ref('learning')
+const status = ref('Learning')
 const notes = ref('')
 const pdfViewerOpen = ref(false)
 const pdfStartIndex = ref(0)
 
 watch(() => props.piece, (p) => {
     if (p) {
-        status.value = p.status || 'learning'
+        status.value = p.status || 'Learning'
         notes.value = p.notes || ''
     }
 }, { immediate: true })

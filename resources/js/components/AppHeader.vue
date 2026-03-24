@@ -2,14 +2,17 @@
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-lg border-b border-stone-200 shadow-sm">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 flex items-center justify-between h-12 sm:h-14">
             <!-- Logo -->
-            <div class="flex items-center gap-2">
+            <router-link
+                to="/dashboard"
+                class="flex items-center gap-2 no-underline"
+            >
                 <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center shadow-sm">
                     <span class="text-white text-xs sm:text-sm">&#9835;</span>
                 </div>
                 <span class="text-base sm:text-lg font-serif font-bold tracking-wide text-stone-800">
                     Piano <span class="text-amber-500">Piece Manager</span>
                 </span>
-            </div>
+            </router-link>
 
             <!-- Hamburger button (mobile) -->
             <button
