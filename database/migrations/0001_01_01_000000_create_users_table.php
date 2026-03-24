@@ -14,10 +14,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->unsignedSmallInteger('pieces_per_session')->default(5);
-            $table->json('practice_days')->nullable();
-            $table->unsignedInteger('rotation_index')->default(0);
-            $table->json('piece_order')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

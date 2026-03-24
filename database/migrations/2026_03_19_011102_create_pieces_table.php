@@ -20,6 +20,7 @@ return new class extends Migration
             $table->json('reference_links')->nullable();
             $table->text('notes')->nullable();
             $table->json('sheet_music_paths')->nullable();
+            $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
         });
     }

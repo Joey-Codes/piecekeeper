@@ -16,6 +16,9 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'password',
+        'pieces_per_session',
+        'practice_frequency',
+        'rotation_index',
     ];
 
     protected $hidden = [

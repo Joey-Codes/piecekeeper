@@ -286,7 +286,7 @@
             :show="showConfirmModal"
             :title="confirmModalTitle"
             :message="confirmModalMessage"
-            confirm-label="Remove"
+            :confirm-label="confirmModalLabel"
             @confirm="onConfirm"
             @cancel="onCancelConfirm"
         />
@@ -336,6 +336,7 @@ const wishlist = computed(() => pieces.value.filter(p => p.status === 'Want to L
 const showConfirmModal = ref(false)
 const confirmModalTitle = ref('')
 const confirmModalMessage = ref('')
+const confirmModalLabel = ref('Confirm')
 const confirmModalAction = ref(null)
 
 const filteredPieces = computed(() => {
@@ -389,7 +390,7 @@ function savePiece(data) {
         piece.title = data.title
         piece.composer = data.composer
         piece.status = data.status
-        piece.links = data.links
+        piece.reference_links = data.reference_links
         piece.notes = data.notes
         piece.files = data.files
     }
@@ -408,10 +409,11 @@ async function updateStatus(piece, newStatus) {
     }
 }
 
-function requestConfirm(title, message, action) {
+function requestConfirm(title, message, action, label = 'Confirm') {
     confirmModalTitle.value = title
     confirmModalMessage.value = message
     confirmModalAction.value = action
+    confirmModalLabel.value = label
     showConfirmModal.value = true
 }
 
@@ -432,7 +434,7 @@ function deletePiece(piece) {
         } catch (e) {
             console.error('Failed to delete piece:', e)
         }
-    })
+    }, 'Remove')
 }
 
 function saveWishPiece(data) {
@@ -440,7 +442,7 @@ function saveWishPiece(data) {
     if (item) {
         item.title = data.title
         item.composer = data.composer
-        item.links = data.links
+        item.reference_links = data.reference_links
         item.notes = data.notes
         item.files = data.files
     }
@@ -452,16 +454,18 @@ function addWishlistPiece(piece) {
     showAddWish.value = false
 }
 
-async function startLearning(item) {
-    const oldStatus = item.status
-    item.status = 'Learning'
+function startLearning(item) {
+    requestConfirm('Start Learning?', `Move <strong>"${item.title}"</strong> to your repertoire?`, async () => {
+        const oldStatus = item.status
+        item.status = 'Learning'
 
-    try {
-        await api.put(`/api/pieces/${item.id}`, { status: 'Learning' })
-    } catch (e) {
-        item.status = oldStatus
-        console.error('Failed to start learning:', e)
-    }
+        try {
+            await api.put(`/api/pieces/${item.id}`, { status: 'Learning' })
+        } catch (e) {
+            item.status = oldStatus
+            console.error('Failed to start learning:', e)
+        }
+    }, 'Start Learning')
 }
 
 function deleteWishlistPiece(item) {
@@ -472,6 +476,6 @@ function deleteWishlistPiece(item) {
         } catch (e) {
             console.error('Failed to delete piece:', e)
         }
-    })
+    }, 'Remove')
 }
 </script>

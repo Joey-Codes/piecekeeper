@@ -15,6 +15,7 @@ class Piece extends Model
         'reference_links',
         'notes',
         'sheet_music_paths',
+        'sort_order',
     ];
 
     public const STATUS_LEARNING = 'Learning';
