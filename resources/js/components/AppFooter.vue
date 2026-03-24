@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-stone-900 text-stone-400 py-12">
+    <footer class="relative z-10 bg-stone-900 text-stone-400 py-12">
         <div class="max-w-6xl mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="flex items-center gap-3">
@@ -11,10 +11,16 @@
                     </span>
                 </div>
                 <div class="flex items-center gap-4 text-sm text-white">
-                    <router-link to="/terms" class="hover:text-amber-400 transition-colors">
+                    <router-link
+                        to="/terms"
+                        class="hover:text-amber-400 transition-colors"
+                    >
                         Terms of Service
                     </router-link>
-                    <router-link to="/privacy" class="hover:text-amber-400 transition-colors">
+                    <router-link
+                        to="/privacy"
+                        class="hover:text-amber-400 transition-colors"
+                    >
                         Privacy Policy
                     </router-link>
                 </div>

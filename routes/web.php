@@ -17,6 +17,7 @@ Route::prefix('api')->group(function () {
         });
         Route::get('/pieces', [PieceController::class, 'index']);
         Route::post('/pieces', [PieceController::class, 'store']);
+        Route::put('/pieces/reorder', [PieceController::class, 'reorder']);
         Route::put('/pieces/{piece}', [PieceController::class, 'update']);
         Route::delete('/pieces/{piece}', [PieceController::class, 'destroy']);
     });

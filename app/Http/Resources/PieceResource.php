@@ -16,6 +16,7 @@ class PieceResource extends JsonResource
             'status' => $this->status,
             'reference_links' => $this->reference_links,
             'notes' => $this->notes,
+            'sort_order' => $this->sort_order,
             'sheet_music_paths' => $this->sheet_music_paths,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

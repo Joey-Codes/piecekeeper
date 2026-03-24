@@ -3,12 +3,12 @@
         <span
             v-for="note in notes"
             :key="note.id"
-            class="absolute"
+            class="absolute floating-note"
             :class="note.color"
             :style="{
                 top: note.top + '%',
                 left: note.left + '%',
-                fontSize: note.size + 'rem',
+                '--note-size': note.size + 'rem',
                 transform: 'rotate(' + note.rotation + 'deg)',
                 opacity: note.opacity,
             }"
@@ -51,3 +51,15 @@ const notes = Array.from({ length: cols * rows }, (_, i) => {
     }
 })
 </script>
+
+<style scoped>
+.floating-note {
+    font-size: calc(var(--note-size) * 0.55);
+}
+
+@media (min-width: 640px) {
+    .floating-note {
+        font-size: var(--note-size);
+    }
+}
+</style>

@@ -28,7 +28,7 @@
                     <span class="text-xl sm:text-2xl font-bold text-stone-800 w-8 sm:w-10 text-center">{{ piecesPerDay }}</span>
                     <button
                         class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
-                        @click="piecesPerDay = Math.min(20, piecesPerDay + 1)"
+                        @click="piecesPerDay = Math.min(10, piecesPerDay + 1)"
                     >
                         +
                     </button>
@@ -188,7 +188,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { Calendar } from 'v-calendar'
 import 'v-calendar/style.css'
 import api from '@/api'
@@ -261,15 +261,21 @@ const frequencyLabel = computed(() => {
 // Calendar logic
 const calendarAttributes = ref([])
 
-const allPieces = [
-    { id: 1, title: 'Clair de Lune', composer: 'Debussy' },
-    { id: 2, title: 'Nocturne Op. 9 No. 2', composer: 'Chopin' },
-    { id: 3, title: 'Gymnopédie No. 1', composer: 'Satie' },
-    { id: 4, title: 'Prelude in C Major', composer: 'Bach' },
-    { id: 5, title: 'Moonlight Sonata, Mvt. 1', composer: 'Beethoven' },
-]
+const allPieces = ref([])
+
+onMounted(async () => {
+    try {
+        const response = await api.get('/api/pieces')
+        allPieces.value = response.data
+            .filter(p => p.status !== 'Want to Learn' && p.sort_order != null)
+            .sort((a, b) => a.sort_order - b.sort_order)
+    } catch (e) {
+        console.error('Failed to load pieces:', e)
+    }
+})
 
 const now = new Date()
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
 const calYear = now.getFullYear()
 const calMonth = now.getMonth()
 
@@ -319,13 +325,13 @@ function countPracticeDaysBefore(day) {
 
 function getPiecesForDay(day) {
     const date = new Date(day.id)
-    if (!shouldPractice(date)) return []
+    if (date < today || !shouldPractice(date) || allPieces.value.length === 0) return []
     const practiceDayIndex = countPracticeDaysBefore(date.getDate())
-    const count = Math.min(piecesPerDay.value, allPieces.length)
-    const startIdx = (practiceDayIndex * count) % allPieces.length
+    const count = Math.min(piecesPerDay.value, allPieces.value.length)
+    const startIdx = (practiceDayIndex * count) % allPieces.value.length
     const result = []
     for (let i = 0; i < count; i++) {
-        result.push(allPieces[(startIdx + i) % allPieces.length])
+        result.push(allPieces.value[(startIdx + i) % allPieces.value.length])
     }
     return result
 }
@@ -333,6 +339,7 @@ function getPiecesForDay(day) {
 function getDayClass(day) {
     if (isToday(day)) return 'border-amber-400 bg-amber-50/60'
     const date = new Date(day.id)
+    if (date < today) return 'border-stone-100 bg-stone-50/50'
     if (shouldPractice(date)) return 'border-stone-200 bg-white'
     return 'border-stone-100 bg-stone-50/50'
 }

@@ -21,11 +21,6 @@
                     class="card px-3.5 sm:px-5 py-4 sm:py-5 flex flex-col relative overflow-hidden group hover:shadow-lg transition-shadow duration-300"
                     :class="stat.tintClass"
                 >
-                    <span
-                        class="absolute -bottom-2 -right-2 text-4xl sm:text-5xl opacity-20 rotate-[-10deg] font-serif select-none transition-transform duration-300 group-hover:scale-110"
-                        :class="stat.watermarkClass"
-                        v-html="stat.icon"
-                    />
                     <div class="relative flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                         <div
                             class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shadow-sm shrink-0"
@@ -53,7 +48,10 @@
             </div>
 
             <!-- Monthly breakdown -->
-            <header id="calendar" class="mt-10 sm:mt-16 mb-4 sm:mb-6 text-center">
+            <header
+                id="calendar"
+                class="mt-10 sm:mt-16 mb-4 sm:mb-6 text-center"
+            >
                 <h2 class="text-xl sm:text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
                     This Month's<span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent"> Progress</span>
                 </h2>
@@ -63,6 +61,7 @@
             <section class="card px-3 sm:px-6 py-4 sm:py-5 bg-white border-stone-200 hover:shadow-lg transition-shadow duration-300">
                 <Calendar
                     :attributes="calendarAttributes"
+                    :max-date="new Date()"
                     class="custom-calendar"
                     expanded
                     borderless
@@ -74,7 +73,7 @@
                         >
                             <span
                                 class="text-[10px] sm:text-xs font-bold leading-none w-4 h-4 sm:w-6 sm:h-6 flex items-center justify-center rounded-full"
-                                :class="isToday(day) ? 'bg-amber-500 text-white' : 'text-stone-500'"
+                                :class="isToday(day) ? 'bg-linear-to-br from-violet-500 to-purple-600 text-white shadow-sm' : 'text-stone-500'"
                             >{{ day.day }}</span>
                             <div class="flex-1 flex items-center justify-center">
                                 <span
@@ -87,7 +86,7 @@
                 </Calendar>
                 <div class="flex items-center justify-end gap-3 sm:gap-4 mt-3 sm:mt-4 text-xs font-semibold text-stone-500">
                     <div class="flex items-center gap-1.5">
-                        <span class="w-3 h-3 rounded-full bg-amber-500" />
+                        <span class="w-3 h-3 rounded-full bg-violet-500" />
                         <span>Today</span>
                     </div>
                     <div class="flex items-center gap-1.5">
@@ -115,7 +114,6 @@ const stats = ref([
         icon: '&#128293;',
         bgClass: 'bg-linear-to-br from-rose-400 to-pink-500',
         tintClass: 'bg-white border-rose-200',
-        watermarkClass: 'text-rose-200',
     },
     {
         label: 'Total Pieces',
@@ -125,7 +123,6 @@ const stats = ref([
         icon: '&#9835;',
         bgClass: 'bg-linear-to-br from-violet-400 to-purple-500',
         tintClass: 'bg-white border-violet-200',
-        watermarkClass: 'text-violet-200',
     },
     {
         label: 'This Week',
@@ -135,7 +132,6 @@ const stats = ref([
         icon: '&#9201;',
         bgClass: 'bg-linear-to-br from-amber-400 to-orange-500',
         tintClass: 'bg-white border-amber-200',
-        watermarkClass: 'text-amber-200',
     },
     {
         label: 'Total Practice',
@@ -145,7 +141,6 @@ const stats = ref([
         icon: '&#9200;',
         bgClass: 'bg-linear-to-br from-emerald-400 to-teal-500',
         tintClass: 'bg-white border-emerald-200',
-        watermarkClass: 'text-emerald-200',
     },
     {
         label: 'Avg. Session',
@@ -155,7 +150,6 @@ const stats = ref([
         icon: '&#9889;',
         bgClass: 'bg-linear-to-br from-sky-400 to-blue-500',
         tintClass: 'bg-white border-sky-200',
-        watermarkClass: 'text-sky-200',
     },
     {
         label: 'Pieces Learned',
@@ -165,7 +159,6 @@ const stats = ref([
         icon: '&#127942;',
         bgClass: 'bg-linear-to-br from-yellow-400 to-amber-500',
         tintClass: 'bg-white border-yellow-200',
-        watermarkClass: 'text-yellow-200',
     },
 ])
 
@@ -193,7 +186,7 @@ function isToday(day) {
 
 function getDayBoxClass(day) {
     const base = 'border transition-all duration-200 hover:shadow-md cursor-default'
-    if (isToday(day)) return `${base} border-amber-400 bg-amber-50/80 shadow-sm`
+    if (isToday(day)) return `${base} border-violet-400 bg-violet-50/80 shadow-sm`
     if (practicedDates.value.has(day.id)) return `${base} border-amber-200 bg-linear-to-br from-amber-50/80 to-orange-50/60 hover:border-amber-400`
     return `${base} border-stone-200 bg-white hover:border-stone-300`
 }

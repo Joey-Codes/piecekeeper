@@ -16,11 +16,11 @@
                 </div>
                 <router-link
                     :to="{ name: 'login' }"
-                    class="ml-auto flex items-center gap-1.5 text-sm font-semibold text-stone-600 hover:text-amber-600 transition-colors"
+                    class="ml-auto flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-semibold text-stone-600 hover:text-amber-600 transition-colors"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="w-4 h-4"
+                        class="w-4 h-4 sm:w-5 sm:h-5"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -207,13 +207,10 @@
         >
             <div class="max-w-6xl mx-auto px-6 text-center">
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
-                    Piano Piece Manager
+                    Why Piano Piece Manager?
                 </h2>
-                <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
-                    is everything you need to improve
-                </h2>
-                <p class="text-amber-100 text-xl max-w-xl mx-auto">
-                    We make it easy to stay on top of your pieces and see real progress.
+                <p class="text-white text-xl max-w-xl mx-auto">
+                    We make it easy to stay on top of your pieces and see real progress. &#8595;&#8595;&#8595;
                 </p>
             </div>
         </section>
@@ -581,10 +578,10 @@
                     It's free, it's simple, and your piano will thank you.
                 </p>
                 <button
-                    class="group px-6 py-3 sm:px-10 sm:py-5 bg-linear-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-base sm:text-xl"
+                    class="group px-6 py-3 sm:px-10 sm:py-5 bg-linear-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl shadow-lg shadow-amber-300/40 hover:shadow-xl hover:shadow-amber-300/50 hover:-translate-y-0.5 transition-all duration-200 text-base sm:text-lg"
                     @click="router.push({ name: 'signup' })"
                 >
-                    Get Started &mdash; It's Free
+                    Get Started,  It's Free!
                     <span class="inline-block ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
                 </button>
             </div>

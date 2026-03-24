@@ -9,7 +9,7 @@
             />
 
             <template v-else>
-                <header class="mb-6 sm:mb-10 text-center">
+                <header class="mb-6 text-center">
                     <h1 class="text-2xl sm:text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
                         My <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">Repertoire</span>
                     </h1>
@@ -19,119 +19,58 @@
                     <div class="mt-2.5 sm:mt-3 mx-auto w-12 sm:w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
                 </header>
 
-                <!-- Add piece button -->
-                <div class="mb-4 sm:mb-6 flex justify-center">
-                    <button
-                        class="px-5 sm:px-8 py-2 sm:py-3 text-sm sm:text-lg font-semibold text-white bg-linear-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200"
-                        @click="showAddPiece = true"
-                    >
-                        + Add Piece
-                    </button>
-                </div>
+                <template v-if="!reorderMode">
+                    <AddPieceForm
+                        :open="showAddPiece"
+                        modal-title="Add Piece"
+                        submit-label="Add Piece"
+                        @submit="addPiece"
+                        @close="showAddPiece = false"
+                    />
 
-                <AddPieceForm
-                    :open="showAddPiece"
-                    modal-title="Add Piece"
-                    submit-label="Add Piece"
-                    @submit="addPiece"
-                    @close="showAddPiece = false"
-                />
-
-                <!-- Filters -->
-                <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mb-4 sm:mb-6">
-                    <div class="relative flex-1">
-                        <svg
-                            class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                            />
-                        </svg>
-                        <input
-                            v-model="search"
-                            type="text"
-                            placeholder="Search pieces..."
-                            class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 transition-shadow hover:shadow-md"
-                        >
-                    </div>
-                    <select
-                        v-model="statusFilter"
-                        class="px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 text-stone-600 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2378716c%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-size-[12px] bg-position-[right_12px_center] bg-no-repeat pr-9 transition-shadow hover:shadow-md"
-                    >
-                        <option value="">
-                            All statuses
-                        </option>
-                        <option value="Learning">
-                            Learning
-                        </option>
-                        <option value="Polishing">
-                            Polishing
-                        </option>
-                        <option value="Mastered">
-                            Mastered
-                        </option>
-                        <option value="Relearning">
-                            Relearning
-                        </option>
-                        <option value="Shelved">
-                            Shelved
-                        </option>
-                    </select>
-                </div>
-
-                <!-- Piece list -->
-                <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-orange-200">
-                    <div
-                        v-if="filteredPieces.length === 0"
-                        class="px-6 py-16 text-center"
-                    >
-                        <span class="text-4xl text-stone-200 block mb-3">&#9835;</span>
-                        <p class="text-stone-400 font-serif italic">
-                            {{ repertoire.length === 0 ? 'No pieces yet — add your first one above!' : 'No pieces match your filters.' }}
-                        </p>
-                    </div>
-                    <ul
-                        v-else
-                        class="divide-y divide-stone-100"
-                    >
-                        <li
-                            v-for="piece in filteredPieces"
-                            :key="piece.id"
-                            class="group pl-3 pr-1 sm:px-6 py-3 sm:py-4 flex items-center gap-2 sm:gap-4 hover:bg-stone-50 transition-colors duration-200 cursor-pointer"
-                            @click="selectedPiece = piece"
-                        >
-                            <div
-                                class="w-1 self-stretch rounded-full shrink-0"
-                                :class="statusBarClass(piece.status)"
-                            />
-
-                            <!-- Piece info -->
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm sm:text-md font-semibold text-stone-800 truncate">
-                                    {{ piece.title }}
-                                </p>
-                                <p
-                                    v-if="piece.composer"
-                                    class="text-xs sm:text-sm text-stone-700 mt-0.5"
-                                >
-                                    {{ piece.composer }}
-                                </p>
-                            </div>
-
-                            <!-- Status badge -->
-                            <select
-                                :value="piece.status"
-                                class="text-xs sm:text-sm font-semibold px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg border cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200"
-                                :class="statusClass(piece.status)"
-                                @click.stop
-                                @change="updateStatus(piece, $event.target.value)"
+                    <!-- Filters & actions -->
+                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+                        <div class="relative flex-1">
+                            <svg
+                                class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
                             >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                />
+                            </svg>
+                            <input
+                                v-model="search"
+                                type="text"
+                                placeholder="Search pieces..."
+                                class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 transition-shadow hover:shadow-md"
+                            >
+                        </div>
+                        <button
+                            class="hidden sm:block px-4 sm:py-2.5 text-sm sm:text-md font-semibold text-stone-600 bg-white/80 border border-stone-200 rounded-xl shadow-sm hover:bg-stone-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200 whitespace-nowrap"
+                            @click="reorderMode = true"
+                        >
+                            Change Order
+                        </button>
+                        <div class="flex gap-2.5 sm:gap-3">
+                            <button
+                                class="sm:hidden px-4 py-2 text-sm font-semibold text-stone-600 bg-white/80 border border-stone-200 rounded-xl shadow-sm hover:bg-stone-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200 whitespace-nowrap"
+                                @click="reorderMode = true"
+                            >
+                                Change Order
+                            </button>
+                            <select
+                                v-model="statusFilter"
+                                class="flex-1 sm:flex-none px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 text-stone-600 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2378716c%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-size-[12px] bg-position-[right_12px_center] bg-no-repeat pr-9 transition-shadow hover:shadow-md text-center sm:text-left"
+                            >
+                                <option value="">
+                                    All statuses
+                                </option>
                                 <option value="Learning">
                                     Learning
                                 </option>
@@ -148,15 +87,13 @@
                                     Shelved
                                 </option>
                             </select>
-
-                            <!-- Delete button -->
                             <button
-                                class="text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200"
-                                title="Remove piece"
-                                @click.stop="deletePiece(piece)"
+                                class="p-2 sm:p-2.5 text-stone-400 hover:text-amber-500 bg-white/80 border border-stone-200 rounded-xl shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200"
+                                title="What do statuses mean?"
+                                @click="showStatusInfo = true"
                             >
                                 <svg
-                                    class="w-5 h-5"
+                                    class="w-4 h-4 sm:w-5 sm:h-5"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -165,107 +102,232 @@
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                     />
                                 </svg>
                             </button>
-                        </li>
-                    </ul>
-                </section>
+                        </div>
+                        <button
+                            class="px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold text-white bg-linear-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
+                            @click="showAddPiece = true"
+                        >
+                            + Add Piece
+                        </button>
+                    </div>
 
-                <!-- Want to Learn section -->
-                <header class="mt-10 sm:mt-16 mb-4 sm:mb-6 text-center">
-                    <h2 class="text-xl sm:text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                        Want to <span class="bg-linear-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent">Learn</span>
-                    </h2>
-                    <p class="text-sm sm:text-base font-semibold text-stone-500 mt-1.5 sm:mt-2">
-                        {{ wishlist.length }} {{ wishlist.length === 1 ? 'piece' : 'pieces' }} on your wishlist
-                    </p>
-                    <div class="mt-2.5 sm:mt-3 mx-auto w-10 sm:w-12 h-1 rounded-full bg-linear-to-r from-violet-400 to-purple-400 opacity-60" />
-                </header>
+                    <!-- Piece list -->
+                    <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-orange-200">
+                        <div
+                            v-if="filteredPieces.length === 0"
+                            class="px-6 py-16 text-center"
+                        >
+                            <span class="text-4xl text-stone-200 block mb-3">&#9835;</span>
+                            <p class="text-stone-400 font-serif italic">
+                                {{ repertoire.length === 0 ? 'No pieces yet — add your first one above!' : 'No pieces match your filters.' }}
+                            </p>
+                        </div>
+                        <ul
+                            v-else
+                            class="divide-y divide-stone-100"
+                        >
+                            <li
+                                v-for="piece in filteredPieces"
+                                :key="piece.id"
+                                class="group pl-3 pr-1 sm:px-6 py-3 sm:py-4 flex items-center gap-2 sm:gap-4 hover:bg-stone-50 transition-colors duration-200 cursor-pointer"
+                                @click="selectedPiece = piece"
+                            >
+                                <div
+                                    class="w-1 self-stretch rounded-full shrink-0"
+                                    :class="statusBarClass(piece.status)"
+                                />
 
-                <div class="mb-4 sm:mb-6 flex justify-center">
-                    <button
-                        class="px-5 sm:px-8 py-2 sm:py-3 text-sm sm:text-lg font-semibold text-white bg-linear-to-r from-violet-500 to-purple-500 rounded-xl shadow-lg shadow-violet-300/30 hover:shadow-xl hover:shadow-violet-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200"
-                        @click="showAddWish = true"
-                    >
-                        + Add to Wishlist
-                    </button>
-                </div>
+                                <!-- Piece info -->
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm sm:text-md font-semibold text-stone-800 truncate">
+                                        {{ piece.title }}
+                                    </p>
+                                    <p
+                                        v-if="piece.composer"
+                                        class="text-xs sm:text-sm text-stone-700 mt-0.5"
+                                    >
+                                        {{ piece.composer }}
+                                    </p>
+                                </div>
 
-                <AddPieceForm
-                    :open="showAddWish"
-                    modal-title="Add to Wishlist"
-                    submit-label="Add to Wishlist"
-                    wishlist
-                    @submit="addWishlistPiece"
-                    @close="showAddWish = false"
+                                <!-- Status badge -->
+                                <select
+                                    :value="piece.status"
+                                    class="text-xs sm:text-sm font-semibold px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg border cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200"
+                                    :class="statusClass(piece.status)"
+                                    @click.stop
+                                    @change="updateStatus(piece, $event.target.value)"
+                                >
+                                    <option value="Learning">
+                                        Learning
+                                    </option>
+                                    <option value="Polishing">
+                                        Polishing
+                                    </option>
+                                    <option value="Mastered">
+                                        Mastered
+                                    </option>
+                                    <option value="Relearning">
+                                        Relearning
+                                    </option>
+                                    <option value="Shelved">
+                                        Shelved
+                                    </option>
+                                </select>
+
+                                <!-- Delete button -->
+                                <button
+                                    class="text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                                    title="Remove piece"
+                                    @click.stop="deletePiece(piece)"
+                                >
+                                    <svg
+                                        class="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        />
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </section>
+                </template>
+
+                <!-- Reorder mode -->
+                <ReorderList
+                    v-else
+                    :pieces="activePieces"
+                    @save="saveReorder"
+                    @cancel="reorderMode = false"
                 />
 
-                <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-violet-200">
-                    <div
-                        v-if="wishlist.length === 0"
-                        class="px-6 py-16 text-center"
-                    >
-                        <span class="text-4xl text-stone-200 block mb-3">&#9834;</span>
-                        <p class="text-stone-400 font-serif italic">
-                            No pieces on your wishlist yet — add something you'd love to learn!
+                <!-- Want to Learn section -->
+                <template v-if="!reorderMode">
+                    <header class="mt-10 sm:mt-16 mb-4 sm:mb-6 text-center">
+                        <h2 class="text-xl sm:text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                            Want to <span class="bg-linear-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent">Learn</span>
+                        </h2>
+                        <p class="text-sm sm:text-base font-semibold text-stone-500 mt-1.5 sm:mt-2">
+                            {{ wishlist.length }} {{ wishlist.length === 1 ? 'piece' : 'pieces' }} on your wishlist
                         </p>
-                    </div>
-                    <ul
-                        v-else
-                        class="divide-y divide-stone-100"
-                    >
-                        <li
-                            v-for="item in wishlist"
-                            :key="item.id"
-                            class="group px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-3 sm:gap-4 hover:bg-stone-50 transition-colors duration-200 cursor-pointer"
-                            @click="selectedWishPiece = item"
+                        <div class="mt-2.5 sm:mt-3 mx-auto w-10 sm:w-12 h-1 rounded-full bg-linear-to-r from-violet-400 to-purple-400 opacity-60" />
+                    </header>
+
+                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+                        <div class="relative flex-1">
+                            <svg
+                                class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                />
+                            </svg>
+                            <input
+                                v-model="wishlistSearch"
+                                type="text"
+                                placeholder="Search wishlist..."
+                                class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-300/50 focus:border-violet-400 placeholder-stone-400 transition-shadow hover:shadow-md"
+                            >
+                        </div>
+                        <button
+                            class="px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold text-white bg-linear-to-r from-violet-500 to-purple-500 rounded-xl shadow-lg shadow-violet-300/30 hover:shadow-xl hover:shadow-violet-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
+                            @click="showAddWish = true"
                         >
-                            <div class="flex-1 min-w-0">
-                                <p class="text-sm sm:text-md font-semibold text-stone-800 truncate">
-                                    {{ item.title }}
-                                </p>
-                                <p
-                                    v-if="item.composer"
-                                    class="text-xs sm:text-sm text-stone-600 mt-0.5"
-                                >
-                                    {{ item.composer }}
-                                </p>
-                            </div>
+                            + Add to Wishlist
+                        </button>
+                    </div>
 
-                            <!-- Start learning button -->
-                            <button
-                                class="text-xs sm:text-sm font-semibold px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg text-amber-700 bg-amber-50 border border-amber-200/60 hover:bg-amber-100 hover:border-amber-300 transition-all duration-200 whitespace-nowrap"
-                                title="Move to repertoire"
-                                @click.stop="startLearning(item)"
-                            >
-                                Start Learning
-                            </button>
+                    <AddPieceForm
+                        :open="showAddWish"
+                        modal-title="Add to Wishlist"
+                        submit-label="Add to Wishlist"
+                        wishlist
+                        @submit="addWishlistPiece"
+                        @close="showAddWish = false"
+                    />
 
-                            <!-- Delete button -->
-                            <button
-                                class="text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200"
-                                title="Remove from wishlist"
-                                @click.stop="deleteWishlistPiece(item)"
+                    <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-violet-200">
+                        <div
+                            v-if="filteredWishlist.length === 0"
+                            class="px-6 py-16 text-center"
+                        >
+                            <span class="text-4xl text-stone-200 block mb-3">&#9834;</span>
+                            <p class="text-stone-400 font-serif italic">
+                                {{ wishlist.length === 0 ? 'No pieces on your wishlist yet — add something you\'d love to learn!' : 'No pieces match your search.' }}
+                            </p>
+                        </div>
+                        <ul
+                            v-else
+                            class="divide-y divide-stone-100"
+                        >
+                            <li
+                                v-for="item in filteredWishlist"
+                                :key="item.id"
+                                class="group px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-3 sm:gap-4 hover:bg-stone-50 transition-colors duration-200 cursor-pointer"
+                                @click="selectedWishPiece = item"
                             >
-                                <svg
-                                    class="w-5 h-5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm sm:text-md font-semibold text-stone-800 truncate">
+                                        {{ item.title }}
+                                    </p>
+                                    <p
+                                        v-if="item.composer"
+                                        class="text-xs sm:text-sm text-stone-600 mt-0.5"
+                                    >
+                                        {{ item.composer }}
+                                    </p>
+                                </div>
+
+                                <!-- Start learning button -->
+                                <button
+                                    class="text-xs sm:text-sm font-semibold px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg text-amber-700 bg-amber-50 border border-amber-200/60 hover:bg-amber-100 hover:border-amber-300 transition-all duration-200 whitespace-nowrap"
+                                    title="Move to repertoire"
+                                    @click.stop="startLearning(item)"
                                 >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                                    />
-                                </svg>
-                            </button>
-                        </li>
-                    </ul>
-                </section>
+                                    Start Learning
+                                </button>
+
+                                <!-- Delete button -->
+                                <button
+                                    class="text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                                    title="Remove from wishlist"
+                                    @click.stop="deleteWishlistPiece(item)"
+                                >
+                                    <svg
+                                        class="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                        />
+                                    </svg>
+                                </button>
+                            </li>
+                        </ul>
+                    </section>
+                </template>
             </template>
         </div>
 
@@ -290,6 +352,11 @@
             @confirm="onConfirm"
             @cancel="onCancelConfirm"
         />
+
+        <StatusInfoModal
+            :show="showStatusInfo"
+            @close="showStatusInfo = false"
+        />
     </div>
 </template>
 
@@ -301,6 +368,8 @@ import FloatingNotes from '../ui/FloatingNotes.vue'
 import LoadingSpinner from '../ui/LoadingSpinner.vue'
 import AddPieceForm from './AddPieceForm.vue'
 import PieceDetail from './PieceDetail.vue'
+import ReorderList from './ReorderList.vue'
+import StatusInfoModal from './StatusInfoModal.vue'
 
 // const pieces = ref([
 //     { id: 1, title: 'Clair de Lune', composer: 'Debussy', status: 'polishing', links: ['https://youtube.com/watch?v=example1'], files: [{ name: 'Clair_de_Lune.pdf', pages: 6 }] },
@@ -329,6 +398,9 @@ const showAddPiece = ref(false)
 const showAddWish = ref(false)
 const selectedPiece = ref(null)
 const selectedWishPiece = ref(null)
+const reorderMode = ref(false)
+const showStatusInfo = ref(false)
+const wishlistSearch = ref('')
 
 const repertoire = computed(() => pieces.value.filter(p => p.status !== 'Want to Learn'))
 const wishlist = computed(() => pieces.value.filter(p => p.status === 'Want to Learn'))
@@ -338,6 +410,12 @@ const confirmModalTitle = ref('')
 const confirmModalMessage = ref('')
 const confirmModalLabel = ref('Confirm')
 const confirmModalAction = ref(null)
+
+const activePieces = computed(() => {
+    return repertoire.value
+        .filter(p => p.sort_order != null)
+        .sort((a, b) => a.sort_order - b.sort_order)
+})
 
 const filteredPieces = computed(() => {
     let result = repertoire.value
@@ -354,7 +432,22 @@ const filteredPieces = computed(() => {
         result = result.filter(p => p.status === statusFilter.value)
     }
 
-    return result
+    return [...result].sort((a, b) => {
+        if (a.sort_order != null && b.sort_order != null) return a.sort_order - b.sort_order
+        if (a.sort_order != null) return -1
+        if (b.sort_order != null) return 1
+        return 0
+    })
+})
+
+const filteredWishlist = computed(() => {
+    if (!wishlistSearch.value) return wishlist.value
+
+    const q = wishlistSearch.value.toLowerCase()
+    return wishlist.value.filter(p =>
+        p.title.toLowerCase().includes(q) ||
+        (p.composer && p.composer.toLowerCase().includes(q))
+    )
 })
 
 function statusBarClass(status) {
@@ -377,6 +470,19 @@ function statusClass(status) {
         Shelved: 'text-stone-600 bg-stone-100 border-stone-200/60',
     }
     return classes[status] || ''
+}
+
+async function saveReorder(orderedIds) {
+    try {
+        await api.put('/api/pieces/reorder', { ids: orderedIds })
+        orderedIds.forEach((id, index) => {
+            const piece = pieces.value.find(p => p.id === id)
+            if (piece) piece.sort_order = index + 1
+        })
+        reorderMode.value = false
+    } catch (e) {
+        console.error('Failed to save order:', e)
+    }
 }
 
 function addPiece(piece) {
