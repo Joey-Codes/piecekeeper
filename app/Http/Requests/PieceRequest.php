@@ -11,8 +11,8 @@ class PieceRequest extends FormRequest
         $requiredOrSometimes = $this->isMethod('POST') ? 'required' : 'sometimes';
 
         return [
-            'title' => "$requiredOrSometimes|string|max:255",
-            'composer' => 'nullable|string|max:255',
+            'title' => "$requiredOrSometimes|string|max:100",
+            'composer' => 'nullable|string|max:100',
             'status' => "$requiredOrSometimes|string|max:50",
             'reference_links' => 'nullable|array',
             'reference_links.*' => 'string|max:2048',

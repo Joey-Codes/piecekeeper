@@ -7,7 +7,7 @@
         <template v-else>
             <FloatingNotes />
             <AppHeader />
-            <div class="pt-14 flex-1">
+            <div class="pt-14 lg:pt-18 flex-1">
                 <router-view />
             </div>
             <AppFooter />

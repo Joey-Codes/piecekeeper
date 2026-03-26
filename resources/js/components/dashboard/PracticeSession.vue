@@ -4,8 +4,32 @@
             v-if="!session.active"
             class="flex justify-center"
         >
+            <!-- Completed: review button -->
             <button
-                class="group flex items-center gap-2.5 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-linear-to-r from-amber-500 to-orange-500 text-white text-sm sm:text-base font-semibold rounded-2xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200"
+                v-if="completed"
+                class="group flex items-center gap-2.5 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-linear-to-r from-emerald-500 to-green-500 text-white text-sm sm:text-base font-semibold rounded-2xl shadow-lg shadow-emerald-300/30 hover:shadow-xl hover:shadow-emerald-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200"
+                @click="$emit('review')"
+            >
+                <svg
+                    class="w-4 h-4 sm:w-5 sm:h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                </svg>
+                Review Session Details
+            </button>
+            <!-- Not started: start button -->
+            <button
+                v-else
+                class="group flex items-center gap-2.5 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-linear-to-r from-amber-500 to-orange-500 text-white text-sm sm:text-base font-semibold rounded-2xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none"
+                :disabled="loading"
                 @click="startSession"
             >
                 <svg
@@ -21,7 +45,7 @@
                         d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z"
                     />
                 </svg>
-                Start Practice
+                Start Practice Session
             </button>
         </div>
 
@@ -120,7 +144,7 @@
         <ConfirmModal
             :show="showEndConfirm"
             title="Finish practice session?"
-            :message="`You've been practicing for ${elapsedTime}. Are you sure you want to end this session?`"
+            :message="endMessage"
             confirm-label="End Session"
             cancel-label="Keep Practicing"
             @confirm="confirmEnd"
@@ -132,8 +156,16 @@
 <script setup>
 import { ref, computed, onUnmounted } from 'vue'
 import ConfirmModal from '../ui/ConfirmModal.vue'
+import api from '@/api'
 
-const emit = defineEmits(['update:active'])
+const props = defineProps({
+    sessionId: { type: Number, default: null },
+    loading: { type: Boolean, default: false },
+    completed: { type: Boolean, default: false },
+    remainingCount: { type: Number, default: 0 },
+})
+
+const emit = defineEmits(['update:active', 'session-finished', 'review'])
 
 const session = ref({ active: false, startTime: null })
 const elapsedSeconds = ref(0)
@@ -143,6 +175,15 @@ let wasRunningBeforePrompt = false
 let accumulatedSeconds = 0
 let timerInterval = null
 let segmentStart = null
+
+const endMessage = computed(() => {
+    let msg = `You've been practicing for ${elapsedTime.value}.`
+    if (props.remainingCount > 0) {
+        msg += ` You have not completed ${props.remainingCount} ${props.remainingCount === 1 ? 'piece' : 'pieces'}.`
+    }
+    msg += ' Are you sure you want to end this session?'
+    return msg
+})
 
 const elapsedTime = computed(() => {
     const hrs = Math.floor(elapsedSeconds.value / 3600)
@@ -194,13 +235,27 @@ function promptEnd() {
     showEndConfirm.value = true
 }
 
-function confirmEnd() {
+async function confirmEnd() {
     showEndConfirm.value = false
+    stopTimer()
+
+    let finishedSession = null
+    if (props.sessionId) {
+        try {
+            const data = await api.post(`/api/dashboard/sessions/${props.sessionId}/finish`, {
+                duration_seconds: elapsedSeconds.value,
+            })
+            finishedSession = data.session
+        } catch {
+            // Still end the local session even if the API call fails
+        }
+    }
+
     session.value.active = false
     paused.value = false
-    stopTimer()
     accumulatedSeconds = 0
     emit('update:active', false)
+    emit('session-finished', finishedSession)
 }
 
 function cancelEnd() {

@@ -35,7 +35,7 @@
 
         <!-- Disabled hint banner -->
         <div
-            v-if="disabled"
+            v-if="disabled && !sessionFinished"
             class="px-4 sm:px-6 py-2 sm:py-2.5 bg-stone-50 border-b border-stone-200 flex items-center gap-2"
         >
             <svg
@@ -54,13 +54,36 @@
             <span class="text-sm sm:text-md text-stone-600">Press <strong class="text-amber-700">Start Practice</strong> above to check off pieces</span>
         </div>
 
+        <!-- Loading state -->
+        <LoadingSpinner
+            v-if="loading"
+            message="Loading today's pieces..."
+        />
+
+        <!-- Empty state -->
+        <div
+            v-else-if="pieces.length === 0"
+            class="p-6 sm:p-8 text-center"
+        >
+            <p class="text-sm sm:text-base text-stone-500">
+                No pieces in rotation yet. Add pieces in your repertoire to get started!
+            </p>
+        </div>
+
         <!-- Piece list -->
-        <div class="p-3 sm:p-4 space-y-2 sm:space-y-3">
+        <div
+            v-else
+            class="p-3 sm:p-4 space-y-2 sm:space-y-3"
+        >
             <div
                 v-for="(piece, index) in pieces"
                 :key="piece.id"
                 class="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl transition-all duration-300 cursor-pointer"
-                :class="piece.done ? 'bg-emerald-50 border border-emerald-100' : 'bg-stone-50 border border-stone-100 hover:border-stone-200'"
+                :class="piece.done
+                    ? 'bg-emerald-50 border border-emerald-100'
+                    : sessionFinished
+                        ? 'bg-stone-50 border border-stone-200 opacity-60'
+                        : 'bg-white border border-stone-200 shadow-sm hover:border-amber-300 hover:shadow-md'"
                 @click="selectedPiece = piece"
             >
                 <!-- Check / number circle -->
@@ -78,25 +101,31 @@
                 <!-- Piece info -->
                 <div class="flex-1 min-w-0">
                     <p
-                        class="text-xs sm:text-sm font-semibold transition-all duration-300 truncate"
+                        class="text-sm sm:text-base font-semibold transition-all duration-300 truncate"
                         :class="piece.done ? 'text-emerald-700' : 'text-stone-700'"
                     >
                         {{ piece.title }}
                     </p>
                     <p
-                        class="text-xs mt-0.5 transition-all duration-300"
+                        class="text-xs sm:text-sm mt-0.5 transition-all duration-300"
                         :class="piece.done ? 'text-emerald-500' : 'text-stone-400'"
                     >
                         {{ piece.composer }}
                     </p>
                 </div>
 
-                <!-- Done / Up next tag -->
+                <!-- Status tag -->
                 <div
                     v-if="piece.done"
                     class="text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap bg-emerald-100 text-emerald-600"
                 >
                     Done
+                </div>
+                <div
+                    v-else-if="sessionFinished"
+                    class="text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap bg-stone-100 text-stone-400"
+                >
+                    Not completed
                 </div>
                 <div
                     v-else-if="piece.id === nextUpId"
@@ -137,40 +166,51 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import LoadingSpinner from '../ui/LoadingSpinner.vue'
 import TrebleClefCheck from '../ui/TrebleClefCheck.vue'
 import PieceViewModal from '../repertoire/PieceViewModal.vue'
+import api from '@/api'
 
 const props = defineProps({
     disabled: { type: Boolean, default: false },
+    sessionId: { type: Number, default: null },
+    pieces: { type: Array, default: () => [] },
+    loading: { type: Boolean, default: false },
+    sessionFinished: { type: Boolean, default: false },
 })
+
+const emit = defineEmits(['piece-toggled'])
 
 const selectedPiece = ref(null)
-
-const pieces = ref([
-    { id: 1, title: 'Clair de Lune', composer: 'Debussy', status: 'Polishing', done: false, links: ['https://youtube.com/watch?v=example1'], notes: "Play it slower", files: [{ name: 'Clair_de_Lune.pdf', pages: 6 }] },
-    { id: 2, title: 'Nocturne Op. 9 No. 2', composer: 'Chopin', status: 'Learning', done: false, files: [{ name: 'Nocturne_Op9_No2.pdf', pages: 4 }, { name: 'Nocturne_Annotations.pdf', pages: 2 }] },
-    { id: 3, title: 'Gymnopédie No. 1', composer: 'Satie', status: 'Learned', done: false, files: [] },
-    { id: 4, title: 'Prelude in C Major', composer: 'Bach', status: 'Learned', done: false, files: [{ name: 'Prelude_C_Major_BWV846.pdf', pages: 3 }] },
-    { id: 5, title: 'Moonlight Sonata, Mvt. 1', composer: 'Beethoven', status: 'Learning', done: false, files: [] },
-])
+const togglingIds = ref(new Set())
 
 const nextUpId = computed(() => {
-    const next = pieces.value.find(p => !p.done)
+    const next = props.pieces.find(p => !p.done)
     return next ? next.id : null
 })
-const completedCount = computed(() => pieces.value.filter(p => p.done).length)
-const progressPercent = computed(() => (completedCount.value / pieces.value.length) * 100)
-const allDone = computed(() => completedCount.value === pieces.value.length)    
+const completedCount = computed(() => props.pieces.filter(p => p.done).length)
+const progressPercent = computed(() => props.pieces.length ? (completedCount.value / props.pieces.length) * 100 : 0)
+const allDone = computed(() => props.sessionFinished || (props.pieces.length > 0 && completedCount.value === props.pieces.length))
 
-function toggle(piece) {
-    if (props.disabled) return
-    piece.done = !piece.done
-}   
-
-function toggleDoneById(id) {
-    const piece = pieces.value.find(p => p.id === id)
-    if (piece) toggle(piece)
+async function toggle(piece) {
+    if (props.disabled || !props.sessionId || togglingIds.value.has(piece.id)) return
+    togglingIds.value.add(piece.id)
+    try {
+        const data = await api.post(`/api/dashboard/sessions/${props.sessionId}/toggle-piece`, {
+            piece_id: piece.id,
+        })
+        emit('piece-toggled', {
+            pieceId: data.piece_id,
+            completed: data.completed,
+            piecesCompleted: data.pieces_completed,
+        })
+    } finally {
+        togglingIds.value.delete(piece.id)
+    }
 }
 
-
+function toggleDoneById(id) {
+    const piece = props.pieces.find(p => p.id === id)
+    if (piece) toggle(piece)
+}
 </script>

@@ -48,25 +48,25 @@
                                 v-model="search"
                                 type="text"
                                 placeholder="Search pieces..."
-                                class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 transition-shadow hover:shadow-md"
+                                class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 transition-shadow hover:shadow-md"
                             >
                         </div>
                         <button
-                            class="hidden sm:block px-4 sm:py-2.5 text-sm sm:text-md font-semibold text-stone-600 bg-white/80 border border-stone-200 rounded-xl shadow-sm hover:bg-stone-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200 whitespace-nowrap"
+                            class="hidden sm:block px-4 sm:py-2.5 text-sm sm:text-md font-semibold text-stone-600 bg-white border border-stone-200 rounded-xl shadow-sm hover:bg-stone-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200 whitespace-nowrap"
                             @click="reorderMode = true"
                         >
                             Change Order
                         </button>
                         <div class="flex gap-2.5 sm:gap-3">
                             <button
-                                class="sm:hidden px-4 py-2 text-sm font-semibold text-stone-600 bg-white/80 border border-stone-200 rounded-xl shadow-sm hover:bg-stone-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200 whitespace-nowrap"
+                                class="sm:hidden px-4 py-2 text-sm font-semibold text-stone-600 bg-white border border-stone-200 rounded-xl shadow-sm hover:bg-stone-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200 whitespace-nowrap"
                                 @click="reorderMode = true"
                             >
                                 Change Order
                             </button>
                             <select
                                 v-model="statusFilter"
-                                class="flex-1 sm:flex-none px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 text-stone-600 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2378716c%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-size-[12px] bg-position-[right_12px_center] bg-no-repeat pr-9 transition-shadow hover:shadow-md text-center sm:text-left"
+                                class="flex-1 sm:flex-none px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold bg-white border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 text-stone-600 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2378716c%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-size-[12px] bg-position-[right_12px_center] bg-no-repeat pr-9 transition-shadow hover:shadow-md text-center sm:text-left"
                             >
                                 <option value="">
                                     All statuses
@@ -88,7 +88,7 @@
                                 </option>
                             </select>
                             <button
-                                class="p-2 sm:p-2.5 text-stone-400 hover:text-amber-500 bg-white/80 border border-stone-200 rounded-xl shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200"
+                                class="p-2 sm:p-2.5 text-stone-400 hover:text-amber-500 bg-white border border-stone-200 rounded-xl shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200"
                                 title="What do statuses mean?"
                                 @click="showStatusInfo = true"
                             >
@@ -121,8 +121,8 @@
                             v-if="filteredPieces.length === 0"
                             class="px-6 py-16 text-center"
                         >
-                            <span class="text-4xl text-stone-200 block mb-3">&#9835;</span>
-                            <p class="text-stone-400 font-serif italic">
+                            <span class="text-4xl text-amber-500 block mb-3">&#9835;</span>
+                            <p class="text-amber-600 font-serif italic">
                                 {{ repertoire.length === 0 ? 'No pieces yet — add your first one above!' : 'No pieces match your filters.' }}
                             </p>
                         </div>
@@ -243,7 +243,7 @@
                                 v-model="wishlistSearch"
                                 type="text"
                                 placeholder="Search wishlist..."
-                                class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white/80 border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-300/50 focus:border-violet-400 placeholder-stone-400 transition-shadow hover:shadow-md"
+                                class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-300/50 focus:border-violet-400 placeholder-stone-400 transition-shadow hover:shadow-md"
                             >
                         </div>
                         <button
@@ -268,8 +268,8 @@
                             v-if="filteredWishlist.length === 0"
                             class="px-6 py-16 text-center"
                         >
-                            <span class="text-4xl text-stone-200 block mb-3">&#9834;</span>
-                            <p class="text-stone-400 font-serif italic">
+                            <span class="text-4xl text-violet-500 block mb-3">&#9834;</span>
+                            <p class="text-violet-600 font-serif italic">
                                 {{ wishlist.length === 0 ? 'No pieces on your wishlist yet — add something you\'d love to learn!' : 'No pieces match your search.' }}
                             </p>
                         </div>
@@ -371,13 +371,7 @@ import PieceDetail from './PieceDetail.vue'
 import ReorderList from './ReorderList.vue'
 import StatusInfoModal from './StatusInfoModal.vue'
 
-// const pieces = ref([
-//     { id: 1, title: 'Clair de Lune', composer: 'Debussy', status: 'polishing', links: ['https://youtube.com/watch?v=example1'], files: [{ name: 'Clair_de_Lune.pdf', pages: 6 }] },
-//     { id: 2, title: 'Nocturne Op. 9 No. 2', composer: 'Chopin', status: 'learning', files: [{ name: 'Nocturne_Op9_No2.pdf', pages: 4 }, { name: 'Nocturne_Annotations.pdf', pages: 2 }] },
-//     { id: 3, title: 'Gymnopédie No. 1', composer: 'Satie', status: 'learned', files: [] },
-//     { id: 4, title: 'Prelude in C Major', composer: 'Bach', status: 'learned', files: [{ name: 'Prelude_C_Major_BWV846.pdf', pages: 3 }] },
-//     { id: 5, title: 'Moonlight Sonata, Mvt. 1', composer: 'Beethoven', status: 'learning', files: [] },
-// ])
+
 const pieces = ref([])
 const loading = ref(true)
 
@@ -413,8 +407,13 @@ const confirmModalAction = ref(null)
 
 const activePieces = computed(() => {
     return repertoire.value
-        .filter(p => p.sort_order != null)
-        .sort((a, b) => a.sort_order - b.sort_order)
+        .filter(p => p.status !== 'Shelved')
+        .sort((a, b) => {
+            if (a.sort_order != null && b.sort_order != null) return a.sort_order - b.sort_order
+            if (a.sort_order != null) return -1
+            if (b.sort_order != null) return 1
+            return 0
+        })
 })
 
 const filteredPieces = computed(() => {
@@ -505,12 +504,15 @@ function savePiece(data) {
 
 async function updateStatus(piece, newStatus) {
     const oldStatus = piece.status
+    const oldSortOrder = piece.sort_order
     piece.status = newStatus
 
     try {
-        await api.put(`/api/pieces/${piece.id}`, { status: newStatus })
+        const response = await api.put(`/api/pieces/${piece.id}`, { status: newStatus })
+        piece.sort_order = response.data.sort_order ?? null
     } catch (e) {
         piece.status = oldStatus
+        piece.sort_order = oldSortOrder
         console.error('Failed to update status:', e)
     }
 }

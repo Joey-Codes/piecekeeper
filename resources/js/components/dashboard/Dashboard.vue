@@ -13,25 +13,91 @@
                 <div class="mt-3 mx-auto w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
             </header>
 
-            <PracticeSession @update:active="sessionActive = $event" />
-            <PracticeChecklist :disabled="!sessionActive" />
+            <PracticeSession
+                :session-id="todaySession?.id"
+                :loading="loading"
+                :completed="todaySession?.duration_seconds > 0"
+                :remaining-count="sessionPieces.filter(p => !p.done).length"
+                @update:active="sessionActive = $event"
+                @session-finished="onSessionFinished"
+                @review="showReview = true"
+            />
+            <PracticeChecklist
+                :disabled="!sessionActive"
+                :session-id="todaySession?.id"
+                :pieces="sessionPieces"
+                :loading="loading"
+                :session-finished="todaySession?.duration_seconds > 0"
+                @piece-toggled="onPieceToggled"
+            />
             <StatsRow />
             <PracticeStreak />
         </div>
+
+        <SessionReviewModal
+            :show="showReview"
+            :session-id="todaySession?.id"
+            :pieces="sessionPieces"
+            :duration-seconds="todaySession?.duration_seconds ?? 0"
+            @close="showReview = false"
+            @updated="onSessionUpdated"
+        />
     </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import PracticeSession from './PracticeSession.vue'
 import StatsRow from './StatsRow.vue'
 import PracticeChecklist from './PracticeChecklist.vue'
 import PracticeStreak from './PracticeStreak.vue'
+import SessionReviewModal from './SessionReviewModal.vue'
 import FloatingNotes from '../ui/FloatingNotes.vue'
 import { auth } from '@/auth'
+import api from '@/api'
 
 const name = computed(() => auth.user?.name || '')
 const sessionActive = ref(false)
+const loading = ref(true)
+const todaySession = ref(null)
+const showReview = ref(false)
+
+const sessionPieces = computed(() => {
+    if (!todaySession.value?.pieces) return []
+    return todaySession.value.pieces.map(p => ({
+        ...p,
+        done: p.completed,
+    }))
+})
+
+async function fetchTodaySession() {
+    loading.value = true
+    try {
+        const data = await api.get('/api/dashboard/today')
+        todaySession.value = data.session
+    } finally {
+        loading.value = false
+    }
+}
+
+function onPieceToggled({ pieceId, completed, piecesCompleted }) {
+    if (!todaySession.value) return
+    const piece = todaySession.value.pieces.find(p => p.id === pieceId)
+    if (piece) piece.completed = completed
+    todaySession.value.pieces_completed = piecesCompleted
+}
+
+function onSessionFinished(session) {
+    if (session) {
+        todaySession.value = session
+    }
+}
+
+function onSessionUpdated(session) {
+    todaySession.value = session
+}
+
+onMounted(fetchTodaySession)
 
 const formattedDate = computed(() => {
     return new Date().toLocaleDateString('en-US', {

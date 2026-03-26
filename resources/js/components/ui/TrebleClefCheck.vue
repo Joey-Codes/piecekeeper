@@ -10,7 +10,7 @@
         >
             <div
                 v-if="label !== null"
-                class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-stone-200 text-stone-400 hover:bg-amber-100 hover:text-amber-600 transition-colors duration-200"
+                class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold bg-amber-100 text-amber-700 border border-amber-200 hover:bg-amber-200 hover:text-amber-800 transition-colors duration-200"
             >
                 {{ label }}
             </div>

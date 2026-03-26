@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Piece extends Model
 {
@@ -36,5 +37,11 @@ class Piece extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function practiceSessions(): BelongsToMany
+    {
+        return $this->belongsToMany(PracticeSession::class, 'practice_session_pieces')
+            ->withPivot(['position', 'completed']);
     }
 }

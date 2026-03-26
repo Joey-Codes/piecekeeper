@@ -261,7 +261,7 @@ const frequencyLabel = computed(() => {
 // Calendar logic
 const calendarAttributes = ref([])
 
-const allPieces = ref([])
+const allPieces = ref([])   
 
 onMounted(async () => {
     try {

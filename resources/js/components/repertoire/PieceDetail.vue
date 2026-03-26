@@ -29,6 +29,7 @@
                                 v-model="title"
                                 type="text"
                                 placeholder="e.g. Clair de Lune"
+                                maxlength="100"
                                 required
                                 class="w-full px-3 py-2 text-sm bg-white/70 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400"
                             >
@@ -43,6 +44,7 @@
                                 v-model="composer"
                                 type="text"
                                 placeholder="e.g. Debussy"
+                                maxlength="100"
                                 class="w-full px-3 py-2 text-sm bg-white/70 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400"
                             >
                         </div>

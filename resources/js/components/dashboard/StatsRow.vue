@@ -4,7 +4,6 @@
             to="/insights"
             class="card px-4 sm:px-5 py-4 sm:py-5 bg-white border-violet-200 relative overflow-hidden group hover:shadow-lg transition-shadow duration-300 cursor-pointer no-underline"
         >
-            <span class="absolute -bottom-2 -right-2 text-5xl text-violet-200/30 rotate-[-10deg] font-serif select-none transition-transform duration-300 group-hover:scale-110">&#9733;</span>
             <div class="relative flex items-center gap-2.5 sm:gap-3 mb-2 sm:mb-3">
                 <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-linear-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-sm">
                     <span class="text-white text-xs">&#9733;</span>
@@ -25,7 +24,6 @@
             to="/insights"
             class="card px-4 sm:px-5 py-4 sm:py-5 bg-white border-rose-200 relative overflow-hidden group hover:shadow-lg transition-shadow duration-300 cursor-pointer no-underline"
         >
-            <span class="absolute -bottom-2 -right-2 text-5xl text-rose-200/30 rotate-10 font-serif select-none transition-transform duration-300 group-hover:scale-110">&#9829;</span>
             <div class="relative flex items-center gap-2.5 sm:gap-3 mb-2 sm:mb-3">
                 <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-linear-to-br from-rose-400 to-pink-500 flex items-center justify-center shadow-sm">
                     <span class="text-white text-xs">&#9829;</span>
@@ -46,7 +44,6 @@
             to="/insights"
             class="card px-4 sm:px-5 py-4 sm:py-5 bg-white border-amber-200 relative overflow-hidden group hover:shadow-lg transition-shadow duration-300 cursor-pointer no-underline"
         >
-            <span class="absolute -bottom-2 -right-2 text-5xl text-amber-200/30 rotate-[-15deg] font-serif select-none transition-transform duration-300 group-hover:scale-110">&#9201;</span>
             <div class="relative flex items-center gap-2.5 sm:gap-3 mb-2 sm:mb-3">
                 <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm">
                     <span class="text-white text-xs">&#9201;</span>

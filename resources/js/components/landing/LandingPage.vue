@@ -45,7 +45,7 @@
             <!-- Decorative piano keys along the top -->
             <div class="absolute top-0 left-0 right-0 flex justify-center opacity-[0.07] pointer-events-none">
                 <div
-                    v-for="i in 26"
+                    v-for="i in 29"
                     :key="'key-'+i"
                     class="shrink-0"
                 >
@@ -709,8 +709,8 @@ const repertoireDemo = [
 
 // Piano keys display helper
 function isBlackKey(i) {
-    const mod = i % 7
-    return mod === 2 || mod === 4 || mod === 0 // Simplified pattern
+    const mod = (i - 1) % 12
+    return mod === 1 || mod === 3 || mod === 6 || mod === 8 || mod === 10
 }
 
 // Piano keys for centered section

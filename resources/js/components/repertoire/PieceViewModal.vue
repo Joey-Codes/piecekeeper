@@ -36,11 +36,14 @@
                                 <option value="Learning">
                                     Learning
                                 </option>
-                                <option value="Learned">
-                                    Learned
-                                </option>
                                 <option value="Polishing">
                                     Polishing
+                                </option>
+                                <option value="Mastered">
+                                    Mastered
+                                </option>
+                                <option value="Relearning">
+                                    Relearning
                                 </option>
                                 <option value="Shelved">
                                     Shelved
@@ -70,7 +73,13 @@
                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                                         />
                                     </svg>
-                                    <span class="text-base text-amber-700 truncate">{{ link }}</span>
+                                    <a
+                                        :href="link"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="text-base text-amber-700 hover:text-amber-900 hover:underline truncate"
+                                        @click.stop
+                                    >{{ link }}</a>
                                 </div>
                             </div>
                         </div>
@@ -232,10 +241,11 @@ function toggleAndClose() {
 
 const currentStatusClass = computed(() => {
     const classes = {
-        learning: 'text-blue-600 bg-blue-50',
-        learned: 'text-emerald-600 bg-emerald-50',
-        polishing: 'text-amber-600 bg-amber-50',
-        shelved: 'text-stone-500 bg-stone-100',
+        Learning: 'text-blue-600 bg-blue-50',
+        Polishing: 'text-amber-600 bg-amber-50',
+        Mastered: 'text-emerald-600 bg-emerald-50',
+        Relearning: 'text-purple-600 bg-purple-50',
+        Shelved: 'text-stone-500 bg-stone-100',
     }
     return classes[status.value] || ''
 })

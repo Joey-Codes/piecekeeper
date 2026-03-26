@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PieceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,10 @@ Route::prefix('api')->group(function () {
             Route::get('/', [UserController::class, 'show']);
             Route::put('/', [UserController::class, 'update']);
         });
+        Route::get('/dashboard/today', [DashboardController::class, 'today']);
+        Route::post('/dashboard/sessions/{session}/toggle-piece', [DashboardController::class, 'togglePiece']);
+        Route::post('/dashboard/sessions/{session}/finish', [DashboardController::class, 'finish']);
+        Route::put('/dashboard/sessions/{session}', [DashboardController::class, 'update']);
         Route::get('/pieces', [PieceController::class, 'index']);
         Route::post('/pieces', [PieceController::class, 'store']);
         Route::put('/pieces/reorder', [PieceController::class, 'reorder']);
