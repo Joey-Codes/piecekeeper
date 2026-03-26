@@ -1,59 +1,76 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Piano Piece Manager
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web app for managing your piano repertoire, tracking practice sessions, and building consistent practice habits.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Repertoire Management** — Add, organize, and track pieces across statuses (Learning, Polishing, Mastered, Relearning, Shelved, Want to Learn). Drag-and-drop reordering for your practice rotation.
+- **Daily Practice Sessions** — Automatically generates a daily checklist of pieces based on your rotation settings. Start a timed session, check off pieces as you go, and review your results.
+- **Practice History** — See your last 7 days at a glance on the dashboard streak tracker.
+- **Customizable Schedule** — Set how many pieces per session and your practice frequency.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend:** Laravel 12 (PHP 8.2)
+- **Frontend:** Vue 3 (SFC) + Vite 7 + Tailwind CSS 4
+- **Database:** MySQL
 
-## Learning Laravel
+## Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Prerequisites
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.2+
+- Composer
+- Node.js 18+
+- MySQL
 
-## Laravel Sponsors
+### Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+# Install dependencies
+composer install
+npm install
 
-### Premium Partners
+# Configure environment
+cp .env.example .env
+php artisan key:generate
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# Set up database
+php artisan migrate
+php artisan db:seed
 
-## Contributing
+# Start development servers
+composer dev
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+This runs Laravel on `http://localhost:8000` with Vite HMR on port 5173.
 
-## Code of Conduct
+### Seed Accounts
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Name  | Email           | Password   |
+|-------|-----------------|------------|
+| Joey  | joey@test.com   | 12345678   |
+| User1 | user1@test.com  | 12345678   |
+| User2 | user2@test.com  | 12345678   |
 
-## Security Vulnerabilities
+## Project Structure
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+app/
+  Http/Controllers/    # API controllers
+  Models/              # Eloquent models
+  Services/            # Business logic (e.g. PracticeSessionService)
+resources/
+  js/
+    components/
+      dashboard/       # Dashboard, practice session, checklist, streak
+      repertoire/      # Piece list, detail view, add form
+      settings/        # Account and schedule settings
+      auth/            # Login, signup, forgot password
+      ui/              # Shared UI components
+routes/
+  web.php             # All routes (SPA + API under /api prefix)
+database/
+  migrations/          # Table schemas
+  seeders/             # Demo data
+```
