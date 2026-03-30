@@ -26,8 +26,8 @@
                             class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shadow-sm shrink-0"
                             :class="stat.bgClass"
                         >
-                            <span
-                                class="text-white text-xs sm:text-sm"
+                            <div
+                                class="text-white w-3.5 h-3.5 sm:w-4 sm:h-4"
                                 v-html="stat.icon"
                             />
                         </div>
@@ -35,7 +35,10 @@
                             {{ stat.label }}
                         </p>
                     </div>
-                    <p class="relative text-2xl sm:text-3xl font-bold text-stone-800">
+                    <p
+                        class="relative font-bold text-stone-800 truncate"
+                        :class="typeof stat.value === 'string' ? 'text-lg sm:text-xl' : 'text-2xl sm:text-3xl'"
+                    >
                         {{ stat.value }}<span
                             v-if="stat.unit"
                             class="text-xs sm:text-sm font-semibold text-stone-600 ml-1"
@@ -107,11 +110,11 @@ import 'v-calendar/style.css'
 
 const stats = ref([
     {
-        label: 'Current Streak',
-        value: 14,
-        unit: 'days',
-        detail: 'Best streak: 21 days',
-        icon: '&#128293;',
+        label: 'Lifetime Practice',
+        value: 18.5,
+        unit: 'hrs',
+        detail: '23 sessions total',
+        icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
         bgClass: 'bg-linear-to-br from-rose-400 to-pink-500',
         tintClass: 'bg-white border-rose-200',
     },
@@ -120,7 +123,7 @@ const stats = ref([
         value: 12,
         unit: null,
         detail: '5 learning \u00b7 7 polished',
-        icon: '&#9835;',
+        icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V4.125A2.25 2.25 0 0017.868 1.9l-6.75 1.929a2.25 2.25 0 00-1.618 2.163V15m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009.5 15.553z" /></svg>',
         bgClass: 'bg-linear-to-br from-violet-400 to-purple-500',
         tintClass: 'bg-white border-violet-200',
     },
@@ -129,16 +132,16 @@ const stats = ref([
         value: 6.5,
         unit: 'hrs',
         detail: '5 sessions',
-        icon: '&#9201;',
+        icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>',
         bgClass: 'bg-linear-to-br from-amber-400 to-orange-500',
         tintClass: 'bg-white border-amber-200',
     },
     {
-        label: 'Total Practice',
-        value: 84,
-        unit: 'hrs',
-        detail: 'Since you started',
-        icon: '&#9200;',
+        label: 'Most Practiced',
+        value: 'Clair de Lune',
+        unit: null,
+        detail: '18 sessions',
+        icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-4.5A3.375 3.375 0 0012.75 11h-.5A3.375 3.375 0 009 14.25v4.5m7.5 0h-6m1.5-12V2.25m3.75 2.25L13.5 2.25m-3 2.25L12.75 2.25" /></svg>',
         bgClass: 'bg-linear-to-br from-emerald-400 to-teal-500',
         tintClass: 'bg-white border-emerald-200',
     },
@@ -147,7 +150,7 @@ const stats = ref([
         value: 42,
         unit: 'min',
         detail: 'Trending up this month',
-        icon: '&#9889;',
+        icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>',
         bgClass: 'bg-linear-to-br from-sky-400 to-blue-500',
         tintClass: 'bg-white border-sky-200',
     },
@@ -156,7 +159,7 @@ const stats = ref([
         value: 7,
         unit: null,
         detail: '2 this month',
-        icon: '&#127942;',
+        icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15v-3.75m0 0h10.5m-10.5 0L12 7.5l5.25 3.75" /></svg>',
         bgClass: 'bg-linear-to-br from-yellow-400 to-amber-500',
         tintClass: 'bg-white border-yellow-200',
     },

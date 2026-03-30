@@ -2,11 +2,21 @@
     <div>
         <div class="flex items-center gap-2.5 sm:gap-3 mb-5 sm:mb-7">
             <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm shrink-0">
-                <span class="text-white text-xs sm:text-sm">&#128197;</span>
+                <svg
+                    class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                ><path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                /></svg>
             </div>
             <div>
                 <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                    Practice Schedule
+                    Your Practice Schedule
                 </h2>
                 <p class="text-sm sm:text-md font-semibold text-stone-600">
                     How often and how much you want to practice
@@ -128,7 +138,17 @@
                     <div class="flex items-center justify-between mb-3 sm:mb-4">
                         <div class="flex items-center gap-2.5 sm:gap-3">
                             <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-sm shrink-0">
-                                <span class="text-white text-xs sm:text-sm">&#128197;</span>
+                                <svg
+                                    class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
+                                /></svg>
                             </div>
                             <h3 class="text-lg sm:text-2xl font-serif font-bold uppercase tracking-wide text-stone-800">
                                 Practice Schedule
@@ -157,6 +177,7 @@
 
                     <Calendar
                         :attributes="calendarAttributes"
+                        :min-date="today"
                         class="schedule-calendar"
                         expanded
                         borderless

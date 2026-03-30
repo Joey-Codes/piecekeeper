@@ -11,7 +11,7 @@
                         <span class="text-white text-lg">&#9835;</span>
                     </div>
                     <span class="font-serif font-semibold text-lg text-stone-800">
-                        Piano <span class="text-amber-500">Piece Manager</span>
+                        Piece<span class="text-amber-500">Keeper</span>
                     </span>
                 </div>
                 <router-link
@@ -96,12 +96,6 @@
                     >
                         Start Practicing Free
                         <span class="inline-block ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>
-                    </button>
-                    <button
-                        class="px-6 py-3 sm:px-8 sm:py-4 bg-white border-2 border-stone-200 text-stone-600 font-semibold rounded-2xl hover:border-amber-300 hover:text-amber-700 transition-all duration-200 text-base sm:text-lg"
-                        @click="scrollToFeatures"
-                    >
-                        See How It Works
                     </button>
                 </div>
 
@@ -207,7 +201,7 @@
         >
             <div class="max-w-6xl mx-auto px-6 text-center">
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-white mb-4">
-                    Why Piano Piece Manager?
+                    Why PieceKeeper?
                 </h2>
                 <p class="text-white text-xl max-w-xl mx-auto">
                     We make it easy to stay on top of your pieces and see real progress. &#8595;&#8595;&#8595;
@@ -526,7 +520,7 @@
                 <p class="text-stone-300 text-lg max-w-2xl mx-auto leading-relaxed">
                     Every great pianist knows that quality practice matters more than quantity.
                     Building good habits, reflecting on your play, and doing consistent, focused work
-                    leads to real improvement. Let Piano Piece Manager help you on that journey!
+                    leads to real improvement. Let PieceKeeper help you on that journey!
                 </p>
             </div>
         </section>
@@ -587,48 +581,17 @@
             </div>
         </section>
 
-        <!-- Landing Footer -->
-        <footer class="bg-stone-900 text-stone-400 py-12">
-            <div class="max-w-6xl mx-auto px-6">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center">
-                            <span class="text-white text-sm">&#9835;</span>
-                        </div>
-                        <span class="font-serif font-semibold text-stone-300">
-                            Piano <span class="text-amber-400">Piece Manager</span>
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-4 text-sm text-white">
-                        <router-link
-                            to="/terms"
-                            class="hover:text-amber-400 transition-colors"
-                        >
-                            Terms of Service
-                        </router-link>
-                        <router-link
-                            to="/privacy"
-                            class="hover:text-amber-400 transition-colors"
-                        >
-                            Privacy Policy
-                        </router-link>
-                    </div>
-                    <div class="text-sm text-white">
-                        &copy; {{ currentYear }} Piano Piece Manager. Made with &#9829; for pianists.
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <AppFooter />
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import AppFooter from '../AppFooter.vue'
 
 const router = useRouter()
 
-const currentYear = new Date().getFullYear()
 const featuresSection = ref(null)
 
 function scrollToFeatures() {
@@ -701,10 +664,10 @@ const calendarPreviewDays = (() => {
 
 // Repertoire demo items
 const repertoireDemo = [
-    { name: 'Clair de Lune', composer: 'Debussy', status: 'Learning', color: 'bg-blue-400', badgeClass: 'bg-blue-100 text-blue-600' },
-    { name: 'Liebestraum No. 3', composer: 'Liszt', status: 'Polishing', color: 'bg-amber-400', badgeClass: 'bg-amber-100 text-amber-600' },
-    { name: 'Prelude in C Major', composer: 'Bach', status: 'Learned', color: 'bg-emerald-400', badgeClass: 'bg-emerald-100 text-emerald-600' },
-    { name: 'Fantaisie-Impromptu', composer: 'Chopin', status: 'Wishlist', color: 'bg-violet-400', badgeClass: 'bg-violet-100 text-violet-600' },
+    { name: 'Clair de Lune', composer: 'Debussy', status: 'Learning', color: 'bg-blue-400', badgeClass: 'bg-blue-50 text-blue-700' },
+    { name: 'Liebestraum No. 3', composer: 'Liszt', status: 'Polishing', color: 'bg-amber-400', badgeClass: 'bg-amber-50 text-amber-700' },
+    { name: 'Prelude in C Major', composer: 'Bach', status: 'Mastered', color: 'bg-emerald-400', badgeClass: 'bg-emerald-50 text-emerald-700' },
+    { name: 'Fantaisie-Impromptu', composer: 'Chopin', status: 'Relearning', color: 'bg-violet-400', badgeClass: 'bg-violet-50 text-violet-700' },
 ]
 
 // Piano keys display helper

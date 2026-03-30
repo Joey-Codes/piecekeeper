@@ -15,6 +15,7 @@ class UserResource extends JsonResource
             'email_verified_at' => $this->email_verified_at,
             'pieces_per_session' => $this->pieces_per_session,
             'practice_frequency' => $this->practice_frequency,
+            'timezone' => $this->timezone,
         ];
     }
 }

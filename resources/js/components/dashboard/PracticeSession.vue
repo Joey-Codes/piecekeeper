@@ -23,7 +23,7 @@
                         d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
                 </svg>
-                Review Session Details
+                Session Details
             </button>
             <!-- Not started: start button -->
             <button
@@ -154,7 +154,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import ConfirmModal from '../ui/ConfirmModal.vue'
 import api from '@/api'
 
@@ -167,6 +167,8 @@ const props = defineProps({
 
 const emit = defineEmits(['update:active', 'session-finished', 'review'])
 
+const STORAGE_KEY = 'practice_session_timer'
+
 const session = ref({ active: false, startTime: null })
 const elapsedSeconds = ref(0)
 const paused = ref(false)
@@ -175,6 +177,50 @@ let wasRunningBeforePrompt = false
 let accumulatedSeconds = 0
 let timerInterval = null
 let segmentStart = null
+
+function todayDate() {
+    return new Date().toISOString().slice(0, 10)
+}
+
+function saveState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        date: todayDate(),
+        elapsed: elapsedSeconds.value,
+        paused: paused.value,
+        sessionId: props.sessionId,
+    }))
+}
+
+function clearState() {
+    localStorage.removeItem(STORAGE_KEY)
+}
+
+onMounted(async () => {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return
+
+    const saved = JSON.parse(raw)
+    if (saved.date !== todayDate()) {
+        if (saved.sessionId && saved.elapsed > 0) {
+            try {
+                await api.post(`/api/dashboard/sessions/${saved.sessionId}/finish`, {
+                    duration_seconds: saved.elapsed,
+                })
+            } catch {
+                // Best-effort — don't block the current session
+            }
+        }
+        clearState()
+        return
+    }
+
+    accumulatedSeconds = saved.elapsed
+    elapsedSeconds.value = saved.elapsed
+    paused.value = true
+    session.value.active = true
+    saveState()
+    emit('update:active', true)
+})
 
 const endMessage = computed(() => {
     let msg = `You've been practicing for ${elapsedTime.value}.`
@@ -197,6 +243,7 @@ function startTimer() {
     segmentStart = Date.now()
     timerInterval = setInterval(() => {
         elapsedSeconds.value = accumulatedSeconds + Math.floor((Date.now() - segmentStart) / 1000)
+        saveState()
     }, 1000)
 }
 
@@ -213,6 +260,7 @@ function startSession() {
     accumulatedSeconds = 0
     elapsedSeconds.value = 0
     startTimer()
+    saveState()
     emit('update:active', true)
 }
 
@@ -224,6 +272,7 @@ function togglePause() {
         paused.value = true
         stopTimer()
     }
+    saveState()
 }
 
 function promptEnd() {
@@ -254,6 +303,7 @@ async function confirmEnd() {
     session.value.active = false
     paused.value = false
     accumulatedSeconds = 0
+    clearState()
     emit('update:active', false)
     emit('session-finished', finishedSession)
 }

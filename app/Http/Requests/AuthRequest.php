@@ -13,6 +13,8 @@ class AuthRequest extends FormRequest
             'password' => 'required|string',
         ];
 
+        $rules['timezone'] = 'sometimes|string|timezone:all';
+
         if ($this->routeIs('register')) {
             $rules['name'] = 'required|string|max:50';
             $rules['email'] .= '|unique:users';

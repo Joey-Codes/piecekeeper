@@ -61,7 +61,7 @@
                                     v-model.number="editHours"
                                     type="number"
                                     min="0"
-                                    max="24"
+                                    max="23"
                                     class="w-16 text-center text-xl font-bold text-stone-800 border border-stone-300 rounded-lg px-2 py-1 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
                                 >
                                 <span class="text-sm text-stone-500">
@@ -265,7 +265,7 @@ function clamp(val, min, max) {
     return Math.max(min, Math.min(max, Math.floor(val || 0)))
 }
 
-watch(editHours, (v) => { editHours.value = clamp(v, 0, 24) })
+watch(editHours, (v) => { editHours.value = clamp(v, 0, 23) })
 watch(editMinutes, (v) => { editMinutes.value = clamp(v, 0, 59) })
 watch(editSeconds, (v) => { editSeconds.value = clamp(v, 0, 59) })
 

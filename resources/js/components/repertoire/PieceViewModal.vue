@@ -52,11 +52,11 @@
                         </div>
 
                         <!-- Links (read-only) -->
-                        <div v-if="piece.links && piece.links.length">
+                        <div v-if="piece.reference_links && piece.reference_links.length">
                             <span class="block text-base font-semibold text-stone-700 mb-1">Reference Links</span>
                             <div class="space-y-2">
                                 <div
-                                    v-for="(link, i) in piece.links"
+                                    v-for="(link, i) in piece.reference_links"
                                     :key="i"
                                     class="flex items-center gap-2 px-3 py-2 bg-stone-50 rounded-lg"
                                 >
@@ -203,6 +203,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
+import api from '../../api'
 import PdfViewer from '../ui/PdfViewer.vue'
 
 const props = defineProps({
@@ -210,7 +211,7 @@ const props = defineProps({
     practiceActive: { type: Boolean, default: false },
 })
 
-const emit = defineEmits(['close', 'toggle-done'])
+const emit = defineEmits(['close', 'toggle-done', 'updated'])
 
 const status = ref('Learning')
 const notes = ref('')
@@ -223,6 +224,12 @@ watch(() => props.piece, (p) => {
         notes.value = p.notes || ''
     }
 }, { immediate: true })
+
+watch(status, async (newStatus, oldStatus) => {
+    if (!props.piece || oldStatus === newStatus) return
+    await api.put(`/api/pieces/${props.piece.id}`, { status: newStatus })
+    emit('updated', { ...props.piece, status: newStatus })
+})
 
 function openPdf(index) {
     pdfStartIndex.value = index

@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-const symbols = ['♫', '♪', '♭', '𝄞', '♯']
+const symbols = ['♫', '♪', '♭', '𝄞', '♯', '𝄢', '𝄽', '𝄺', '𝆑', '𝆏', '♯', '♮', '♭']
 const colors = [
     'text-amber-400',
     'text-amber-500',

@@ -1,40 +1,39 @@
 <template>
     <router-link
         to="/insights#calendar"
-        class="block mt-6 sm:mt-8 card px-4 sm:px-6 py-4 sm:py-5 bg-white border-orange-200 no-underline cursor-pointer hover:shadow-lg transition-shadow duration-300"
+        class="block mt-6 sm:mt-8 card px-5 sm:px-8 py-5 sm:py-6 bg-white border-orange-200 no-underline cursor-pointer hover:shadow-lg transition-shadow duration-300"
     >
-        <div class="flex items-center justify-between mb-3 sm:mb-4">
-            <h3 class="text-xs sm:text-sm font-bold text-stone-700 uppercase tracking-widest">
-                Last 7 Days
-            </h3>
-            <div class="flex items-center gap-1.5 sm:gap-2 text-xs font-semibold text-stone-600">
-                <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded bg-stone-200/80" />
-                <span>Missed</span>
-                <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded bg-amber-400" />
-                <span>Practiced</span>
-            </div>
-        </div>
-        <div class="flex gap-2 sm:gap-3 justify-between">
+        <h3 class="text-xs sm:text-sm font-bold text-stone-700 uppercase tracking-widest mb-4 sm:mb-5 text-center">
+            Last 7 Days
+        </h3>
+        <div class="flex gap-1.5 sm:gap-2 justify-between">
             <div
                 v-for="(day, i) in days"
                 :key="i"
-                class="flex-1 flex flex-col items-center gap-1"
+                class="flex-1 flex flex-col items-center gap-2 sm:gap-2.5"
             >
-                <span class="text-[10px] sm:text-xs font-semibold text-stone-400 uppercase">{{ day.dayName }}</span>
+                <span
+                    class="text-[10px] sm:text-xs font-bold uppercase tracking-wide"
+                    :class="day.isToday ? 'text-amber-600' : 'text-stone-400'"
+                >{{ day.dayName }}</span>
                 <div
-                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-all duration-300 hover:scale-110"
-                    :class="day.done
-                        ? 'bg-linear-to-br from-amber-400 to-orange-500 shadow-sm shadow-amber-300/40'
-                        : 'bg-stone-200/60'"
+                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all duration-300"
+                    :class="[
+                        day.done
+                            ? 'bg-linear-to-br from-amber-400 to-orange-500 shadow-md shadow-amber-300/30'
+                            : 'bg-stone-100 border border-stone-200/60',
+                        day.isToday && !day.done ? 'ring-2 ring-amber-300/50' : '',
+                        day.justCompleted ? 'animate-pop' : '',
+                    ]"
                     :title="day.label + (day.done ? ' ✓' : '')"
                 >
                     <svg
                         v-if="day.done"
-                        class="w-4 h-4 sm:w-5 sm:h-5 text-white"
+                        class="w-5 h-5 sm:w-6 sm:h-6 text-white"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
-                        stroke-width="3"
+                        stroke-width="2.5"
                     >
                         <path
                             stroke-linecap="round"
@@ -43,30 +42,78 @@
                         />
                     </svg>
                 </div>
-                <span class="text-[10px] sm:text-xs font-semibold text-stone-500">{{ day.dateNum }}</span>
+                <span
+                    class="text-[10px] sm:text-xs font-semibold"
+                    :class="day.isToday ? 'text-amber-600' : 'text-stone-500'"
+                >{{ day.dateNum }}</span>
             </div>
         </div>
     </router-link>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick, onMounted } from 'vue'
+import api from '@/api'
 
-const days = ref(generateStreak())
+const days = ref(buildEmptyWeek())
 
-function generateStreak() {
+function buildEmptyWeek() {
     const result = []
     const today = new Date()
     for (let i = 6; i >= 0; i--) {
         const d = new Date(today)
         d.setDate(d.getDate() - i)
-        const label = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-        const dayName = d.toLocaleDateString('en-US', { weekday: 'short' })
-        const dateNum = d.getDate()
-        const rand = Math.random()
-        const done = rand > 0.2
-        result.push({ label, dayName, dateNum, done })
+        const isToday = i === 0
+        result.push({
+            label: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+            dayName: isToday ? 'Today' : d.toLocaleDateString('en-US', { weekday: 'short' }),
+            dateNum: d.getDate(),
+            dateKey: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`,
+            done: false,
+            isToday,
+        })
     }
     return result
 }
+
+function markTodayDone() {
+    const today = days.value.find(d => d.isToday)
+    if (today && !today.done) {
+        today.done = true
+        nextTick(() => {
+            today.justCompleted = true
+        })
+    }
+}
+
+defineExpose({ markTodayDone })
+
+onMounted(async () => {
+    try {
+        const data = await api.get('/api/dashboard/history')
+        const sessionDates = new Set(
+            data.sessions
+                .filter(s => s.duration_seconds > 0)
+                .map(s => s.date)
+        )
+        days.value = days.value.map(day => ({
+            ...day,
+            done: sessionDates.has(day.dateKey),
+        }))
+    } catch {
+        // Keep empty week on failure
+    }
+})
 </script>
+
+<style scoped>
+.animate-pop {
+    animation: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes pop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+</style>

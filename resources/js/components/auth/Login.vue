@@ -282,7 +282,10 @@ async function handleLogin() {
 
     try {
         await api.get('/api/csrf-cookie')
-        const user = await api.post('/api/login', form)
+        const user = await api.post('/api/login', {
+            ...form,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        })
         auth.setUser(user)
         router.push('/dashboard')
     } catch (e) {

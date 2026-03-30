@@ -20,11 +20,15 @@ class AuthController extends Controller
 
     public function login(AuthRequest $request)
     {
-        if (! Auth::attempt($request->validated())) {
+        if (! Auth::attempt($request->only(['email', 'password']))) {
             return response()->json(['message' => 'Invalid email or password.'], 401);
         }
 
         $request->session()->regenerate();
+
+        if ($request->has('timezone')) {
+            Auth::user()->update(['timezone' => $request->timezone]);
+        }
 
         return response()->json(Auth::user());
     }

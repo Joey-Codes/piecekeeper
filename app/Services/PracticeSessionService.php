@@ -15,7 +15,7 @@ class PracticeSessionService
      */
     public function getOrCreateForToday(User $user): PracticeSession
     {
-        $today = Carbon::today();
+        $today = Carbon::today($user->timezone ?? 'UTC');
 
         $session = $user->sessions()
             ->whereDate('date', $today)

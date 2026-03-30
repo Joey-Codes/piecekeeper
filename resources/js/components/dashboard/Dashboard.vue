@@ -31,7 +31,7 @@
                 @piece-toggled="onPieceToggled"
             />
             <StatsRow />
-            <PracticeStreak />
+            <PracticeStreak ref="practiceStreakRef" />
         </div>
 
         <SessionReviewModal
@@ -57,6 +57,7 @@ import { auth } from '@/auth'
 import api from '@/api'
 
 const name = computed(() => auth.user?.name || '')
+const practiceStreakRef = ref(null)
 const sessionActive = ref(false)
 const loading = ref(true)
 const todaySession = ref(null)
@@ -90,7 +91,10 @@ function onPieceToggled({ pieceId, completed, piecesCompleted }) {
 function onSessionFinished(session) {
     if (session) {
         todaySession.value = session
+    } else if (todaySession.value) {
+        todaySession.value = { ...todaySession.value, duration_seconds: 1 }
     }
+    setTimeout(() => practiceStreakRef.value?.markTodayDone(), 1500)
 }
 
 function onSessionUpdated(session) {

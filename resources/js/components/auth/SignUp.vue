@@ -386,7 +386,10 @@ async function handleSignUp() {
     loading.value = true
 
     try {
-        const user = await api.post('/api/register', form)
+        const user = await api.post('/api/register', {
+            ...form,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        })
         auth.setUser(user)
         router.push('/dashboard')
     } catch (e) {

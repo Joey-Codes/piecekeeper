@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PracticeSession;
 use App\Services\PracticeSessionService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -97,6 +98,19 @@ class DashboardController extends Controller
 
         return response()->json([
             'session' => $this->formatSession($session->fresh()->load('pieces')),
+        ]);
+    }
+
+    public function history(Request $request)
+    {
+        $sessions = $request->user()->sessions()
+            ->whereDate('date', '>=', Carbon::today($request->user()->timezone ?? 'UTC')->subDays(6))
+            ->with('pieces')
+            ->orderBy('date')
+            ->get();
+
+        return response()->json([
+            'sessions' => $sessions->map(fn ($s) => $this->formatSession($s)),
         ]);
     }
 

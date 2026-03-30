@@ -14,6 +14,7 @@ class UserRequest extends FormRequest
             'name' => 'sometimes|string|max:50',
             'pieces_per_session' => 'sometimes|integer|min:1|max:20',
             'practice_frequency' => 'sometimes|string|in:every_day,every_2_days,every_3_days,every_4_days,every_5_days,every_6_days,weekly,biweekly,monthly,weekdays,weekends',
+            'timezone' => 'sometimes|string|timezone:all',
             'email' => [
                 'sometimes',
                 'email',

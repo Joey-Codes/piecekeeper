@@ -7,7 +7,7 @@
                         <span class="text-white text-sm">&#9835;</span>
                     </div>
                     <span class="font-serif text-lg font-semibold text-white">
-                        Piano <span class="text-amber-400">Piece Manager</span>
+                        Piece<span class="text-amber-400">Keeper</span>
                     </span>
                 </div>
                 <div class="flex items-center gap-4 text-sm text-white">
@@ -25,7 +25,7 @@
                     </router-link>
                 </div>
                 <div class="text-sm text-white">
-                    &copy; {{ currentYear }} Piano Piece Manager. Made with &#9829; for pianists.
+                    &copy; {{ currentYear }} PieceKeeper. All Rights Reserved.
                 </div>
             </div>
         </div>

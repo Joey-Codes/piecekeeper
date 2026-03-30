@@ -2,7 +2,7 @@
     <div>
         <div class="flex items-center gap-2.5 sm:gap-3 mb-5 sm:mb-7">
             <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-sky-400 to-blue-500 flex items-center justify-center shadow-sm shrink-0">
-                <span class="text-white text-xs sm:text-sm">&#128100;</span>
+                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
             </div>
             <div>
                 <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">

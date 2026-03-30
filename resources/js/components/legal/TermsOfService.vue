@@ -6,8 +6,18 @@
                 to="/"
                 class="inline-flex items-center gap-2 text-stone-600 hover:text-amber-600 transition-colors font-medium"
             >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 19l-7-7 7-7"
+                    />
                 </svg>
                 Back to home
             </router-link>
@@ -28,7 +38,7 @@
                         1. Acceptance of Terms
                     </h2>
                     <p class="text-stone-600 leading-relaxed">
-                        By accessing or using Piano Piece Manager, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the service.
+                        By accessing or using PieceKeeper, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the service.
                     </p>
                 </section>
 
@@ -37,7 +47,7 @@
                         2. Description of Service
                     </h2>
                     <p class="text-stone-600 leading-relaxed">
-                        Piano Piece Manager is a web application that helps pianists organize their repertoire, track practice sessions, and monitor progress. The service is provided free of charge.
+                        PieceKeeper is a web application that helps pianists organize their repertoire, track practice sessions, and monitor progress. The service is provided free of charge.
                     </p>
                 </section>
 
@@ -55,7 +65,7 @@
                         4. User Content
                     </h2>
                     <p class="text-stone-600 leading-relaxed">
-                        You retain ownership of any content you submit to the service. By using Piano Piece Manager, you grant us a limited license to store and display your content as needed to provide the service.
+                        You retain ownership of any content you submit to the service. By using PieceKeeper, you grant us a limited license to store and display your content as needed to provide the service.
                     </p>
                 </section>
 
@@ -64,7 +74,7 @@
                         5. Limitation of Liability
                     </h2>
                     <p class="text-stone-600 leading-relaxed">
-                        Piano Piece Manager is provided "as is" without warranties of any kind. We are not liable for any damages arising from your use of the service.
+                        PieceKeeper is provided "as is" without warranties of any kind. We are not liable for any damages arising from your use of the service.
                     </p>
                 </section>
 

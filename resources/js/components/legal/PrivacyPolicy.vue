@@ -6,8 +6,18 @@
                 to="/"
                 class="inline-flex items-center gap-2 text-stone-600 hover:text-amber-600 transition-colors font-medium"
             >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                <svg
+                    class="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 19l-7-7 7-7"
+                    />
                 </svg>
                 Back to home
             </router-link>
@@ -37,7 +47,7 @@
                         2. How We Use Your Information
                     </h2>
                     <p class="text-stone-600 leading-relaxed">
-                        Your information is used solely to provide and improve the Piano Piece Manager service. We do not sell your personal data to third parties.
+                        Your information is used solely to provide and improve the PieceKeeper service. We do not sell your personal data to third parties.
                     </p>
                 </section>
 

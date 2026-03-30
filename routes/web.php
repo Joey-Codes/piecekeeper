@@ -17,6 +17,7 @@ Route::prefix('api')->group(function () {
             Route::put('/', [UserController::class, 'update']);
         });
         Route::get('/dashboard/today', [DashboardController::class, 'today']);
+        Route::get('/dashboard/history', [DashboardController::class, 'history']);
         Route::post('/dashboard/sessions/{session}/toggle-piece', [DashboardController::class, 'togglePiece']);
         Route::post('/dashboard/sessions/{session}/finish', [DashboardController::class, 'finish']);
         Route::put('/dashboard/sessions/{session}', [DashboardController::class, 'update']);

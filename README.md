@@ -1,4 +1,4 @@
-# Piano Piece Manager
+# PieceKeeper
 
 A web app for managing your piano repertoire, tracking practice sessions, and building consistent practice habits.
 

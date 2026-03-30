@@ -30,6 +30,19 @@
                         :style="{ width: progressPercent + '%' }"
                     />
                 </div>
+                <button
+                    v-if="!disabled && !allDone && pieces.length > 0 && !markingAll"
+                    class="text-xs px-2.5 py-1.5 rounded-lg font-medium whitespace-nowrap bg-emerald-100 text-emerald-700 hover:bg-emerald-200 transition-colors duration-200"
+                    @click="showMarkAllConfirm = true"
+                >
+                    Mark all done
+                </button>
+                <span
+                    v-if="markingAll"
+                    class="text-xs px-2.5 py-1.5 text-stone-400 whitespace-nowrap"
+                >
+                    Marking...
+                </span>
             </div>
         </div>
 
@@ -125,7 +138,7 @@
                     v-else-if="sessionFinished"
                     class="text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap bg-stone-100 text-stone-400"
                 >
-                    Not completed
+                    Not practiced
                 </div>
                 <div
                     v-else-if="piece.id === nextUpId"
@@ -156,10 +169,21 @@
         </div>
     </section>
 
+    <ConfirmModal
+        :show="showMarkAllConfirm"
+        title="Mark all pieces as done?"
+        :message="`This will complete all <strong>${pieces.length - completedCount}</strong> remaining ${pieces.length - completedCount === 1 ? 'piece' : 'pieces'}.`"
+        confirm-label="Mark all done"
+        confirm-class="bg-linear-to-r from-emerald-500 to-teal-500 hover:shadow-md"
+        @confirm="showMarkAllConfirm = false; markAllDone()"
+        @cancel="showMarkAllConfirm = false"
+    />
+
     <PieceViewModal
         :piece="selectedPiece"
         :practice-active="!disabled"
         @toggle-done="toggleDoneById"
+        @updated="onPieceUpdated"
         @close="selectedPiece = null"
     />
 </template>
@@ -168,6 +192,7 @@
 import { ref, computed } from 'vue'
 import LoadingSpinner from '../ui/LoadingSpinner.vue'
 import TrebleClefCheck from '../ui/TrebleClefCheck.vue'
+import ConfirmModal from '../ui/ConfirmModal.vue'
 import PieceViewModal from '../repertoire/PieceViewModal.vue'
 import api from '@/api'
 
@@ -183,6 +208,8 @@ const emit = defineEmits(['piece-toggled'])
 
 const selectedPiece = ref(null)
 const togglingIds = ref(new Set())
+const markingAll = ref(false)
+const showMarkAllConfirm = ref(false)
 
 const nextUpId = computed(() => {
     const next = props.pieces.find(p => !p.done)
@@ -209,8 +236,26 @@ async function toggle(piece) {
     }
 }
 
+async function markAllDone() {
+    const uncompleted = props.pieces.filter(p => !p.done)
+    if (!uncompleted.length || props.disabled || !props.sessionId) return
+    markingAll.value = true
+    try {
+        for (const piece of uncompleted) {
+            await toggle(piece)
+        }
+    } finally {
+        markingAll.value = false
+    }
+}
+
 function toggleDoneById(id) {
     const piece = props.pieces.find(p => p.id === id)
     if (piece) toggle(piece)
+}
+
+function onPieceUpdated(updated) {
+    const piece = props.pieces.find(p => p.id === updated.id)
+    if (piece) piece.status = updated.status
 }
 </script>

@@ -31,7 +31,7 @@
                         <span class="text-white text-sm">&#9835;</span>
                     </div>
                     <span class="text-lg font-serif font-bold tracking-wide text-stone-800">
-                        Piano <span class="text-amber-500">Piece Manager</span>
+                        Piece<span class="text-amber-500">Keeper</span>
                     </span>
                 </router-link>
 
@@ -82,7 +82,7 @@
                         <span class="text-white text-xs sm:text-sm">&#9835;</span>
                     </div>
                     <span class="text-base sm:text-lg font-serif font-bold tracking-wide text-stone-800">
-                        Piano <span class="text-amber-500">Piece Manager</span>
+                        Piece<span class="text-amber-500">Keeper</span>
                     </span>
                 </router-link>
 
