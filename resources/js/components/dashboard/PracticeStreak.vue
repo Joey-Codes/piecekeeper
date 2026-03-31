@@ -1,23 +1,23 @@
 <template>
     <router-link
         to="/insights#calendar"
-        class="block mt-6 sm:mt-8 card px-5 sm:px-8 py-5 sm:py-6 bg-white border-orange-200 no-underline cursor-pointer hover:shadow-lg transition-shadow duration-300"
+        class="block mt-6 sm:mt-8 rounded-2xl border border-stone-200 bg-white px-4 sm:px-8 py-6 sm:py-7 shadow-md no-underline cursor-pointer hover:shadow-lg transition-shadow duration-200"
     >
-        <h3 class="text-xs sm:text-sm font-bold text-stone-700 uppercase tracking-widest mb-4 sm:mb-5 text-center">
+        <h3 class="text-md font-serif font-bold tracking-wide text-stone-800 uppercase mb-5 sm:mb-6 text-center">
             Last 7 Days
         </h3>
-        <div class="flex gap-1.5 sm:gap-2 justify-between">
+        <div class="flex gap-1 sm:gap-3 justify-between">
             <div
                 v-for="(day, i) in days"
                 :key="i"
-                class="flex-1 flex flex-col items-center gap-2 sm:gap-2.5"
+                class="flex-1 flex flex-col items-center gap-2.5 sm:gap-3"
             >
                 <span
                     class="text-[10px] sm:text-xs font-bold uppercase tracking-wide"
-                    :class="day.isToday ? 'text-amber-600' : 'text-stone-400'"
+                    :class="day.isToday ? 'text-amber-600' : 'text-stone-700'"
                 >{{ day.dayName }}</span>
                 <div
-                    class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-all duration-300"
+                    class="w-9 h-9 sm:w-13 sm:h-13 rounded-lg sm:rounded-xl flex items-center justify-center transition-all duration-300"
                     :class="[
                         day.done
                             ? 'bg-linear-to-br from-amber-400 to-orange-500 shadow-md shadow-amber-300/30'
@@ -29,7 +29,7 @@
                 >
                     <svg
                         v-if="day.done"
-                        class="w-5 h-5 sm:w-6 sm:h-6 text-white"
+                        class="w-4 h-4 sm:w-6 sm:h-6 text-white"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -43,8 +43,8 @@
                     </svg>
                 </div>
                 <span
-                    class="text-[10px] sm:text-xs font-semibold"
-                    :class="day.isToday ? 'text-amber-600' : 'text-stone-500'"
+                    class="text-[10px] sm:text-sm font-bold"
+                    :class="day.isToday ? 'text-amber-600' : 'text-stone-600'"
                 >{{ day.dateNum }}</span>
             </div>
         </div>

@@ -9,14 +9,28 @@
             />
 
             <template v-else>
-                <header class="mb-6 text-center">
+                <header class="mb-8 sm:mb-12 flex flex-col items-center">
+                    <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-md mb-4 sm:mb-5">
+                        <svg
+                            class="w-5 h-5 sm:w-7 sm:h-7 text-white"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V4.125A2.25 2.25 0 0017.868 1.9l-6.75 1.929a2.25 2.25 0 00-1.618 2.163V15m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009.5 15.553z"
+                            />
+                        </svg>
+                    </div>
                     <h1 class="text-2xl sm:text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
                         My <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">Repertoire</span>
                     </h1>
-                    <p class="text-sm sm:text-base font-semibold text-stone-500 mt-1.5 sm:mt-2">
+                    <p class="text-sm sm:text-base font-medium text-stone-700 mt-1.5 sm:mt-2">
                         {{ repertoire.length }} {{ repertoire.length === 1 ? 'piece' : 'pieces' }} in your collection
                     </p>
-                    <div class="mt-2.5 sm:mt-3 mx-auto w-12 sm:w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
                 </header>
 
                 <template v-if="!reorderMode">
@@ -29,44 +43,47 @@
                     />
 
                     <!-- Filters & actions -->
-                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mb-4 sm:mb-6">
-                        <div class="relative flex-1">
-                            <svg
-                                class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                />
-                            </svg>
-                            <input
-                                v-model="search"
-                                type="text"
-                                placeholder="Search pieces..."
-                                class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 transition-shadow hover:shadow-md"
-                            >
-                        </div>
-                        <button
-                            class="hidden sm:block px-4 sm:py-2.5 text-sm sm:text-md font-semibold text-stone-600 bg-white border border-stone-200 rounded-xl shadow-sm hover:bg-stone-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200 whitespace-nowrap"
-                            @click="reorderMode = true"
-                        >
-                            Change Order
-                        </button>
-                        <div class="flex gap-2.5 sm:gap-3">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+                        <div class="flex gap-2.5 sm:gap-3 sm:flex-1">
+                            <div class="relative flex-1">
+                                <svg
+                                    class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                    />
+                                </svg>
+                                <input
+                                    v-model="search"
+                                    type="text"
+                                    placeholder="Search pieces..."
+                                    class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 transition-shadow hover:shadow-md"
+                                >
+                            </div>
                             <button
-                                class="sm:hidden px-4 py-2 text-sm font-semibold text-stone-600 bg-white border border-stone-200 rounded-xl shadow-sm hover:bg-stone-50 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200 whitespace-nowrap"
+                                class="sm:order-last px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold text-white bg-linear-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
+                                @click="showAddPiece = true"
+                            >
+                                + Add Piece
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-0.5">
+                            <button
+                                class="px-2.5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-stone-700 hover:bg-stone-100 rounded-lg transition-colors duration-200 whitespace-nowrap"
                                 @click="reorderMode = true"
                             >
-                                Change Order
+                                Reorder
                             </button>
+                            <span class="w-px h-4 bg-stone-200" />
                             <select
                                 v-model="statusFilter"
-                                class="flex-1 sm:flex-none px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold bg-white border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 text-stone-600 appearance-none cursor-pointer bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%2378716c%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-size-[12px] bg-position-[right_12px_center] bg-no-repeat pr-9 transition-shadow hover:shadow-md text-center sm:text-left"
+                                class="px-2.5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-stone-700  bg-transparent hover:bg-stone-100 rounded-lg cursor-pointer focus:outline-none transition-colors duration-200 appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%23a8a29e%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-size-[10px] bg-position-[right_6px_center] bg-no-repeat pr-5"
                             >
                                 <option value="">
                                     All statuses
@@ -87,13 +104,14 @@
                                     Shelved
                                 </option>
                             </select>
+                            <span class="w-px h-4 bg-stone-200" />
                             <button
-                                class="p-2 sm:p-2.5 text-stone-400 hover:text-amber-500 bg-white border border-stone-200 rounded-xl shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200"
+                                class="p-1.5 sm:p-2 text-stone-700 hover:text-amber-500 hover:bg-stone-100 rounded-lg transition-colors duration-200"
                                 title="What do statuses mean?"
                                 @click="showStatusInfo = true"
                             >
                                 <svg
-                                    class="w-4 h-4 sm:w-5 sm:h-5"
+                                    class="w-5 h-5"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -107,12 +125,6 @@
                                 </svg>
                             </button>
                         </div>
-                        <button
-                            class="px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold text-white bg-linear-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
-                            @click="showAddPiece = true"
-                        >
-                            + Add Piece
-                        </button>
                     </div>
 
                     <!-- Piece list -->
@@ -157,7 +169,7 @@
                                 <!-- Status badge -->
                                 <select
                                     :value="piece.status"
-                                    class="text-xs sm:text-sm font-semibold px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg border cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200"
+                                    class="text-xs sm:text-sm font-semibold px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-300/50 transition-all duration-200 appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M2%204l4%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-size-[8px] bg-position-[right_8px_center] bg-no-repeat pr-5"
                                     :class="statusClass(piece.status)"
                                     @click.stop
                                     @change="updateStatus(piece, $event.target.value)"
@@ -179,14 +191,29 @@
                                     </option>
                                 </select>
 
+                                <!-- Chevron hint -->
+                                <svg
+                                    class="w-4 h-4 text-stone-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0 hidden sm:block"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 5l7 7-7 7"
+                                    />
+                                </svg>
+
                                 <!-- Delete button -->
                                 <button
-                                    class="text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                                    class="text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200 shrink-0"
                                     title="Remove piece"
                                     @click.stop="deletePiece(piece)"
                                 >
                                     <svg
-                                        class="w-5 h-5"
+                                        class="w-4 h-4 sm:w-5 sm:h-5"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -214,17 +241,31 @@
 
                 <!-- Want to Learn section -->
                 <template v-if="!reorderMode">
-                    <header class="mt-10 sm:mt-16 mb-4 sm:mb-6 text-center">
+                    <header class="mt-16 sm:mt-24 mb-4 sm:mb-6 flex flex-col items-center">
+                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-linear-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-md mb-3.5 sm:mb-4">
+                            <svg
+                                class="w-4.5 h-4.5 sm:w-6 sm:h-6 text-white"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.5"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
+                                />
+                            </svg>
+                        </div>
                         <h2 class="text-xl sm:text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
                             Want to <span class="bg-linear-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent">Learn</span>
                         </h2>
-                        <p class="text-sm sm:text-base font-semibold text-stone-500 mt-1.5 sm:mt-2">
+                        <p class="text-sm sm:text-base font-medium text-stone-700 mt-1.5 sm:mt-2">
                             {{ wishlist.length }} {{ wishlist.length === 1 ? 'piece' : 'pieces' }} on your wishlist
                         </p>
-                        <div class="mt-2.5 sm:mt-3 mx-auto w-10 sm:w-12 h-1 rounded-full bg-linear-to-r from-violet-400 to-purple-400 opacity-60" />
                     </header>
 
-                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 mb-4 sm:mb-6">
+                    <div class="flex gap-2.5 sm:gap-3 mb-4 sm:mb-6">
                         <div class="relative flex-1">
                             <svg
                                 class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400"
@@ -297,21 +338,36 @@
 
                                 <!-- Start learning button -->
                                 <button
-                                    class="text-xs sm:text-sm font-semibold px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg text-amber-700 bg-amber-50 border border-amber-200/60 hover:bg-amber-100 hover:border-amber-300 transition-all duration-200 whitespace-nowrap"
+                                    class="text-xs sm:text-sm font-semibold px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-lg text-violet-700 bg-violet-50 border border-violet-200/60 hover:bg-violet-100 hover:border-violet-300 transition-all duration-200 whitespace-nowrap"
                                     title="Move to repertoire"
                                     @click.stop="startLearning(item)"
                                 >
                                     Start Learning
                                 </button>
 
+                                <!-- Chevron hint -->
+                                <svg
+                                    class="w-4 h-4 text-stone-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 shrink-0 hidden sm:block"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M9 5l7 7-7 7"
+                                    />
+                                </svg>
+
                                 <!-- Delete button -->
                                 <button
-                                    class="text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200"
+                                    class="text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200 shrink-0"
                                     title="Remove from wishlist"
                                     @click.stop="deleteWishlistPiece(item)"
                                 >
                                     <svg
-                                        class="w-5 h-5"
+                                        class="w-4 h-4 sm:w-5 sm:h-5"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -462,11 +518,11 @@ function statusBarClass(status) {
 
 function statusClass(status) {
     const classes = {
-        Learning: 'text-blue-700 bg-blue-50 border-blue-200/60',
-        Polishing: 'text-amber-700 bg-amber-50 border-amber-200/60',
-        Mastered: 'text-emerald-700 bg-emerald-50 border-emerald-200/60',
-        Relearning: 'text-violet-700 bg-violet-50 border-violet-200/60',
-        Shelved: 'text-stone-600 bg-stone-100 border-stone-200/60',
+        Learning: 'text-blue-700 bg-blue-50',
+        Polishing: 'text-amber-700 bg-amber-50',
+        Mastered: 'text-emerald-700 bg-emerald-50',
+        Relearning: 'text-violet-700 bg-violet-50',
+        Shelved: 'text-stone-600 bg-stone-100',
     }
     return classes[status] || ''
 }

@@ -4,12 +4,12 @@
         :class="allDone ? 'border-emerald-200' : 'border-orange-200'"
     >
         <!-- Card header -->
-        <div class="px-4 sm:px-6 py-4 sm:py-5 border-b border-stone-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+        <div class="px-5 sm:px-6 py-5 sm:py-5 border-b border-stone-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
             <div class="flex items-center gap-2.5 sm:gap-3">
                 <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center shadow-sm shrink-0">
                     <span class="text-white text-xs sm:text-sm">&#9835;</span>
                 </div>
-                <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                <h2 class="text-base sm:text-xl font-serif font-semibold uppercase text-stone-800">
                     Today's Practice<span
                         v-if="allDone"
                         class="text-emerald-500"
@@ -32,7 +32,7 @@
                 </div>
                 <button
                     v-if="!disabled && !allDone && pieces.length > 0 && !markingAll"
-                    class="text-xs px-2.5 py-1.5 rounded-lg font-medium whitespace-nowrap bg-emerald-100 text-emerald-700 hover:bg-emerald-200 transition-colors duration-200"
+                    class="text-xs px-3 py-1.5 rounded-xl font-semibold whitespace-nowrap bg-linear-to-r from-emerald-500 to-green-500 text-white shadow-sm hover:shadow-md transition-all duration-200"
                     @click="showMarkAllConfirm = true"
                 >
                     Mark all done
@@ -49,7 +49,7 @@
         <!-- Disabled hint banner -->
         <div
             v-if="disabled && !sessionFinished"
-            class="px-4 sm:px-6 py-2 sm:py-2.5 bg-stone-50 border-b border-stone-200 flex items-center gap-2"
+            class="px-5 sm:px-6 py-3 sm:py-2.5 bg-stone-50 border-b border-stone-200 flex items-center gap-2.5"
         >
             <svg
                 class="w-3.5 h-3.5 text-amber-400 shrink-0"
@@ -86,19 +86,25 @@
         <!-- Piece list -->
         <div
             v-else
-            class="p-3 sm:p-4 space-y-2 sm:space-y-3"
+            class="divide-y divide-stone-100"
         >
             <div
                 v-for="(piece, index) in pieces"
                 :key="piece.id"
-                class="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl transition-all duration-300 cursor-pointer"
+                class="flex items-center gap-3 sm:gap-4 pl-4 pr-5 sm:pl-5 sm:pr-7 py-5 sm:py-5 transition-colors duration-200 cursor-pointer"
                 :class="piece.done
-                    ? 'bg-emerald-50 border border-emerald-100'
+                    ? 'bg-emerald-50/50'
                     : sessionFinished
-                        ? 'bg-stone-50 border border-stone-200 opacity-60'
-                        : 'bg-white border border-stone-200 shadow-sm hover:border-amber-300 hover:shadow-md'"
+                        ? 'opacity-50'
+                        : 'hover:bg-stone-50'"
                 @click="selectedPiece = piece"
             >
+                <!-- Status color bar -->
+                <div
+                    class="w-1 self-stretch rounded-full shrink-0 transition-colors duration-200"
+                    :class="piece.done ? 'bg-emerald-400' : statusBarClass(piece.status)"
+                />
+
                 <!-- Check / number circle -->
                 <div
                     :class="disabled ? 'opacity-30 pointer-events-none' : ''"
@@ -114,55 +120,55 @@
                 <!-- Piece info -->
                 <div class="flex-1 min-w-0">
                     <p
-                        class="text-sm sm:text-base font-semibold transition-all duration-300 truncate"
-                        :class="piece.done ? 'text-emerald-700' : 'text-stone-700'"
+                        class="text-sm sm:text-md font-semibold transition-colors duration-200 truncate"
+                        :class="piece.done ? 'text-emerald-700' : 'text-stone-800'"
                     >
                         {{ piece.title }}
                     </p>
                     <p
-                        class="text-xs sm:text-sm mt-0.5 transition-all duration-300"
-                        :class="piece.done ? 'text-emerald-500' : 'text-stone-400'"
+                        class="text-xs sm:text-sm mt-0.5 transition-colors duration-200"
+                        :class="piece.done ? 'text-emerald-500' : 'text-stone-700'"
                     >
                         {{ piece.composer }}
                     </p>
                 </div>
 
                 <!-- Status tag -->
-                <div
+                <span
                     v-if="piece.done"
-                    class="text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap bg-emerald-100 text-emerald-600"
+                    class="text-sm px-3 py-1 rounded-full font-semibold whitespace-nowrap bg-emerald-100 text-emerald-600"
                 >
                     Done
-                </div>
-                <div
+                </span>
+                <span
                     v-else-if="sessionFinished"
-                    class="text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap bg-stone-100 text-stone-400"
+                    class="text-sm px-3 py-1 rounded-full font-semibold whitespace-nowrap bg-stone-100 text-stone-400"
                 >
-                    Not practiced
-                </div>
-                <div
+                    Skipped
+                </span>
+                <span
                     v-else-if="piece.id === nextUpId"
-                    class="text-xs px-2 py-1 rounded-full font-medium whitespace-nowrap bg-amber-100 text-amber-600"
+                    class="text-sm px-3 py-1 rounded-full font-semibold whitespace-nowrap bg-amber-100 text-amber-600"
                 >
                     Up next
-                </div>
+                </span>
             </div>
         </div>
 
         <!-- Footer -->
         <div
-            class="px-4 sm:px-6 py-3 sm:py-4 border-t border-stone-200 transition-colors duration-300"
+            class="px-5 sm:px-6 py-3.5 sm:py-4 border-t border-stone-200 transition-colors duration-300"
             :class="allDone ? 'bg-emerald-400' : 'bg-linear-to-r from-amber-400 to-orange-300'"
         >
             <p
                 v-if="allDone"
-                class="text-base sm:text-lg text-white font-semibold text-center"
+                class="text-sm sm:text-lg text-white font-semibold text-center"
             >
                 All done for today — great work! &#127929;
             </p>
             <p
                 v-else
-                class="text-base sm:text-lg font-semibold text-white text-center"
+                class="text-sm sm:text-lg font-semibold text-white text-center"
             >
                 {{ pieces.length - completedCount }} {{ pieces.length - completedCount === 1 ? 'piece' : 'pieces' }} remaining
             </p>
@@ -210,6 +216,17 @@ const selectedPiece = ref(null)
 const togglingIds = ref(new Set())
 const markingAll = ref(false)
 const showMarkAllConfirm = ref(false)
+
+function statusBarClass(status) {
+    const classes = {
+        Learning: 'bg-blue-400',
+        Polishing: 'bg-amber-400',
+        Mastered: 'bg-emerald-400',
+        Relearning: 'bg-violet-400',
+        Shelved: 'bg-stone-400',
+    }
+    return classes[status] || 'bg-amber-400'
+}
 
 const nextUpId = computed(() => {
     const next = props.pieces.find(p => !p.done)

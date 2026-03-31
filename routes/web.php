@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InsightsController;
 use App\Http\Controllers\PieceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,9 @@ Route::prefix('api')->group(function () {
         Route::put('/pieces/reorder', [PieceController::class, 'reorder']);
         Route::put('/pieces/{piece}', [PieceController::class, 'update']);
         Route::delete('/pieces/{piece}', [PieceController::class, 'destroy']);
+        Route::get('/insights', [InsightsController::class, 'index']);
+        Route::get('/insights/calendar', [InsightsController::class, 'calendar']);
+        Route::get('/insights/session', [InsightsController::class, 'session']);
     });
 });
 

@@ -1,10 +1,10 @@
 <template>
     <div class="flex flex-col items-center justify-center py-16 gap-4">
-        <div class="relative w-10 h-10">
-            <div class="absolute inset-0 rounded-full border-[3px] border-stone-200" />
-            <div class="absolute inset-0 rounded-full border-[3px] border-transparent border-t-amber-500 animate-spin" />
-        </div>
-        <p v-if="message" class="text-sm font-semibold text-stone-400">
+        <div class="w-10 h-10 rounded-full border-[3px] border-amber-400 border-t-transparent animate-spin" />
+        <p
+            v-if="message"
+            class="text-sm font-semibold text-stone-700"
+        >
             {{ message }}
         </p>
     </div>

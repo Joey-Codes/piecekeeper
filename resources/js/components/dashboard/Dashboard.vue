@@ -10,7 +10,6 @@
                 <h1 class="text-3xl sm:text-4xl font-serif font-bold tracking-wide text-stone-800">
                     Welcome Back, <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">{{ name }}</span>
                 </h1>
-                <div class="mt-3 mx-auto w-16 h-1 rounded-full bg-linear-to-r from-amber-400 to-orange-400 opacity-60" />
             </header>
 
             <PracticeSession
@@ -30,7 +29,7 @@
                 :session-finished="todaySession?.duration_seconds > 0"
                 @piece-toggled="onPieceToggled"
             />
-            <StatsRow />
+            <StatsRow ref="statsRowRef" />
             <PracticeStreak ref="practiceStreakRef" />
         </div>
 
@@ -58,6 +57,7 @@ import api from '@/api'
 
 const name = computed(() => auth.user?.name || '')
 const practiceStreakRef = ref(null)
+const statsRowRef = ref(null)
 const sessionActive = ref(false)
 const loading = ref(true)
 const todaySession = ref(null)
@@ -95,10 +95,12 @@ function onSessionFinished(session) {
         todaySession.value = { ...todaySession.value, duration_seconds: 1 }
     }
     setTimeout(() => practiceStreakRef.value?.markTodayDone(), 1500)
+    statsRowRef.value?.refresh()
 }
 
 function onSessionUpdated(session) {
     todaySession.value = session
+    statsRowRef.value?.refresh()
 }
 
 onMounted(fetchTodaySession)

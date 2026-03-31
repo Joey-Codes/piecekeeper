@@ -24,10 +24,10 @@
             </div>
         </div>
 
-        <div class="space-y-4 sm:space-y-6">
+        <div class="space-y-4 sm:space-y-5">
             <!-- Pieces per day -->
-            <div>
-                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Pieces per session</label>
+            <div class="rounded-xl border border-stone-200/70 bg-stone-50/50 px-4 py-4 sm:px-5 sm:py-5">
+                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-3">Pieces per session</label>
                 <div class="flex items-center gap-2.5 sm:gap-3">
                     <button
                         class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
@@ -47,20 +47,63 @@
             </div>
 
             <!-- Practice frequency -->
-            <div>
-                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-2">Practice frequency</label>
-                <div class="flex flex-wrap gap-1.5 sm:gap-2">
-                    <button
-                        v-for="option in frequencyOptions"
-                        :key="option.value"
-                        class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg border transition-all duration-200"
-                        :class="frequency === option.value
-                            ? 'border-amber-400 bg-amber-500 text-white shadow-sm'
-                            : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:text-stone-700'"
-                        @click="frequency = option.value"
-                    >
-                        {{ option.label }}
-                    </button>
+            <div class="rounded-xl border border-stone-200/70 bg-stone-50/50 px-4 py-4 sm:px-5 sm:py-5">
+                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-3">Practice frequency</label>
+                <div class="space-y-3 sm:space-y-4">
+                    <div>
+                        <p class="text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5 sm:mb-2">
+                            Interval
+                        </p>
+                        <div class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 sm:gap-2">
+                            <button
+                                v-for="option in intervalOptions"
+                                :key="option.value"
+                                class="px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg border transition-all duration-200 text-center"
+                                :class="frequency === option.value
+                                    ? 'border-amber-400 bg-amber-500 text-white shadow-sm'
+                                    : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:text-stone-700'"
+                                @click="frequency = option.value"
+                            >
+                                {{ option.label }}
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5 sm:mb-2">
+                            Weekly &amp; Monthly
+                        </p>
+                        <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
+                            <button
+                                v-for="option in periodicOptions"
+                                :key="option.value"
+                                class="px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg border transition-all duration-200 text-center"
+                                :class="frequency === option.value
+                                    ? 'border-amber-400 bg-amber-500 text-white shadow-sm'
+                                    : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:text-stone-700'"
+                                @click="frequency = option.value"
+                            >
+                                {{ option.label }}
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5 sm:mb-2">
+                            Day-specific
+                        </p>
+                        <div class="grid grid-cols-2 sm:grid-cols-2 gap-1.5 sm:gap-2 sm:w-1/2">
+                            <button
+                                v-for="option in daySpecificOptions"
+                                :key="option.value"
+                                class="px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm rounded-lg border transition-all duration-200 text-center"
+                                :class="frequency === option.value
+                                    ? 'border-amber-400 bg-amber-500 text-white shadow-sm'
+                                    : 'border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:text-stone-700'"
+                                @click="frequency = option.value"
+                            >
+                                {{ option.label }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -258,19 +301,27 @@ async function saveSchedule() {
     }
 }
 
-const frequencyOptions = [
+const intervalOptions = [
     { value: 'every_day', label: 'Every day' },
     { value: 'every_2_days', label: 'Every 2 days' },
     { value: 'every_3_days', label: 'Every 3 days' },
     { value: 'every_4_days', label: 'Every 4 days' },
     { value: 'every_5_days', label: 'Every 5 days' },
     { value: 'every_6_days', label: 'Every 6 days' },
+]
+
+const periodicOptions = [
     { value: 'weekly', label: 'Weekly' },
     { value: 'biweekly', label: 'Biweekly' },
     { value: 'monthly', label: 'Monthly' },
+]
+
+const daySpecificOptions = [
     { value: 'weekdays', label: 'Weekdays only' },
     { value: 'weekends', label: 'Weekends only' },
 ]
+
+const frequencyOptions = [...intervalOptions, ...periodicOptions, ...daySpecificOptions]
 
 const frequencyLabel = computed(() => {
     const option = frequencyOptions.find(o => o.value === frequency.value)

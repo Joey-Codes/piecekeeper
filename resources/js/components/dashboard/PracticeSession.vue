@@ -78,7 +78,7 @@
                 <div class="flex items-center gap-2">
                     <!-- Pause / Resume button -->
                     <button
-                        class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                        class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 text-sm font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
                         :class="paused
                             ? 'bg-linear-to-r from-emerald-500 to-green-500 text-white'
                             : 'bg-stone-100 text-stone-600 hover:bg-stone-200'"
@@ -118,7 +118,7 @@
                     </button>
                     <!-- End Session button -->
                     <button
-                        class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 text-sm sm:text-base bg-linear-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
+                        class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 text-sm bg-linear-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-xl shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
                         @click="promptEnd"
                     >
                         <svg
