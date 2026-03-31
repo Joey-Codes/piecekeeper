@@ -18,16 +18,54 @@
                 <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
                     Preferences
                 </h2>
-                <p class="text-sm sm:text-md font-semibold text-stone-600">
+                <p class="text-sm sm:text-base font-semibold text-stone-600">
                     Personalize your experience
                 </p>
             </div>
         </div>
 
         <div class="space-y-4 sm:space-y-6">
-            <!-- Timezone -->
+            <!-- Rollover toggle -->
             <div>
-                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-1">Timezone</label>
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <button
+                            class="text-stone-600 hover:text-amber-500 transition-colors"
+                            title="What does this mean?"
+                            @click="showRolloverInfo = true"
+                        >
+                            <svg
+                                class="w-4.5 h-4.5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                                />
+                            </svg>
+                        </button>
+                        <span class="text-sm sm:text-base font-semibold text-stone-700">Rollover Skipped Pieces</span>
+                    </div>
+                    <button
+                        class="relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400/50"
+                        :class="rolloverEnabled ? 'bg-amber-500' : 'bg-stone-300'"
+                        @click="toggleRollover"
+                    >
+                        <span
+                            class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200"
+                            :class="rolloverEnabled ? 'translate-x-5' : 'translate-x-0'"
+                        />
+                    </button>
+                </div>
+            </div>
+
+            <!-- Timezone -->
+            <div class="border-t border-stone-200/60 pt-4 sm:pt-5">
+                <label class="block text-sm sm:text-base font-semibold text-stone-700 mb-1">Timezone</label>
                 <p class="text-xs sm:text-sm text-stone-500 mb-2">
                     Used to determine your practice day boundaries
                 </p>
@@ -35,7 +73,7 @@
                     <input
                         v-model="tzSearch"
                         type="text"
-                        class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 focus:outline-none focus:ring-2 focus:ring-violet-400/50 focus:border-violet-400 transition-all"
+                        class="w-full px-3.5 sm:px-4 py-2 sm:py-2.5 text-sm rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 focus:outline-none focus:ring-2 focus:ring-violet-400/50 focus:border-violet-400 transition-all"
                         placeholder="Search timezone..."
                         @focus="tzDropdownOpen = true"
                         @blur="tzDropdownOpen = false"
@@ -48,7 +86,7 @@
                             v-for="tz in filteredTimezones"
                             :key="tz"
                             type="button"
-                            class="w-full text-left px-3.5 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base hover:bg-amber-50 transition-colors"
+                            class="w-full text-left px-3.5 sm:px-4 py-2 sm:py-2.5 text-sm hover:bg-amber-50 transition-colors"
                             :class="tz === timezone ? 'bg-amber-50 font-semibold text-amber-700' : 'text-stone-700'"
                             @mousedown.prevent="selectTimezone(tz)"
                         >
@@ -70,7 +108,7 @@
                     v-if="dirty"
                     class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/70 rounded-xl border border-emerald-200/50 shadow-sm flex items-center justify-between gap-2"
                 >
-                    <p class="text-sm sm:text-md font-semibold text-stone-600">
+                    <p class="text-sm sm:text-base font-semibold text-stone-600">
                         <span class="font-bold uppercase text-emerald-600">Unsaved changes</span>
                     </p>
                     <button
@@ -95,12 +133,22 @@
                 {{ successMsg }}
             </p>
         </div>
+
+        <SettingInfoModal
+            :show="showRolloverInfo"
+            title="Rollover Skipped Pieces"
+            description="When enabled, any pieces you skip/don't complete in a session will automatically roll over to the next one.
+            For example, if today's session has 3 pieces and you only finish 2, the remaining piece will be added to your next session. 
+            Please note that rollovers will change your rotation order. You can always view your current rotation order and index in the 'My Repertoire' tab."
+            @close="showRolloverInfo = false"
+        />
     </div>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue'
 import api from '@/api'
+import SettingInfoModal from './SettingInfoModal.vue'
 import { auth } from '@/auth'
 
 const allTimezones = Intl.supportedValuesOf('timeZone')
@@ -120,6 +168,21 @@ function selectTimezone(tz) {
     timezone.value = tz
     tzSearch.value = tz.replace(/_/g, ' ')
     tzDropdownOpen.value = false
+}
+
+// Rollover toggle
+const rolloverEnabled = ref(auth.user?.rollover_skipped ?? false)
+const showRolloverInfo = ref(false)
+
+async function toggleRollover() {
+    const newValue = !rolloverEnabled.value
+    rolloverEnabled.value = newValue
+    try {
+        const res = await api.put('/api/user', { rollover_skipped: newValue })
+        auth.setUser(res.data)
+    } catch (e) {
+        rolloverEnabled.value = !newValue
+    }
 }
 
 const saving = ref(false)

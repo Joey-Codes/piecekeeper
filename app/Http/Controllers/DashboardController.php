@@ -50,7 +50,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function finish(Request $request, PracticeSession $session)
+    public function finish(Request $request, PracticeSession $session, PracticeSessionService $service)
     {
         if ($session->user_id !== $request->user()->id) {
             abort(403);
@@ -63,6 +63,8 @@ class DashboardController extends Controller
         $session->update([
             'duration_seconds' => $request->duration_seconds,
         ]);
+
+        $service->advanceRotationIndex($request->user(), $session);
 
         return response()->json([
             'session' => $this->formatSession($session->fresh()->load('pieces')),

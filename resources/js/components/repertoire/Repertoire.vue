@@ -33,7 +33,7 @@
                     </p>
                 </header>
 
-                <template v-if="!reorderMode">
+                <template v-if="!reorderMode && !rotationIndexMode">
                     <AddPieceForm
                         :open="showAddPiece"
                         modal-title="Add Piece"
@@ -67,7 +67,7 @@
                                 >
                             </div>
                             <button
-                                class="sm:order-last px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold text-white bg-linear-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
+                                class="sm:order-last px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white bg-linear-to-r from-amber-500 to-orange-500 rounded-xl shadow-lg shadow-amber-300/30 hover:shadow-xl hover:shadow-amber-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
                                 @click="showAddPiece = true"
                             >
                                 + Add Piece
@@ -79,6 +79,13 @@
                                 @click="reorderMode = true"
                             >
                                 Reorder
+                            </button>
+                            <span class="w-px h-4 bg-stone-200" />
+                            <button
+                                class="px-2.5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-stone-700 hover:bg-stone-100 rounded-lg transition-colors duration-200 whitespace-nowrap"
+                                @click="rotationIndexMode = true"
+                            >
+                                Up Next
                             </button>
                             <span class="w-px h-4 bg-stone-200" />
                             <select
@@ -233,14 +240,23 @@
 
                 <!-- Reorder mode -->
                 <ReorderList
-                    v-else
+                    v-if="reorderMode"
                     :pieces="activePieces"
                     @save="saveReorder"
                     @cancel="reorderMode = false"
                 />
 
+                <!-- Rotation index mode -->
+                <RotationIndex
+                    v-if="rotationIndexMode"
+                    :pieces="activePieces"
+                    :rotation-index="rotationIndex"
+                    @save="saveRotationIndex"
+                    @cancel="rotationIndexMode = false"
+                />
+
                 <!-- Want to Learn section -->
-                <template v-if="!reorderMode">
+                <template v-if="!reorderMode && !rotationIndexMode">
                     <header class="mt-16 sm:mt-24 mb-4 sm:mb-6 flex flex-col items-center">
                         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-linear-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-md mb-3.5 sm:mb-4">
                             <svg
@@ -288,7 +304,7 @@
                             >
                         </div>
                         <button
-                            class="px-4 py-2 sm:py-2.5 text-sm sm:text-md font-semibold text-white bg-linear-to-r from-violet-500 to-purple-500 rounded-xl shadow-lg shadow-violet-300/30 hover:shadow-xl hover:shadow-violet-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
+                            class="px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white bg-linear-to-r from-violet-500 to-purple-500 rounded-xl shadow-lg shadow-violet-300/30 hover:shadow-xl hover:shadow-violet-300/40 hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-200 whitespace-nowrap"
                             @click="showAddWish = true"
                         >
                             + Add to Wishlist
@@ -425,6 +441,7 @@ import LoadingSpinner from '../ui/LoadingSpinner.vue'
 import AddPieceForm from './AddPieceForm.vue'
 import PieceDetail from './PieceDetail.vue'
 import ReorderList from './ReorderList.vue'
+import RotationIndex from './RotationIndex.vue'
 import StatusInfoModal from './StatusInfoModal.vue'
 
 
@@ -433,10 +450,14 @@ const loading = ref(true)
 
 onMounted(async () => {
     try {
-        const response = await api.get('/api/pieces')
-        pieces.value = response.data
+        const [piecesRes, userRes] = await Promise.all([
+            api.get('/api/pieces'),
+            api.get('/api/user'),
+        ])
+        pieces.value = piecesRes.data
+        rotationIndex.value = userRes.data.rotation_index ?? 0
     } catch (e) {
-        console.error('Failed to load pieces:', e)
+        console.error('Failed to load data:', e)
     } finally {
         loading.value = false
     }
@@ -449,6 +470,8 @@ const showAddWish = ref(false)
 const selectedPiece = ref(null)
 const selectedWishPiece = ref(null)
 const reorderMode = ref(false)
+const rotationIndexMode = ref(false)
+const rotationIndex = ref(0)
 const showStatusInfo = ref(false)
 const wishlistSearch = ref('')
 
@@ -537,6 +560,16 @@ async function saveReorder(orderedIds) {
         reorderMode.value = false
     } catch (e) {
         console.error('Failed to save order:', e)
+    }
+}
+
+async function saveRotationIndex(newIndex) {
+    try {
+        await api.put('/api/user', { rotation_index: newIndex })
+        rotationIndex.value = newIndex
+        rotationIndexMode.value = false
+    } catch (e) {
+        console.error('Failed to save rotation index:', e)
     }
 }
 

@@ -7,8 +7,12 @@ Piano repertoire manager — a single-page Vue 3 app served by Laravel. Users ma
 - All client API calls must use the `resources/js/api.js` helper (never raw `fetch`)
 - All API routes live in `routes/web.php` under the `/api` prefix (no separate `api.php`)
 - Business logic goes in `app/Services/`, not in controllers or models
-- Edits should be production-minded, not just "what works"
+- Edits and plans should be production-minded, not just "what works" locally
 - PROMPT before any irreversible actions (deleting data, destructive migrations, etc.)
+
+## Tailwind Conventions
+- DO NOT use font weights less than 500, there is no reason to have very light text on the site
+- 'text-md' is not a valid tailwind utility, do not use
 
 ## Stack
 - **Backend:** Laravel 12 (PHP 8.2), MySQL

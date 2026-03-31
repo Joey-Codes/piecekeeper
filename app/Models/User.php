@@ -19,6 +19,7 @@ class User extends Authenticatable
         'pieces_per_session',
         'practice_frequency',
         'rotation_index',
+        'rollover_skipped',
         'timezone',
     ];
 

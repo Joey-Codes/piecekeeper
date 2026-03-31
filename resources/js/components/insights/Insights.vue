@@ -53,7 +53,7 @@
                         </div>
                         <div class="min-w-0">
                             <p
-                                class="text-xs font-bold uppercase tracking-wider leading-none mb-1.5"
+                                class="text-xs font-bold uppercase tracking-wider leading-none mb-1.5 whitespace-nowrap"
                                 :class="stat.labelClass"
                             >
                                 {{ stat.label }}
@@ -176,15 +176,10 @@
 
                     <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-5 sm:p-6">
                         <!-- Loading -->
-                        <div
+                        <LoadingSpinner
                             v-if="sessionModal.loading"
-                            class="flex flex-col items-center py-8"
-                        >
-                            <div class="w-8 h-8 border-3 border-amber-400 border-t-transparent rounded-full animate-spin" />
-                            <p class="text-sm text-stone-500 mt-3">
-                                Loading session...
-                            </p>
-                        </div>
+                            message="Loading session..."
+                        />
 
                         <template v-else-if="sessionModal.session">
                             <!-- Header -->
@@ -292,13 +287,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
+import { useRoute } from 'vue-router'
 import FloatingNotes from '../ui/FloatingNotes.vue'
 import LoadingSpinner from '../ui/LoadingSpinner.vue'
 import { Calendar } from 'v-calendar'
 import 'v-calendar/style.css'
 import api from '../../api'
 
+const route = useRoute()
 const loading = ref(true)
 const data = ref(null)
 const calendarDates = ref([])
@@ -313,6 +310,11 @@ onMounted(async () => {
     data.value = statsRes
     calendarDates.value = calendarRes.dates
     loading.value = false
+
+    if (route.hash) {
+        await nextTick()
+        document.querySelector(route.hash)?.scrollIntoView({ behavior: 'smooth' })
+    }
 })
 
 async function onCalendarMove(pages) {

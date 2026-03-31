@@ -217,7 +217,7 @@
                     <div class="bg-linear-to-br from-amber-50 to-orange-50 rounded-3xl p-8 border-2 border-amber-200">
                         <!-- Animated practice checklist visual -->
                         <div class="space-y-4">
-                            <div class="text-md font-semibold text-amber-700 mb-2 flex items-center gap-2">
+                            <div class="text-base font-semibold text-amber-700 mb-2 flex items-center gap-2">
                                 <span class="text-xl">&#9835;</span> Today's Practice
                             </div>
                             <div

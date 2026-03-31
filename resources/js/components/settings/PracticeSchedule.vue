@@ -18,7 +18,7 @@
                 <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
                     Your Practice Schedule
                 </h2>
-                <p class="text-sm sm:text-md font-semibold text-stone-600">
+                <p class="text-sm sm:text-base font-semibold text-stone-600">
                     How often and how much you want to practice
                 </p>
             </div>
@@ -27,7 +27,7 @@
         <div class="space-y-4 sm:space-y-5">
             <!-- Pieces per day -->
             <div class="rounded-xl border border-stone-200/70 bg-stone-50/50 px-4 py-4 sm:px-5 sm:py-5">
-                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-3">Pieces per session</label>
+                <label class="block text-sm sm:text-base font-semibold text-stone-700 mb-3">Pieces per session</label>
                 <div class="flex items-center gap-2.5 sm:gap-3">
                     <button
                         class="w-8 h-8 sm:w-9 sm:h-9 rounded-lg border border-stone-300 bg-white text-stone-500 hover:bg-stone-50 hover:text-stone-700 transition-colors flex items-center justify-center text-lg"
@@ -42,13 +42,13 @@
                     >
                         +
                     </button>
-                    <span class="text-sm sm:text-md font-semibold text-stone-600 ml-1 sm:ml-2">{{ piecesPerDay === 1 ? 'piece' : 'pieces' }}</span>
+                    <span class="text-sm sm:text-base font-semibold text-stone-600 ml-1 sm:ml-2">{{ piecesPerDay === 1 ? 'piece' : 'pieces' }}</span>
                 </div>
             </div>
 
             <!-- Practice frequency -->
             <div class="rounded-xl border border-stone-200/70 bg-stone-50/50 px-4 py-4 sm:px-5 sm:py-5">
-                <label class="block text-sm sm:text-md font-semibold text-stone-700 mb-3">Practice frequency</label>
+                <label class="block text-sm sm:text-base font-semibold text-stone-700 mb-3">Practice frequency</label>
                 <div class="space-y-3 sm:space-y-4">
                     <div>
                         <p class="text-[11px] sm:text-xs font-semibold text-stone-400 uppercase tracking-wider mb-1.5 sm:mb-2">
@@ -109,7 +109,7 @@
 
             <!-- Summary with calendar arrow -->
             <div class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/70 rounded-xl border border-amber-200/50 shadow-sm flex items-center justify-between gap-2">
-                <p class="text-sm sm:text-md text-stone-600">
+                <p class="text-sm sm:text-base text-stone-600">
                     <span class="font-bold uppercase text-amber-600">Your schedule:</span>
                     {{ piecesPerDay }} {{ piecesPerDay === 1 ? 'piece' : 'pieces' }} {{ frequencyLabel }}
                 </p>
@@ -140,7 +140,7 @@
                     v-if="scheduleDirty"
                     class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/70 rounded-xl border border-emerald-200/50 shadow-sm flex items-center justify-between gap-2"
                 >
-                    <p class="text-sm sm:text-md font-semibold text-stone-600">
+                    <p class="text-sm sm:text-base font-semibold text-stone-600">
                         <span class="font-bold uppercase text-emerald-600">Unsaved changes</span>
                     </p>
                     <button

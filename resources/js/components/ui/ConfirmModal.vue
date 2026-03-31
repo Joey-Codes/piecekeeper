@@ -27,7 +27,7 @@
                     <!-- Message -->
                     <p
                         v-if="message"
-                        class="text-md text-stone-600 text-center leading-relaxed"
+                        class="text-base text-stone-600 text-center leading-relaxed"
                         v-html="message"
                     />
 

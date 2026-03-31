@@ -32,7 +32,7 @@
                 </div>
                 <button
                     v-if="!disabled && !allDone && pieces.length > 0 && !markingAll"
-                    class="text-xs px-3 py-1.5 rounded-xl font-semibold whitespace-nowrap bg-linear-to-r from-emerald-500 to-green-500 text-white shadow-sm hover:shadow-md transition-all duration-200"
+                    class="text-xs px-3 py-1.5 rounded-xl font-semibold whitespace-nowrap bg-linear-to-r from-emerald-500 to-green-500 text-white shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-200"
                     @click="showMarkAllConfirm = true"
                 >
                     Mark all done
@@ -64,7 +64,7 @@
                     d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
             </svg>
-            <span class="text-sm sm:text-md text-stone-600">Press <strong class="text-amber-700">Start Practice</strong> above to check off pieces</span>
+            <span class="text-sm sm:text-base text-stone-600">Press <strong class="text-amber-700">Start Practice</strong> above to check off pieces</span>
         </div>
 
         <!-- Loading state -->
@@ -93,7 +93,7 @@
                 :key="piece.id"
                 class="flex items-center gap-3 sm:gap-4 pl-4 pr-5 sm:pl-5 sm:pr-7 py-5 sm:py-5 transition-colors duration-200 cursor-pointer"
                 :class="piece.done
-                    ? 'bg-emerald-50/50'
+                    ? 'bg-stone-50/60'
                     : sessionFinished
                         ? 'opacity-50'
                         : 'hover:bg-stone-50'"
@@ -102,7 +102,7 @@
                 <!-- Status color bar -->
                 <div
                     class="w-1 self-stretch rounded-full shrink-0 transition-colors duration-200"
-                    :class="piece.done ? 'bg-emerald-400' : statusBarClass(piece.status)"
+                    :class="statusBarClass(piece.status)"
                 />
 
                 <!-- Check / number circle -->
@@ -120,7 +120,7 @@
                 <!-- Piece info -->
                 <div class="flex-1 min-w-0">
                     <p
-                        class="text-sm sm:text-md font-semibold transition-colors duration-200 truncate"
+                        class="text-sm sm:text-base font-semibold transition-colors duration-200 truncate"
                         :class="piece.done ? 'text-emerald-700' : 'text-stone-800'"
                     >
                         {{ piece.title }}
