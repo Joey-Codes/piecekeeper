@@ -15,6 +15,7 @@ class UserResource extends JsonResource
             'email_verified_at' => $this->email_verified_at,
             'rotation_index' => $this->rotation_index,
             'rollover_skipped' => (bool) $this->rollover_skipped,
+            'auto_end_session' => (bool) $this->auto_end_session,
             'pieces_per_session' => $this->pieces_per_session,
             'practice_frequency' => $this->practice_frequency,
             'timezone' => $this->timezone,

@@ -18,7 +18,7 @@
                 <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
                     Preferences
                 </h2>
-                <p class="text-sm sm:text-base font-semibold text-stone-600">
+                <p class="text-sm sm:text-base font-semibold text-emerald-600">
                     Personalize your experience
                 </p>
             </div>
@@ -63,13 +63,65 @@
                 </div>
             </div>
 
+            <!-- Auto-end session toggle -->
+            <div>
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <button
+                            class="text-stone-600 hover:text-amber-500 transition-colors"
+                            title="What does this mean?"
+                            @click="showAutoEndInfo = true"
+                        >
+                            <svg
+                                class="w-4.5 h-4.5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                                />
+                            </svg>
+                        </button>
+                        <span class="text-sm sm:text-base font-semibold text-stone-700">Auto-End Session</span>
+                    </div>
+                    <button
+                        class="relative w-11 h-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400/50"
+                        :class="autoEndEnabled ? 'bg-amber-500' : 'bg-stone-300'"
+                        @click="toggleAutoEnd"
+                    >
+                        <span
+                            class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-transform duration-200"
+                            :class="autoEndEnabled ? 'translate-x-5' : 'translate-x-0'"
+                        />
+                    </button>
+                </div>
+            </div>
+
             <!-- Timezone -->
-            <div class="border-t border-stone-200/60 pt-4 sm:pt-5">
-                <label class="block text-sm sm:text-base font-semibold text-stone-700 mb-1">Timezone</label>
-                <p class="text-xs sm:text-sm text-stone-500 mb-2">
-                    Used to determine your practice day boundaries
-                </p>
-                <div class="relative">
+            <div>
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2">
+                        <svg
+                            class="w-4.5 h-4.5 text-stone-600"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                            />
+                        </svg>
+                        <span class="text-sm sm:text-base font-semibold text-stone-700">Timezone</span>
+                    </div>
+                </div>
+                <div class="relative mt-2">
                     <input
                         v-model="tzSearch"
                         type="text"
@@ -138,9 +190,16 @@
             :show="showRolloverInfo"
             title="Rollover Skipped Pieces"
             description="When enabled, any pieces you skip/don't complete in a session will automatically roll over to the next one.
-            For example, if today's session has 3 pieces and you only finish 2, the remaining piece will be added to your next session. 
+            For example, if today's session has 3 pieces and you only finish 2, the remaining piece will be added to your next session.
             Please note that rollovers will change your rotation order. You can always view your current rotation order and index in the 'My Repertoire' tab."
             @close="showRolloverInfo = false"
+        />
+
+        <SettingInfoModal
+            :show="showAutoEndInfo"
+            title="Auto-End Session"
+            description="When enabled, your practice session will automatically end as soon as you check off the last piece in your checklist. This saves you from having to manually press Finish."
+            @close="showAutoEndInfo = false"
         />
     </div>
 </template>
@@ -173,6 +232,21 @@ function selectTimezone(tz) {
 // Rollover toggle
 const rolloverEnabled = ref(auth.user?.rollover_skipped ?? false)
 const showRolloverInfo = ref(false)
+
+// Auto-end session toggle
+const autoEndEnabled = ref(auth.user?.auto_end_session ?? false)
+const showAutoEndInfo = ref(false)
+
+async function toggleAutoEnd() {
+    const newValue = !autoEndEnabled.value
+    autoEndEnabled.value = newValue
+    try {
+        const res = await api.put('/api/user', { auto_end_session: newValue })
+        auth.setUser(res.data)
+    } catch (e) {
+        autoEndEnabled.value = !newValue
+    }
+}
 
 async function toggleRollover() {
     const newValue = !rolloverEnabled.value

@@ -19,7 +19,7 @@
             </button>
         </div>
 
-        <div class="flex items-start gap-3 bg-white border border-amber-200 rounded-xl px-4 py-3 mb-4 sm:mb-6 shadow-sm">
+        <div class="flex items-start gap-3 bg-white border border-amber-300 rounded-xl px-4 py-3 mb-4 sm:mb-6 shadow-sm">
             <svg
                 class="w-5 h-5 text-amber-500 shrink-0 mt-0.5"
                 fill="none"
@@ -44,7 +44,7 @@
         </div>
 
         <!-- Piece list with draggable cursor -->
-        <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-orange-200">
+        <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-amber-300">
             <draggable
                 v-model:list="listItems"
                 item-key="key"

@@ -316,6 +316,13 @@ function cancelEnd() {
     }
 }
 
+async function finishSession() {
+    if (!session.value.active) return
+    await confirmEnd()
+}
+
+defineExpose({ finishSession })
+
 onUnmounted(() => {
     if (timerInterval) clearInterval(timerInterval)
 })

@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-6 sm:mt-8 rounded-2xl border border-stone-200 bg-white px-4 sm:px-8 py-6 sm:py-7 shadow-md">
+    <div class="mt-6 sm:mt-8 rounded-2xl border border-orange-300 bg-white px-4 sm:px-8 py-6 sm:py-7 shadow-md">
         <div class="flex items-center justify-between mb-5 sm:mb-6">
             <h3 class="text-base font-serif font-bold tracking-wide text-stone-800 uppercase">
                 Last 7 Days

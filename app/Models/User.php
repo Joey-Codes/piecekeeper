@@ -20,6 +20,7 @@ class User extends Authenticatable
         'practice_frequency',
         'rotation_index',
         'rollover_skipped',
+        'auto_end_session',
         'timezone',
     ];
 

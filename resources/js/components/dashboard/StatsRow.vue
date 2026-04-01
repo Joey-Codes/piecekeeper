@@ -15,7 +15,7 @@
     >
         <router-link
             to="/insights"
-            class="flex items-center gap-4 rounded-2xl border bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-md transition-shadow duration-200 hover:shadow-lg no-underline border-violet-200"
+            class="flex items-center gap-4 rounded-2xl border bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-md transition-shadow duration-200 hover:shadow-lg no-underline border-violet-300"
         >
             <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-linear-to-br from-violet-400 to-purple-500 flex items-center justify-center shrink-0">
                 <svg
@@ -47,7 +47,7 @@
 
         <router-link
             to="/insights"
-            class="flex items-center gap-4 rounded-2xl border bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-md transition-shadow duration-200 hover:shadow-lg no-underline border-sky-200"
+            class="flex items-center gap-4 rounded-2xl border bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-md transition-shadow duration-200 hover:shadow-lg no-underline border-sky-300"
         >
             <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-linear-to-br from-sky-400 to-blue-500 flex items-center justify-center shrink-0">
                 <svg
@@ -79,9 +79,9 @@
 
         <router-link
             to="/insights"
-            class="flex items-center gap-4 rounded-2xl border bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-md transition-shadow duration-200 hover:shadow-lg no-underline border-amber-200"
+            class="flex items-center gap-4 rounded-2xl border bg-white px-4 py-4 sm:px-5 sm:py-5 shadow-md transition-shadow duration-200 hover:shadow-lg no-underline border-emerald-300"
         >
-            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shrink-0">
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-linear-to-br from-emerald-400 to-teal-500 flex items-center justify-center shrink-0">
                 <svg
                     class="w-5 h-5 sm:w-6 sm:h-6 text-white"
                     fill="none"
@@ -97,7 +97,7 @@
                 </svg>
             </div>
             <div class="min-w-0">
-                <p class="text-xs font-bold text-amber-600 uppercase tracking-wider leading-none mb-1.5">
+                <p class="text-xs font-bold text-emerald-600 uppercase tracking-wider leading-none mb-1.5">
                     This Week
                 </p>
                 <p class="text-xl sm:text-2xl font-bold text-stone-800 leading-tight">

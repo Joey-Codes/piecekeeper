@@ -63,7 +63,7 @@
                                     v-model="search"
                                     type="text"
                                     placeholder="Search pieces..."
-                                    class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white border border-stone-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 transition-shadow hover:shadow-md"
+                                    class="w-full pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-md bg-white border border-stone-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 transition-shadow hover:shadow-md"
                                 >
                             </div>
                             <button
@@ -135,7 +135,7 @@
                     </div>
 
                     <!-- Piece list -->
-                    <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-orange-200">
+                    <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-amber-300">
                         <div
                             v-if="filteredPieces.length === 0"
                             class="px-6 py-16 text-center"
@@ -320,7 +320,7 @@
                         @close="showAddWish = false"
                     />
 
-                    <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-violet-200">
+                    <section class="card overflow-hidden hover:shadow-lg transition-shadow duration-300 border-violet-300">
                         <div
                             v-if="filteredWishlist.length === 0"
                             class="px-6 py-16 text-center"

@@ -18,7 +18,7 @@
                 <h2 class="text-base sm:text-xl font-serif font-bold uppercase tracking-wide text-stone-800">
                     Account
                 </h2>
-                <p class="text-sm sm:text-base font-semibold text-stone-600">
+                <p class="text-sm sm:text-base font-semibold text-blue-600">
                     Manage your account
                 </p>
             </div>
@@ -104,10 +104,10 @@
             <Transition name="fade">
                 <div
                     v-if="accountDirty"
-                    class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/70 rounded-xl border border-emerald-200/50 shadow-sm flex items-center justify-between gap-2"
+                    class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-2.5 bg-white/70 rounded-xl border border-emerald-300 shadow-sm flex items-center justify-between gap-2"
                 >
                     <p class="text-sm sm:text-base font-semibold text-stone-600">
-                        <span class="font-bold uppercase text-emerald-600">Unsaved changes</span>
+                        <span class="font-semibold uppercase text-emerald-600">Unsaved changes</span>
                     </p>
                     <button
                         class="px-4 sm:px-5 py-1.5 sm:py-2 text-sm sm:text-base font-semibold rounded-lg border border-emerald-400 bg-emerald-500 text-white hover:bg-emerald-600 transition-colors duration-200 shadow-sm disabled:opacity-50 shrink-0"

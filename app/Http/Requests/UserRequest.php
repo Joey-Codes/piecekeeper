@@ -14,6 +14,7 @@ class UserRequest extends FormRequest
             'name' => 'sometimes|string|max:50',
             'rotation_index' => 'sometimes|integer|min:0',
             'rollover_skipped' => 'sometimes|boolean',
+            'auto_end_session' => 'sometimes|boolean',
             'pieces_per_session' => 'sometimes|integer|min:1|max:20',
             'practice_frequency' => 'sometimes|string|in:every_day,every_2_days,every_3_days,every_4_days,every_5_days,every_6_days,weekly,biweekly,monthly,weekdays,weekends',
             'timezone' => 'sometimes|string|timezone:all',

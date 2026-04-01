@@ -102,9 +102,9 @@
                     </p>
                 </header>
 
-                <section class="rounded-xl border border-stone-200 bg-white overflow-hidden transition-shadow duration-200 hover:shadow-md">
+                <section class="rounded-xl border border-violet-400 bg-white overflow-hidden transition-shadow duration-200 hover:shadow-md">
                     <!-- Legend -->
-                    <div class="px-4 sm:px-6 pt-4 sm:pt-5 flex items-center justify-end gap-3 sm:gap-4 text-[10px] sm:text-xs font-semibold text-stone-400">
+                    <div class="px-4 sm:px-6 pt-4 sm:pt-5 flex items-center justify-end gap-3 sm:gap-4 text-[10px] sm:text-sm font-semibold text-stone-700">
                         <div class="flex items-center gap-1.5">
                             <span class="w-2.5 h-2.5 rounded-full bg-linear-to-br from-violet-400 to-purple-500" />
                             <span>Today</span>
@@ -343,7 +343,7 @@ const stats = computed(() => {
             detail: `${d.lifetime_sessions} sessions total`,
             icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>',
             bgClass: 'bg-linear-to-br from-rose-400 to-pink-500',
-            borderClass: 'border-rose-200',
+            borderClass: 'border-rose-300',
             labelClass: 'text-rose-600',
         },
         {
@@ -353,7 +353,7 @@ const stats = computed(() => {
             detail: d.lifetime_sessions > 0 ? `Across ${d.lifetime_sessions} sessions` : 'No sessions yet',
             icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" /></svg>',
             bgClass: 'bg-linear-to-br from-sky-400 to-blue-500',
-            borderClass: 'border-sky-200',
+            borderClass: 'border-sky-300',
             labelClass: 'text-sky-600',
         },
         {
@@ -362,9 +362,9 @@ const stats = computed(() => {
             unit: 'hrs',
             detail: `${d.week_sessions} sessions`,
             icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>',
-            bgClass: 'bg-linear-to-br from-amber-400 to-orange-500',
-            borderClass: 'border-amber-200',
-            labelClass: 'text-amber-600',
+            bgClass: 'bg-linear-to-br from-emerald-400 to-teal-500',
+            borderClass: 'border-emerald-300',
+            labelClass: 'text-emerald-600',
         },
         {
             label: 'Total Pieces',
@@ -373,7 +373,7 @@ const stats = computed(() => {
             detail: `${d.active_pieces} active`,
             icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V4.125A2.25 2.25 0 0017.868 1.9l-6.75 1.929a2.25 2.25 0 00-1.618 2.163V15m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009.5 15.553z" /></svg>',
             bgClass: 'bg-linear-to-br from-violet-400 to-purple-500',
-            borderClass: 'border-violet-200',
+            borderClass: 'border-violet-300',
             labelClass: 'text-violet-600',
         },
         {
@@ -383,7 +383,7 @@ const stats = computed(() => {
             detail: d.most_practiced ? `${d.most_practiced.session_count} sessions` : 'No sessions yet',
             icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-4.5A3.375 3.375 0 0012.75 11h-.5A3.375 3.375 0 009 14.25v4.5m7.5 0h-6m1.5-12V2.25m3.75 2.25L13.5 2.25m-3 2.25L12.75 2.25" /></svg>',
             bgClass: 'bg-linear-to-br from-emerald-400 to-teal-500',
-            borderClass: 'border-emerald-200',
+            borderClass: 'border-emerald-300',
             labelClass: 'text-emerald-600',
         },
         {
@@ -393,7 +393,7 @@ const stats = computed(() => {
             detail: 'Currently learning',
             icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>',
             bgClass: 'bg-linear-to-br from-blue-400 to-indigo-500',
-            borderClass: 'border-blue-200',
+            borderClass: 'border-blue-300',
             labelClass: 'text-blue-600',
         },
         {
@@ -403,7 +403,7 @@ const stats = computed(() => {
             detail: 'Refining & perfecting',
             icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" /></svg>',
             bgClass: 'bg-linear-to-br from-pink-400 to-rose-500',
-            borderClass: 'border-pink-200',
+            borderClass: 'border-pink-300',
             labelClass: 'text-pink-600',
         },
         {
@@ -413,7 +413,7 @@ const stats = computed(() => {
             detail: 'Picking back up',
             icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" /></svg>',
             bgClass: 'bg-linear-to-br from-orange-400 to-red-500',
-            borderClass: 'border-orange-200',
+            borderClass: 'border-orange-300',
             labelClass: 'text-orange-600',
         },
         {
@@ -423,7 +423,7 @@ const stats = computed(() => {
             detail: `${d.mastered_this_month} this month`,
             icon: '<svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15v-3.75m0 0h10.5m-10.5 0L12 7.5l5.25 3.75" /></svg>',
             bgClass: 'bg-linear-to-br from-yellow-400 to-amber-500',
-            borderClass: 'border-yellow-200',
+            borderClass: 'border-yellow-300',
             labelClass: 'text-yellow-600',
         },
     ]
@@ -492,9 +492,8 @@ function getDayBoxClass(day) {
 }
 
 :deep(.vc-title) {
-    font-size: 1.125rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: rgb(41 37 36);
     letter-spacing: 0.05em;
     text-transform: uppercase;
 }
@@ -512,10 +511,10 @@ function getDayBoxClass(day) {
 }
 
 :deep(.vc-weekday) {
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.65rem;
     letter-spacing: 0.08em;
-    color: rgb(168 162 158);
+    color: rgb(87 83 78);
     text-transform: uppercase;
     padding-bottom: 0.5rem;
 }
@@ -535,6 +534,8 @@ function getDayBoxClass(day) {
 :deep(.vc-day-content) {
     width: 100%;
     height: 100%;
+    font-weight: 700;
+    color: rgb(68 64 60);
 }
 
 .modal-enter-active,

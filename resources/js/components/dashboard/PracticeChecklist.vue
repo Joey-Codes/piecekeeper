@@ -1,7 +1,7 @@
 <template>
     <section
         class="card overflow-hidden relative mb-6 sm:mb-8 hover:shadow-lg transition-shadow duration-300"
-        :class="allDone ? 'border-emerald-200' : 'border-orange-200'"
+        :class="allDone ? 'border-emerald-200' : 'border-orange-300'"
     >
         <!-- Card header -->
         <div class="px-5 sm:px-6 py-5 sm:py-5 border-b border-stone-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
@@ -49,10 +49,10 @@
         <!-- Disabled hint banner -->
         <div
             v-if="disabled && !sessionFinished"
-            class="px-5 sm:px-6 py-3 sm:py-2.5 bg-stone-50 border-b border-stone-200 flex items-center gap-2.5"
+            class="px-5 sm:px-6 py-3 sm:py-2.5 bg-linear-to-r from-amber-400 to-orange-300 border-b border-stone-200 flex items-center justify-center gap-2.5"
         >
             <svg
-                class="w-3.5 h-3.5 text-amber-400 shrink-0"
+                class="w-3.5 h-3.5 text-white shrink-0"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -64,7 +64,7 @@
                     d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
             </svg>
-            <span class="text-sm sm:text-base text-stone-600">Press <strong class="text-amber-700">Start Practice</strong> above to check off pieces</span>
+            <span class="text-sm sm:text-base text-white font-semibold">Press Start Practice above to check off pieces</span>
         </div>
 
         <!-- Loading state -->
@@ -157,12 +157,12 @@
 
         <!-- Footer -->
         <div
-            class="px-5 sm:px-6 py-3.5 sm:py-4 border-t border-stone-200 transition-colors duration-300"
+            class="px-5 sm:px-6 py-3.5 sm:py-2 border-t border-stone-200 transition-colors duration-300"
             :class="allDone ? 'bg-emerald-400' : 'bg-linear-to-r from-amber-400 to-orange-300'"
         >
             <p
                 v-if="allDone"
-                class="text-sm sm:text-lg text-white font-semibold text-center"
+                class="text-sm sm:text-base text-white font-semibold text-center"
             >
                 All done for today — great work! &#127929;
             </p>

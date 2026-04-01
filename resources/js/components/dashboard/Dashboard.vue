@@ -13,6 +13,7 @@
             </header>
 
             <PracticeSession
+                ref="practiceSessionRef"
                 :session-id="todaySession?.id"
                 :loading="loading"
                 :completed="todaySession?.duration_seconds > 0"
@@ -56,6 +57,7 @@ import { auth } from '@/auth'
 import api from '@/api'
 
 const name = computed(() => auth.user?.name || '')
+const practiceSessionRef = ref(null)
 const practiceStreakRef = ref(null)
 const statsRowRef = ref(null)
 const sessionActive = ref(false)
@@ -86,6 +88,11 @@ function onPieceToggled({ pieceId, completed, piecesCompleted }) {
     const piece = todaySession.value.pieces.find(p => p.id === pieceId)
     if (piece) piece.completed = completed
     todaySession.value.pieces_completed = piecesCompleted
+
+    if (auth.user?.auto_end_session && sessionActive.value
+        && piecesCompleted === todaySession.value.pieces.length) {
+        practiceSessionRef.value?.finishSession()
+    }
 }
 
 function onSessionFinished(session) {
