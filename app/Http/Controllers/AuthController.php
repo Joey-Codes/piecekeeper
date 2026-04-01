@@ -6,6 +6,7 @@ use App\Http\Requests\AuthRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -26,11 +27,13 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
+        $user = Auth::user();
+
         if ($request->has('timezone')) {
-            Auth::user()->update(['timezone' => $request->timezone]);
+            $user->update(['timezone' => $request->timezone]);
         }
 
-        return response()->json(Auth::user());
+        return response()->json($user);
     }
 
     public function logout(Request $request)
@@ -46,5 +49,40 @@ class AuthController extends Controller
     public function user(Request $request)
     {
         return response()->json($request->user());
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback(Request $request)
+    {
+        $googleUser = Socialite::driver('google')->user();
+
+        $user = User::where('google_id', $googleUser->getId())->first();
+
+        if (! $user) {
+            $user = User::where('email', $googleUser->getEmail())->first();
+
+            if ($user) {
+                $user->update(['google_id' => $googleUser->getId()]);
+            } else {
+                $user = User::create([
+                    'name' => $googleUser->getName(),
+                    'email' => $googleUser->getEmail(),
+                    'google_id' => $googleUser->getId(),
+                    'email_verified_at' => now(),
+                ]);
+            }
+        }
+
+        if ($request->has('timezone')) {
+            $user->update(['timezone' => $request->timezone]);
+        }
+
+        Auth::login($user, remember: true);
+
+        return redirect('/dashboard');
     }
 }

@@ -286,9 +286,9 @@
                     </div>
 
                     <!-- Sign up with Google -->
-                    <button
-                        type="button"
-                        class="w-full flex items-center justify-center gap-2.5 sm:gap-3 py-2.5 sm:py-3.5 text-sm sm:text-base font-semibold rounded-xl border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:border-stone-300 transition-all duration-200"
+                    <a
+                        href="/auth/google"
+                        class="w-full flex items-center justify-center gap-2.5 sm:gap-3 py-2.5 sm:py-3.5 text-sm sm:text-base font-semibold rounded-xl border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:border-stone-300 transition-all duration-200 no-underline"
                     >
                         <svg
                             class="w-5 h-5"
@@ -312,7 +312,7 @@
                             />
                         </svg>
                         Sign up with Google
-                    </button>
+                    </a>
 
                     <div class="mt-4 sm:mt-6">
                         <!-- Log in link -->

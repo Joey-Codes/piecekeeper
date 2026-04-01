@@ -80,6 +80,7 @@ class InsightsService
         $dates = $user->sessions()
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
+            ->where('duration_seconds', '>', 0)
             ->pluck('date')
             ->map(fn ($d) => $d->toDateString())
             ->values()

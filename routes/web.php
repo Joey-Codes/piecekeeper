@@ -33,6 +33,9 @@ Route::prefix('api')->group(function () {
     });
 });
 
+Route::get('/auth/google', [AuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '^(?!api).*$');
