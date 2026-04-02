@@ -71,7 +71,7 @@
                 </div>
 
                 <!-- Sign up form -->
-                <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-stone-200/50 border border-stone-100 p-5 sm:p-8">
+                <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-stone-200/50 border border-stone-200 p-5 sm:p-8">
                     <form
                         class="space-y-4 sm:space-y-5"
                         @submit.prevent="handleSignUp"
@@ -84,8 +84,8 @@
                             >
                                 Display name
                             </label>
-                            <p class="text-xs sm:text-sm text-stone-500 mb-1.5 sm:mb-2">
-                                Your name or username
+                            <p class="text-xs sm:text-sm text-amber-600 font-semibold mb-1.5 sm:mb-2">
+                                Your name or a username
                             </p>
                             <input
                                 id="name"
@@ -93,7 +93,7 @@
                                 type="text"
                                 required
                                 placeholder="e.g. Clara, pianolover42, etc."
-                                class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-sm sm:text-base rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
+                                class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-sm sm:text-base rounded-xl border border-stone-300 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                             >
                         </div>
 
@@ -111,7 +111,7 @@
                                 type="email"
                                 required
                                 placeholder="you@example.com"
-                                class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-sm sm:text-base rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
+                                class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 text-sm sm:text-base rounded-xl border border-stone-300 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                             >
                         </div>
 
@@ -130,7 +130,7 @@
                                     :type="showPassword ? 'text' : 'password'"
                                     required
                                     placeholder="At least 8 characters"
-                                    class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 pr-11 text-sm sm:text-base rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
+                                    class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 pr-11 text-sm sm:text-base rounded-xl border border-stone-300 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                                 >
                                 <button
                                     type="button"
@@ -190,7 +190,7 @@
                                     :type="showConfirmPassword ? 'text' : 'password'"
                                     required
                                     placeholder="Re-enter your password"
-                                    class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 pr-11 text-sm sm:text-base rounded-xl border border-stone-200 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
+                                    class="w-full px-3.5 sm:px-4 py-2.5 sm:py-3.5 pr-11 text-sm sm:text-base rounded-xl border border-stone-300 bg-stone-50/50 text-stone-800 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-400 transition-all"
                                 >
                                 <button
                                     type="button"
@@ -280,15 +280,15 @@
 
                     <!-- Divider -->
                     <div class="flex items-center gap-4 my-4 sm:my-6">
-                        <div class="flex-1 h-px bg-stone-200" />
+                        <div class="flex-1 h-px bg-stone-500" />
                         <span class="text-xs sm:text-sm text-stone-500 font-medium uppercase tracking-wider">or</span>
-                        <div class="flex-1 h-px bg-stone-200" />
+                        <div class="flex-1 h-px bg-stone-500" />
                     </div>
 
-                    <!-- Sign up with Google -->
+                    <!-- Continue with Google -->
                     <a
                         href="/auth/google"
-                        class="w-full flex items-center justify-center gap-2.5 sm:gap-3 py-2.5 sm:py-3.5 text-sm sm:text-base font-semibold rounded-xl border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 hover:border-stone-300 transition-all duration-200 no-underline"
+                        class="w-full flex items-center justify-center gap-2.5 sm:gap-3 py-2.5 sm:py-3.5 text-sm sm:text-base font-semibold rounded-xl border border-stone-300 bg-white text-stone-700 hover:bg-stone-50 hover:border-stone-500 transition-all duration-200 no-underline"
                     >
                         <svg
                             class="w-5 h-5"
@@ -311,7 +311,7 @@
                                 fill="#EA4335"
                             />
                         </svg>
-                        Sign up with Google
+                        Continue with Google
                     </a>
 
                     <div class="mt-4 sm:mt-6">
@@ -329,7 +329,7 @@
                 </div>
 
                 <!-- Footer note -->
-                <p class="text-center text-xs sm:text-sm text-stone-500 mt-4 sm:mt-6">
+                <p class="text-center text-xs sm:text-sm text-stone-700 mt-4 sm:mt-6">
                     By creating an account, you agree to our
                     <router-link
                         to="/terms"

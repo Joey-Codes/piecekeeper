@@ -349,7 +349,7 @@
                     :disabled="loggingOut"
                     @click="logout"
                 >
-                    {{ loggingOut ? 'Logging out...' : 'Log out' }}
+                    {{ loggingOut ? ' Logging you out...' : 'Log out' }}
                 </button>
             </div>
         </div>
