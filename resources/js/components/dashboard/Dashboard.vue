@@ -1,13 +1,13 @@
 <template>
-    <div class="min-h-screen bg-linear-to-b from-amber-50/80 via-white to-stone-50 relative overflow-hidden">
+    <div class="min-h-screen bg-linear-to-b from-amber-100/70 via-orange-50/40 to-stone-100 relative overflow-hidden">
         <FloatingNotes />
 
         <div class="relative max-w-4xl mx-auto px-6 py-12">
             <header class="mb-10 text-center">
-                <p class="text-sm font-semibold tracking-widest text-amber-600 uppercase mb-2">
+                <p class="text-md sm:text-2xl font-semibold tracking-widest text-amber-600 uppercase mb-2">
                     IT'S {{ formattedDate }}
                 </p>
-                <h1 class="text-3xl sm:text-4xl font-serif font-bold tracking-wide text-stone-800">
+                <h1 class="text-3xl sm:text-5xl font-serif font-bold tracking-wide text-stone-800">
                     Welcome Back, <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">{{ name }}</span>
                 </h1>
             </header>
@@ -18,7 +18,7 @@
                 :loading="loading"
                 :completed="todaySession?.duration_seconds > 0"
                 :remaining-count="sessionPieces.filter(p => !p.done).length"
-                @update:active="sessionActive = $event"
+                @update:active="sessionActive = $event" 
                 @session-finished="onSessionFinished"
                 @review="showReview = true"
             />

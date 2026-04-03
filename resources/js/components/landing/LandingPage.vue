@@ -65,7 +65,7 @@
                 <span
                     v-for="(note, i) in heroNotes"
                     :key="'hero-note-'+i"
-                    class="absolute text-amber-400/20 font-serif select-none"
+                    class="absolute text-amber-400/40 font-serif select-none"
                     :style="note.style"
                     :class="note.animClass"
                 >{{ note.symbol }}</span>
@@ -197,7 +197,7 @@
         <!-- Features Intro -->
         <section
             ref="featuresSection"
-            class="py-20 bg-linear-to-br from-amber-500 to-orange-500 relative overflow-hidden"
+            class="py-20 sm:py-30 bg-linear-to-br from-amber-500 to-orange-500 relative overflow-hidden"
         >
             <div class="absolute inset-0 pointer-events-none">
                 <span
@@ -524,14 +524,14 @@
                     </span>
                 </h2>
                 <p class="text-stone-300 text-xl sm:text-2xl max-w-2xl mx-auto leading-relaxed">
-                    Quality practice matters more than quantity.
+                    Quality practice matters more than sheer quantity.
                     PieceKeeper is designed to make every session count.
                 </p>
             </div>
         </section>
 
         <!-- Stats / Social Proof Section -->
-        <section class="py-28 md:py-40 bg-linear-to-br from-violet-100 via-orange-100 to-amber-100 relative overflow-hidden">
+        <section class="py-28 md:py-50 bg-linear-to-br from-violet-100 via-orange-100 to-amber-100 relative overflow-hidden">
             <div class="absolute inset-0 pointer-events-none">
                 <span
                     v-for="(note, i) in statsNotes"
@@ -566,7 +566,7 @@
         </section>
 
         <!-- Final CTA Section -->
-        <section class="py-24 bg-white relative overflow-hidden">
+        <section class="py-24 md:py-40 bg-white relative overflow-hidden">
             <!-- Subtle floating notes -->
             <div class="absolute inset-0 pointer-events-none">
                 <span

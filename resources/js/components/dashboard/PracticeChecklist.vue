@@ -49,10 +49,10 @@
         <!-- Disabled hint banner -->
         <div
             v-if="disabled && !sessionFinished"
-            class="px-5 sm:px-6 py-3 sm:py-2.5 bg-linear-to-r from-amber-400 to-orange-300 border-b border-stone-200 flex items-center justify-center gap-2.5"
+            class="px-5 sm:px-6 py-2.5 sm:py-2 bg-amber-50 border-b border-amber-200/60 flex items-center justify-center gap-2"
         >
             <svg
-                class="w-3.5 h-3.5 text-white shrink-0"
+                class="w-3.5 h-3.5 text-amber-400 shrink-0"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -64,7 +64,7 @@
                     d="M12 6v6l4 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
             </svg>
-            <span class="text-sm sm:text-base text-white font-semibold">Press Start Practice above to check off pieces</span>
+            <span class="text-xs sm:text-sm text-amber-600 font-medium">Press Start Practice above to check off pieces</span>
         </div>
 
         <!-- Loading state -->
@@ -148,7 +148,7 @@
                 </span>
                 <span
                     v-else-if="piece.id === nextUpId"
-                    class="text-sm px-3 py-1 rounded-full font-semibold whitespace-nowrap bg-amber-100 text-amber-600"
+                    class="text-xs sm:text-sm px-3 py-1 rounded-full font-semibold whitespace-nowrap bg-amber-100 text-amber-600"
                 >
                     Up next
                 </span>
@@ -157,18 +157,18 @@
 
         <!-- Footer -->
         <div
-            class="px-5 sm:px-6 py-3.5 sm:py-2 border-t border-stone-200 transition-colors duration-300"
-            :class="allDone ? 'bg-emerald-400' : 'bg-linear-to-r from-amber-400 to-orange-300'"
+            class="px-5 sm:px-6 py-2.5 sm:py-2 border-t transition-colors duration-300"
+            :class="allDone ? 'bg-emerald-50 border-emerald-200/60' : 'bg-stone-50/80 border-stone-200'"
         >
             <p
                 v-if="allDone"
-                class="text-sm sm:text-base text-white font-semibold text-center"
+                class="text-sm sm:text-base text-emerald-600 font-semibold text-center"
             >
                 All done for today — great work! &#127929;
             </p>
             <p
                 v-else
-                class="text-sm sm:text-lg font-semibold text-white text-center"
+                class="text-xs sm:text-sm font-medium text-stone-500 text-center"
             >
                 {{ pieces.length - completedCount }} {{ pieces.length - completedCount === 1 ? 'piece' : 'pieces' }} remaining
             </p>

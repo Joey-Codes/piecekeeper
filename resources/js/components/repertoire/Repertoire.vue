@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-linear-to-b from-amber-50/80 via-white to-stone-50 relative overflow-hidden">
+    <div class="min-h-screen bg-linear-to-b from-amber-100/70 via-orange-50/40 to-stone-100 relative overflow-hidden">
         <FloatingNotes />
 
         <div class="relative max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -29,11 +29,44 @@
                         My <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">Repertoire</span>
                     </h1>
                     <p class="text-sm sm:text-base font-medium text-stone-700 mt-1.5 sm:mt-2">
-                        {{ repertoire.length }} {{ repertoire.length === 1 ? 'piece' : 'pieces' }} in your collection
+                        {{ pieces.length }} {{ pieces.length === 1 ? 'piece' : 'pieces' }} total
                     </p>
+
+                    <!-- Tab switcher -->
+                    <div
+                        v-if="!reorderMode && !rotationIndexMode"
+                        class="mt-5 sm:mt-6 flex bg-white/70 rounded-xl p-1 shadow-sm border border-stone-200/60 w-fit"
+                    >
+                        <button
+                            class="px-4 sm:px-5 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200"
+                            :class="activeTab === 'repertoire'
+                                ? 'bg-linear-to-r from-amber-500 to-orange-500 text-white shadow-sm'
+                                : 'text-stone-600 hover:text-stone-800 hover:bg-stone-100'"
+                            @click="activeTab = 'repertoire'"
+                        >
+                            My Pieces
+                            <span
+                                class="ml-1.5 text-xs font-semibold px-1.5 py-0.5 rounded-md"
+                                :class="activeTab === 'repertoire' ? 'bg-white/20' : 'bg-stone-200/60'"
+                            >{{ repertoire.length }}</span>
+                        </button>
+                        <button
+                            class="px-4 sm:px-5 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200"
+                            :class="activeTab === 'wishlist'
+                                ? 'bg-linear-to-r from-violet-500 to-purple-500 text-white shadow-sm'
+                                : 'text-stone-600 hover:text-stone-800 hover:bg-stone-100'"
+                            @click="activeTab = 'wishlist'"
+                        >
+                            Wishlist
+                            <span
+                                class="ml-1.5 text-xs font-semibold px-1.5 py-0.5 rounded-md"
+                                :class="activeTab === 'wishlist' ? 'bg-white/20' : 'bg-stone-200/60'"
+                            >{{ wishlist.length }}</span>
+                        </button>
+                    </div>
                 </header>
 
-                <template v-if="!reorderMode && !rotationIndexMode">
+                <template v-if="activeTab === 'repertoire' && !reorderMode && !rotationIndexMode">
                     <AddPieceForm
                         :open="showAddPiece"
                         modal-title="Add Piece"
@@ -240,7 +273,7 @@
 
                 <!-- Reorder mode -->
                 <ReorderList
-                    v-if="reorderMode"
+                    v-if="activeTab === 'repertoire' && reorderMode"
                     :pieces="activePieces"
                     @save="saveReorder"
                     @cancel="reorderMode = false"
@@ -248,7 +281,7 @@
 
                 <!-- Rotation index mode -->
                 <RotationIndex
-                    v-if="rotationIndexMode"
+                    v-if="activeTab === 'repertoire' && rotationIndexMode"
                     :pieces="activePieces"
                     :rotation-index="rotationIndex"
                     @save="saveRotationIndex"
@@ -256,31 +289,7 @@
                 />
 
                 <!-- Want to Learn section -->
-                <template v-if="!reorderMode && !rotationIndexMode">
-                    <header class="mt-16 sm:mt-24 mb-4 sm:mb-6 flex flex-col items-center">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-linear-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-md mb-3.5 sm:mb-4">
-                            <svg
-                                class="w-4.5 h-4.5 sm:w-6 sm:h-6 text-white"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                stroke-width="1.5"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
-                                />
-                            </svg>
-                        </div>
-                        <h2 class="text-xl sm:text-3xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                            Want to <span class="bg-linear-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent">Learn</span>
-                        </h2>
-                        <p class="text-sm sm:text-base font-medium text-stone-700 mt-1.5 sm:mt-2">
-                            {{ wishlist.length }} {{ wishlist.length === 1 ? 'piece' : 'pieces' }} on your wishlist
-                        </p>
-                    </header>
-
+                <template v-if="activeTab === 'wishlist'">
                     <div class="flex gap-2.5 sm:gap-3 mb-4 sm:mb-6">
                         <div class="relative flex-1">
                             <svg
@@ -463,6 +472,7 @@ onMounted(async () => {
     }
 })
 
+const activeTab = ref('repertoire')
 const search = ref('')
 const statusFilter = ref('')
 const showAddPiece = ref(false)

@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-linear-to-b from-amber-50/80 via-white to-stone-50 relative overflow-hidden">
+    <div class="min-h-screen bg-linear-to-b from-amber-100/70 via-orange-50/40 to-stone-100 relative overflow-hidden">
         <FloatingNotes />
 
         <div class="relative max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">

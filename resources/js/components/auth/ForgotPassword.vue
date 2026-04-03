@@ -63,15 +63,15 @@
                         </div>
                     </div>
                     <h1 class="font-serif text-2xl sm:text-4xl font-bold text-stone-800 mb-2 sm:mb-3">
-                        Reset your password
+                        Forgot your password?
                     </h1>
-                    <p class="text-sm sm:text-lg text-stone-600">
+                    <p class="text-sm sm:text-lg text-stone-800">
                         Enter your email and we'll send you a reset link
                     </p>
                 </div>
 
                 <!-- Forgot password form -->
-                <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-stone-200/50 border border-stone-100 p-5 sm:p-8">
+                <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-stone-200/50 border border-amber-300 p-5 sm:p-8">
                     <!-- Success state -->
                     <div
                         v-if="sent"

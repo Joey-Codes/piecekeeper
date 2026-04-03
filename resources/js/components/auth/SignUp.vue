@@ -65,13 +65,13 @@
                     <h1 class="font-serif text-2xl sm:text-4xl font-bold text-stone-800 mb-2 sm:mb-3">
                         Create your account
                     </h1>
-                    <p class="text-sm sm:text-lg text-stone-600">
+                    <p class="text-sm sm:text-lg text-stone-800">
                         Start organizing your piano journey today
                     </p>
                 </div>
 
                 <!-- Sign up form -->
-                <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-stone-200/50 border border-stone-200 p-5 sm:p-8">
+                <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-stone-200/50 border border-amber-300 p-5 sm:p-8">
                     <form
                         class="space-y-4 sm:space-y-5"
                         @submit.prevent="handleSignUp"
@@ -280,9 +280,9 @@
 
                     <!-- Divider -->
                     <div class="flex items-center gap-4 my-4 sm:my-6">
-                        <div class="flex-1 h-px bg-stone-500" />
+                        <div class="flex-1 h-px bg-stone-400" />
                         <span class="text-xs sm:text-sm text-stone-500 font-medium uppercase tracking-wider">or</span>
-                        <div class="flex-1 h-px bg-stone-500" />
+                        <div class="flex-1 h-px bg-stone-400" />
                     </div>
 
                     <!-- Continue with Google -->
