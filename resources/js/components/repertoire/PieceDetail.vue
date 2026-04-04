@@ -80,7 +80,7 @@
                         <div>
                             <label class="block text-sm font-semibold text-stone-700 mb-1">
                                 Reference Links
-                                <span class="text-xs font-normal text-stone-400 ml-1">{{ links.filter(l => l.trim()).length }}/5</span>
+                                <span class="text-xs font-normal text-stone-600 ml-1">{{ links.filter(l => l.trim()).length }}/5</span>
                             </label>
                             <div class="space-y-2">
                                 <div
@@ -144,92 +144,69 @@
                         <div>
                             <label class="block text-sm font-semibold text-stone-700 mb-2">
                                 Sheet Music
-                                <span class="text-xs font-normal text-stone-400 ml-1">{{ files.length }}/5</span>
+                                <span class="text-xs font-normal text-stone-600 ml-1">{{ totalFileCount }}/5</span>
                             </label>
 
-                            <!-- Existing file previews -->
+                            <!-- File list -->
                             <div
-                                v-if="files.length"
-                                class="grid grid-cols-2 gap-3 mb-3"
+                                v-if="existingFiles.length || newFiles.length"
+                                class="space-y-2 mb-3"
                             >
+                                <!-- Existing (uploaded) files -->
                                 <div
-                                    v-for="(file, i) in files"
-                                    :key="i"
-                                    class="group/file relative rounded-lg border border-stone-200 bg-stone-50 overflow-hidden cursor-pointer hover:border-amber-300 transition-colors"
-                                    @click="openPdf(i)"
+                                    v-for="(file, i) in existingFiles"
+                                    :key="'existing-' + i"
+                                    class="group/file flex items-center gap-2 px-3 py-2 rounded-lg border border-amber-400 bg-stone-50 cursor-pointer hover:border-amber-300 transition-colors"
+                                    @click="openExistingPdf(i)"
                                 >
-                                    <!-- PDF preview thumbnail -->
-                                    <div class="aspect-3/4 flex flex-col items-center justify-center p-3 bg-white">
-                                        <!-- Fake page lines -->
-                                        <div class="w-full space-y-2 px-2">
-                                            <div class="h-2.5 bg-stone-200 rounded-full w-3/4" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-full" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-full" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-5/6" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-full" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-2/3" />
-                                            <div class="mt-3 flex justify-center">
-                                                <svg
-                                                    class="w-8 h-8 text-stone-300"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="1.5"
-                                                        d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
-                                                    />
-                                                </svg>
-                                            </div>
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-full" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-4/5" />
-                                        </div>
-                                    </div>
-
-                                    <!-- File info bar -->
-                                    <div class="px-2.5 py-2 border-t border-stone-200 flex items-center gap-1.5">
-                                        <svg
-                                            class="w-3.5 h-3.5 text-red-400 shrink-0"
-                                            viewBox="0 0 24 24"
-                                            fill="currentColor"
-                                        >
-                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z" />
-                                        </svg>
-                                        <span class="text-xs text-stone-600 truncate flex-1">{{ file.name }}</span>
-                                        <span
-                                            v-if="file.pages"
-                                            class="text-[10px] text-stone-400"
-                                        >{{ file.pages }}p</span>
-                                    </div>
-
-                                    <!-- Remove overlay -->
+                                    <svg
+                                        class="w-4 h-4 text-amber-600 shrink-0"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                    >
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z" />
+                                    </svg>
+                                    <span class="text-sm text-stone-700 truncate flex-1">{{ file.name }}</span>
                                     <button
                                         type="button"
-                                        class="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-white/90 shadow-sm border border-stone-200 flex items-center justify-center opacity-0 group-hover/file:opacity-100 transition-opacity text-stone-400 hover:text-red-500 hover:border-red-200"
+                                        class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-stone-400 hover:text-red-500 hover:bg-red-50 transition-colors sm:opacity-0 sm:group-hover/file:opacity-100"
                                         title="Remove file"
-                                        @click="removeFile(i)"
+                                        @click.stop="removeExistingFile(i)"
                                     >
-                                        <svg
-                                            class="w-3.5 h-3.5"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M6 18L18 6M6 6l12 12"
-                                            />
-                                        </svg>
+                                        &times;
+                                    </button>
+                                </div>
+
+                                <!-- New (local) files -->
+                                <div
+                                    v-for="(file, i) in newFiles"
+                                    :key="'new-' + i"
+                                    class="group/file flex items-center gap-2 px-3 py-2 rounded-lg border border-dashed border-amber-300 bg-amber-50/30 cursor-pointer hover:border-amber-400 transition-colors"
+                                    @click="openNewPdf(i)"
+                                >
+                                    <svg
+                                        class="w-4 h-4 text-amber-400 shrink-0"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                    >
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z" />
+                                    </svg>
+                                    <span class="text-sm text-amber-700 truncate flex-1">{{ file.name }}</span>
+                                    <span class="text-[10px] font-medium text-amber-500 bg-amber-100 px-1.5 py-0.5 rounded">NEW</span>
+                                    <button
+                                        type="button"
+                                        class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-stone-400 hover:text-red-500 hover:bg-red-50 transition-colors opacity-0 group-hover/file:opacity-100"
+                                        title="Remove file"
+                                        @click.stop="removeNewFile(i)"
+                                    >
+                                        &times;
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Upload button -->
                             <label
+                                v-if="totalFileCount < 5"
                                 class="flex items-center gap-2 px-3 py-2 text-sm border border-dashed border-stone-300 rounded-lg cursor-pointer hover:border-amber-400 hover:bg-amber-50/30 transition-colors"
                             >
                                 <svg
@@ -246,7 +223,7 @@
                                     />
                                 </svg>
                                 <span class="text-stone-500 truncate">
-                                    {{ files.length ? 'Add more PDFs...' : 'Upload PDFs...' }}
+                                    {{ totalFileCount > 0 ? 'Add more PDFs...' : 'Upload PDFs...' }}
                                 </span>
                                 <input
                                     ref="fileInput"
@@ -270,9 +247,10 @@
                             </button>
                             <button
                                 type="submit"
-                                class="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-linear-to-r from-amber-500 to-orange-400 rounded-xl hover:from-amber-600 hover:to-orange-500 hover:scale-[1.02] transition-all duration-150"
+                                :disabled="saving"
+                                class="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-linear-to-r from-amber-500 to-orange-400 rounded-xl hover:from-amber-600 hover:to-orange-500 hover:scale-[1.02] transition-all duration-150 disabled:opacity-60 disabled:pointer-events-none"
                             >
-                                Save Changes
+                                {{ saving ? 'Saving...' : 'Save Changes' }}
                             </button>
                         </div>
                     </form>
@@ -282,16 +260,26 @@
     </Teleport>
 
     <PdfViewer
-        :files="pdfViewerOpen ? files : []"
+        :files="pdfViewerFiles"
         :start-index="pdfStartIndex"
         @close="pdfViewerOpen = false"
+    />
+
+    <ConfirmModal
+        :show="showConfirmDelete"
+        title="Remove File?"
+        :message="`Remove <strong>&quot;${fileToDelete?.name ?? ''}&quot;</strong>? This cannot be undone.`"
+        confirm-label="Remove"
+        @confirm="confirmDeleteFile"
+        @cancel="showConfirmDelete = false"
     />
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import api from '@/api'
 import PdfViewer from '../ui/PdfViewer.vue'
+import ConfirmModal from '../ui/ConfirmModal.vue'
 
 const props = defineProps({
     piece: { type: Object, default: null },
@@ -305,10 +293,36 @@ const composer = ref('')
 const status = ref('Learning')
 const links = ref([''])
 const notes = ref('')
-const files = ref([])
+const existingFiles = ref([])
+const newFiles = ref([])
 const fileInput = ref(null)
 const pdfViewerOpen = ref(false)
 const pdfStartIndex = ref(0)
+const pdfViewerMode = ref('existing')
+const saving = ref(false)
+const showConfirmDelete = ref(false)
+const fileToDelete = ref(null)
+
+const totalFileCount = computed(() => existingFiles.value.length + newFiles.value.length)
+
+let objectUrls = []
+const pdfViewerFiles = computed(() => {
+    objectUrls.forEach(u => URL.revokeObjectURL(u))
+    objectUrls = []
+    if (!pdfViewerOpen.value) return []
+    if (pdfViewerMode.value === 'existing') {
+        return existingFiles.value.map(f => ({ name: f.name, url: f.url }))
+    }
+    return newFiles.value.map(f => {
+        const objectUrl = URL.createObjectURL(f)
+        objectUrls.push(objectUrl)
+        return { name: f.name, objectUrl }
+    })
+})
+
+onBeforeUnmount(() => {
+    objectUrls.forEach(u => URL.revokeObjectURL(u))
+})
 
 watch(() => props.piece, (p) => {
     if (p) {
@@ -317,7 +331,8 @@ watch(() => props.piece, (p) => {
         status.value = p.status || 'Learning'
         links.value = p.reference_links && p.reference_links.length ? [...p.reference_links] : ['']
         notes.value = p.notes || ''
-        files.value = p.files ? [...p.files] : []
+        existingFiles.value = p.sheet_music ? [...p.sheet_music] : []
+        newFiles.value = []
     }
 }, { immediate: true })
 
@@ -329,19 +344,44 @@ function removeLink(index) {
     links.value.splice(index, 1)
 }
 
-function openPdf(index) {
+function openExistingPdf(index) {
+    pdfViewerMode.value = 'existing'
+    pdfStartIndex.value = index
+    pdfViewerOpen.value = true
+}
+
+function openNewPdf(index) {
+    pdfViewerMode.value = 'new'
     pdfStartIndex.value = index
     pdfViewerOpen.value = true
 }
 
 function handleFiles(e) {
     const selected = Array.from(e.target.files)
-    files.value.push(...selected)
+    const remaining = 5 - totalFileCount.value
+    newFiles.value.push(...selected.slice(0, remaining))
     if (fileInput.value) fileInput.value.value = ''
 }
 
-function removeFile(index) {
-    files.value.splice(index, 1)
+function removeExistingFile(index) {
+    fileToDelete.value = existingFiles.value[index]
+    showConfirmDelete.value = true
+}
+
+async function confirmDeleteFile() {
+    showConfirmDelete.value = false
+    try {
+        await api.delete(`/api/pieces/${props.piece.id}/sheet-music`, { path: fileToDelete.value.path })
+        const idx = existingFiles.value.findIndex(f => f.path === fileToDelete.value.path)
+        if (idx !== -1) existingFiles.value.splice(idx, 1)
+    } catch (e) {
+        console.error('Failed to delete file:', e)
+    }
+    fileToDelete.value = null
+}
+
+function removeNewFile(index) {
+    newFiles.value.splice(index, 1)
 }
 
 async function handleSave() {
@@ -349,8 +389,9 @@ async function handleSave() {
 
     const trimmedLinks = links.value.map(l => l.trim()).filter(l => l.length > 0)
 
+    saving.value = true
     try {
-        const response = await api.put(`/api/pieces/${props.piece.id}`, {
+        let response = await api.put(`/api/pieces/${props.piece.id}`, {
             title: title.value.trim(),
             composer: composer.value.trim() || null,
             status: status.value,
@@ -358,9 +399,21 @@ async function handleSave() {
             notes: notes.value.trim() || null,
         })
 
+        if (newFiles.value.length > 0) {
+            const formData = new FormData()
+            newFiles.value.forEach(f => formData.append('files[]', f))
+            try {
+                response = await api.upload(`/api/pieces/${props.piece.id}/sheet-music`, formData)
+            } catch (uploadErr) {
+                console.error('PDF upload failed:', uploadErr)
+            }
+        }
+
         emit('save', response.data)
     } catch (e) {
         console.error('Failed to update piece:', e)
+    } finally {
+        saving.value = false
     }
 }
 

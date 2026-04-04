@@ -7,7 +7,7 @@
                 <p class="text-md sm:text-2xl font-semibold tracking-widest text-amber-600 uppercase mb-2">
                     IT'S {{ formattedDate }}
                 </p>
-                <h1 class="text-3xl sm:text-5xl font-serif font-bold tracking-wide text-stone-800">
+                <h1 class="text-3xl sm:text-4xl font-serif font-bold tracking-wide text-stone-800">
                     Welcome Back, <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">{{ name }}</span>
                 </h1>
             </header>

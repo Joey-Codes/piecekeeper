@@ -285,12 +285,22 @@ async function handleSubmit() {
         .filter(l => l.length > 0)
 
     try {
-        const response = await api.post('/api/pieces', {
+        let response = await api.post('/api/pieces', {
             title: title.value.trim(),
             composer: composer.value.trim() || null,
             status: props.wishlist ? 'Want to Learn' : status.value,
             reference_links: trimmedLinks.length > 0 ? trimmedLinks : null,
         })
+
+        if (files.value.length > 0) {
+            const formData = new FormData()
+            files.value.forEach(f => formData.append('files[]', f))
+            try {
+                response = await api.upload(`/api/pieces/${response.data.id}/sheet-music`, formData)
+            } catch (uploadErr) {
+                console.error('PDF upload failed:', uploadErr)
+            }
+        }
 
         emit('submit', response.data)
         resetForm()

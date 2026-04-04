@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 
 class DbReset extends Command
 {
@@ -20,6 +21,9 @@ class DbReset extends Command
 
         $this->info('Dropping all tables and running migrations...');
         $this->call('migrate:fresh');
+
+        $this->info('Clearing uploaded pdfs...');
+        Storage::disk('local')->deleteDirectory('pdfs');
 
         $this->info('Seeding database...');
         $this->call('db:seed');

@@ -16,7 +16,7 @@
                         {{ piece.title }}
                     </h2>
                     <!-- Composer (read-only) -->
-                    <p class="w-full text-base sm:text-lg text-stone-700 text-center mt-1 px-2 py-0.5">
+                    <p class="w-full text-base sm:text-lg text-stone-800 text-center mt-1 px-2 py-0.5">
                         {{ piece.composer }}
                     </p>
 
@@ -27,7 +27,7 @@
                             v-if="piece.status"
                             class="flex items-center gap-3"
                         >
-                            <span class="text-base font-semibold text-stone-700">Status</span>
+                            <span class="text-base font-semibold text-stone-800">Status</span>
                             <select
                                 v-model="status"
                                 class="text-base font-semibold px-3 py-1 rounded-lg border-0 cursor-pointer focus:outline-none focus:ring-2 focus:ring-amber-300/50"
@@ -53,7 +53,7 @@
 
                         <!-- Links (read-only) -->
                         <div v-if="piece.reference_links && piece.reference_links.length">
-                            <span class="block text-base font-semibold text-stone-700 mb-1">Reference Links</span>
+                            <span class="block text-base font-semibold text-stone-800 mb-1">Reference Links</span>
                             <div class="space-y-2">
                                 <div
                                     v-for="(link, i) in piece.reference_links"
@@ -86,74 +86,33 @@
 
                         <!-- Notes (editable) -->
                         <div>
-                            <span class="block text-base font-semibold text-stone-700 mb-1">Notes</span>
+                            <span class="block text-base font-semibold text-stone-800 mb-1">Notes</span>
                             <textarea
                                 v-model="notes"
                                 rows="3"
                                 placeholder="Write down practice notes, performance tips, things to work on..."
-                                class="w-full px-3 py-2 text-base text-stone-600 bg-stone-50 border border-stone-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 resize-y"
+                                class="w-full px-3 py-2 text-base text-stone-800 bg-stone-50 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-300/50 focus:border-amber-400 placeholder-stone-400 resize-y"
                             />
                         </div>
 
                         <!-- Sheet Music PDFs (read-only) -->
-                        <div v-if="piece.files && piece.files.length">
-                            <span class="block text-base font-semibold text-stone-700 mb-2">Sheet Music</span>
-                            <div
-                                class="grid gap-3"
-                                :class="piece.files.length === 1 ? 'grid-cols-1 max-w-xs mx-auto' : 'grid-cols-2'"
-                            >
+                        <div v-if="piece.sheet_music && piece.sheet_music.length">
+                            <span class="block text-base font-semibold text-stone-800 mb-2">Sheet Music <span class="text-xs font-normal text-stone-400">(click to open)</span></span>
+                            <div class="space-y-2">
                                 <div
-                                    v-for="(file, i) in piece.files"
+                                    v-for="(file, i) in piece.sheet_music"
                                     :key="i"
-                                    class="rounded-lg border border-stone-200 bg-stone-50 overflow-hidden cursor-pointer hover:border-amber-300 hover:shadow-md transition-all"
+                                    class="flex items-center gap-2 px-3 py-2 rounded-lg border border-amber-400 bg-stone-50 cursor-pointer hover:border-amber-300 transition-colors"
                                     @click="openPdf(i)"
                                 >
-                                    <!-- PDF preview thumbnail -->
-                                    <div class="aspect-3/4 flex flex-col items-center justify-center p-4 bg-white">
-                                        <div class="w-full space-y-2 px-3">
-                                            <div class="h-2.5 bg-stone-200 rounded-full w-3/4" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-full" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-full" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-5/6" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-full" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-2/3" />
-                                            <div class="mt-4 flex justify-center">
-                                                <svg
-                                                    class="w-10 h-10 text-stone-300"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        stroke-width="1.5"
-                                                        d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
-                                                    />
-                                                </svg>
-                                            </div>
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-full" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-4/5" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-full" />
-                                            <div class="h-1.5 bg-stone-100 rounded-full w-3/5" />
-                                        </div>
-                                    </div>
-
-                                    <!-- File info bar -->
-                                    <div class="px-3 py-2 border-t border-stone-200 flex items-center gap-1.5">
-                                        <svg
-                                            class="w-3.5 h-3.5 text-red-400 shrink-0"
-                                            viewBox="0 0 24 24"
-                                            fill="currentColor"
-                                        >
-                                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z" />
-                                        </svg>
-                                        <span class="text-sm text-stone-600 truncate flex-1">{{ file.name }}</span>
-                                        <span
-                                            v-if="file.pages"
-                                            class="text-xs text-stone-400"
-                                        >{{ file.pages }}p</span>
-                                    </div>
+                                    <svg
+                                        class="w-4 h-4 text-amber-600 shrink-0"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                    >
+                                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z" />
+                                    </svg>
+                                    <span class="text-sm text-stone-700 truncate flex-1">{{ file.name }}</span>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +122,7 @@
                             v-else
                             class="text-center py-3"
                         >
-                            <p class="text-base text-stone-400 italic">
+                            <p class="text-base text-stone-800 italic">
                                 No sheet music uploaded
                             </p>
                         </div>
@@ -195,7 +154,7 @@
 
     <PdfViewer
         v-if="piece"
-        :files="pdfViewerOpen ? piece.files : []"
+        :files="pdfViewerOpen ? piece.sheet_music : []"
         :start-index="pdfStartIndex"
         @close="pdfViewerOpen = false"
     />
@@ -217,16 +176,19 @@ const status = ref('Learning')
 const notes = ref('')
 const pdfViewerOpen = ref(false)
 const pdfStartIndex = ref(0)
+let syncingFromProp = false
 
 watch(() => props.piece, (p) => {
     if (p) {
+        syncingFromProp = true
         status.value = p.status || 'Learning'
         notes.value = p.notes || ''
+        syncingFromProp = false
     }
 }, { immediate: true })
 
 watch(status, async (newStatus, oldStatus) => {
-    if (!props.piece || oldStatus === newStatus) return
+    if (syncingFromProp || !props.piece || oldStatus === newStatus) return
     await api.put(`/api/pieces/${props.piece.id}`, { status: newStatus })
     emit('updated', { ...props.piece, status: newStatus })
 })

@@ -9,11 +9,11 @@
                 <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-xl bg-linear-to-br from-amber-500 to-orange-400 flex items-center justify-center shadow-sm shrink-0">
                     <span class="text-white text-xs sm:text-sm">&#9835;</span>
                 </div>
-                <h2 class="text-base sm:text-xl font-serif font-semibold uppercase text-stone-800">
+                <h2 class="text-sm sm:text-xl font-serif font-semibold uppercase text-stone-800">
                     Today's Practice<span
                         v-if="allDone"
                         class="text-emerald-500"
-                    > (Completed)</span>
+                    > (Complete)</span>
                 </h2>
             </div>
             <div class="flex items-center gap-2.5 sm:gap-3">

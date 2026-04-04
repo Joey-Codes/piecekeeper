@@ -3,31 +3,26 @@
         <FloatingNotes />
 
         <div class="relative max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-            <LoadingSpinner
-                v-if="loading"
-                message="Loading your repertoire..."
-            />
-
-            <template v-else>
-                <header class="mb-8 sm:mb-12 flex flex-col items-center">
-                    <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-md mb-4 sm:mb-5">
-                        <svg
-                            class="w-5 h-5 sm:w-7 sm:h-7 text-white"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V4.125A2.25 2.25 0 0017.868 1.9l-6.75 1.929a2.25 2.25 0 00-1.618 2.163V15m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009.5 15.553z"
-                            />
-                        </svg>
-                    </div>
-                    <h1 class="text-2xl sm:text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
-                        My <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">Repertoire</span>
-                    </h1>
+            <header class="mb-8 sm:mb-12 flex flex-col items-center">
+                <div class="w-11 h-11 sm:w-14 sm:h-14 rounded-2xl bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-md mb-4 sm:mb-5">
+                    <svg
+                        class="w-5 h-5 sm:w-7 sm:h-7 text-white"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M9 9l10.5-3m0 6.553v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 11-.99-3.467l2.31-.66a2.25 2.25 0 001.632-2.163zm0 0V4.125A2.25 2.25 0 0017.868 1.9l-6.75 1.929a2.25 2.25 0 00-1.618 2.163V15m0 0v3.75a2.25 2.25 0 01-1.632 2.163l-1.32.377a1.803 1.803 0 01-.99-3.467l2.31-.66A2.25 2.25 0 009.5 15.553z"
+                        />
+                    </svg>
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-serif font-bold uppercase tracking-wide text-stone-800">
+                    My <span class="bg-linear-to-r from-amber-600 to-orange-500 bg-clip-text text-transparent">Repertoire</span>
+                </h1>
+                <template v-if="!loading">
                     <p class="text-sm sm:text-base font-medium text-stone-700 mt-1.5 sm:mt-2">
                         {{ pieces.length }} {{ pieces.length === 1 ? 'piece' : 'pieces' }} total
                     </p>
@@ -64,8 +59,15 @@
                             >{{ wishlist.length }}</span>
                         </button>
                     </div>
-                </header>
+                </template>
+            </header>
 
+            <LoadingSpinner
+                v-if="loading"
+                message="Loading your repertoire..."
+            />
+
+            <template v-else>
                 <template v-if="activeTab === 'repertoire' && !reorderMode && !rotationIndexMode">
                     <AddPieceForm
                         :open="showAddPiece"
@@ -596,7 +598,7 @@ function savePiece(data) {
         piece.status = data.status
         piece.reference_links = data.reference_links
         piece.notes = data.notes
-        piece.files = data.files
+        piece.sheet_music = data.sheet_music
     }
     selectedPiece.value = null
 }
@@ -651,7 +653,7 @@ function saveWishPiece(data) {
         item.composer = data.composer
         item.reference_links = data.reference_links
         item.notes = data.notes
-        item.files = data.files
+        item.sheet_music = data.sheet_music
     }
     selectedWishPiece.value = null
 }

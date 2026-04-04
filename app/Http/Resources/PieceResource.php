@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
 class PieceResource extends JsonResource
 {
     public function toArray(Request $request): array
@@ -18,6 +17,7 @@ class PieceResource extends JsonResource
             'notes' => $this->notes,
             'sort_order' => $this->sort_order,
             'sheet_music_paths' => $this->sheet_music_paths,
+            'sheet_music' => $this->sheet_music,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -6,7 +6,6 @@ use App\Models\PracticeSession;
 use App\Services\PracticeSessionService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-
 class DashboardController extends Controller
 {
     public function today(Request $request, PracticeSessionService $service)
@@ -132,6 +131,7 @@ class DashboardController extends Controller
                 'notes' => $piece->notes,
                 'reference_links' => $piece->reference_links,
                 'sheet_music_paths' => $piece->sheet_music_paths,
+                'sheet_music' => $piece->sheet_music,
                 'position' => $piece->pivot->position,
                 'completed' => (bool) $piece->pivot->completed,
             ]),

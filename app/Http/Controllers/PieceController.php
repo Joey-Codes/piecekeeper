@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PieceRequest;
 use App\Http\Resources\PieceResource;
 use App\Models\Piece;
+use App\Services\SheetMusicService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -87,7 +88,7 @@ class PieceController extends Controller
         return new PieceResource($piece->fresh());
     }
 
-    public function destroy(Request $request, Piece $piece)
+    public function destroy(Request $request, Piece $piece, SheetMusicService $service)
     {
         if ($piece->user_id !== $request->user()->id) {
             abort(403);
@@ -95,6 +96,8 @@ class PieceController extends Controller
 
         $sortOrder = $piece->sort_order;
         $userId = $piece->user_id;
+
+        $service->deleteAll($piece);
 
         $piece->delete();
 

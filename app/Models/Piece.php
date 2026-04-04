@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Str;
 
 class Piece extends Model
 {
@@ -32,6 +33,15 @@ class Piece extends Model
             'reference_links' => 'array',
             'sheet_music_paths' => 'array',
         ];
+    }
+
+    public function getSheetMusicAttribute(): array
+    {
+        return collect($this->sheet_music_paths ?? [])->map(fn ($path) => [
+            'path' => $path,
+            'name' => Str::after(basename($path), '_'),
+            'url' => "/api/pieces/{$this->id}/sheet-music/" . basename($path),
+        ])->values()->all();
     }
 
     public function user(): BelongsTo
