@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
+use App\Services\SheetMusicService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -25,5 +27,25 @@ class UserController extends Controller
         $user->update($data);
 
         return new UserResource($user);
+    }
+
+    public function destroy(Request $request, SheetMusicService $sheetMusic)
+    {
+        $user = $request->user();
+
+        foreach ($user->pieces as $piece) {
+            $sheetMusic->deleteAll($piece);
+        }
+
+        Storage::disk('local')->deleteDirectory("pdfs/{$user->id}");
+
+        $user->sessions()->delete();
+        $user->pieces()->delete();
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->noContent();
     }
 }

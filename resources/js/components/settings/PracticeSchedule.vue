@@ -110,7 +110,7 @@
             <!-- Summary with calendar arrow -->
             <div class="relative mt-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white/70 rounded-xl border border-amber-300 shadow-sm flex items-center justify-between gap-2">
                 <p class="text-sm sm:text-base text-stone-600">
-                    <span class="font-bold uppercase text-amber-600">Your schedule:</span>
+                    <span class="font-semibold uppercase text-amber-600">Your schedule:</span>
                     {{ piecesPerDay }} {{ piecesPerDay === 1 ? 'piece' : 'pieces' }} {{ frequencyLabel }}
                 </p>
                 <button

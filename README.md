@@ -44,33 +44,3 @@ composer dev
 ```
 
 This runs Laravel on `http://localhost:8000` with Vite HMR on port 5173.
-
-### Seed Accounts
-
-| Name  | Email           | Password   |
-|-------|-----------------|------------|
-| Joey  | joey@test.com   | 12345678   |
-| User1 | user1@test.com  | 12345678   |
-| User2 | user2@test.com  | 12345678   |
-
-## Project Structure
-
-```
-app/
-  Http/Controllers/    # API controllers
-  Models/              # Eloquent models
-  Services/            # Business logic (e.g. PracticeSessionService)
-resources/
-  js/
-    components/
-      dashboard/       # Dashboard, practice session, checklist, streak
-      repertoire/      # Piece list, detail view, add form
-      settings/        # Account and schedule settings
-      auth/            # Login, signup, forgot password
-      ui/              # Shared UI components
-routes/
-  web.php             # All routes (SPA + API under /api prefix)
-database/
-  migrations/          # Table schemas
-  seeders/             # Demo data
-```

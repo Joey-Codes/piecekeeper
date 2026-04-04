@@ -488,7 +488,7 @@
                                         </div>
                                     </div>
                                     <span
-                                        class="text-[0.9rem] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-medium shrink-0 transition-all duration-500"
+                                        class="text-[0.65rem] sm:text-sm px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-medium shrink-0 transition-all duration-500"
                                         :class="piece.badgeClass"
                                     >
                                         {{ piece.status }}

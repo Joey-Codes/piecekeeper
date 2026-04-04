@@ -17,6 +17,7 @@ Route::prefix('api')->group(function () {
         Route::prefix('user')->group(function () {
             Route::get('/', [UserController::class, 'show']);
             Route::put('/', [UserController::class, 'update']);
+            Route::delete('/', [UserController::class, 'destroy']);
         });
         Route::get('/dashboard/today', [DashboardController::class, 'today']);
         Route::get('/dashboard/history', [DashboardController::class, 'history']);

@@ -342,17 +342,67 @@
                 </div>
             </div>
 
-            <!-- Log out -->
+            <!-- Delete Account -->
             <div class="border-t border-stone-200/60 pt-4 sm:pt-5">
+                <label class="block text-sm sm:text-base font-semibold text-stone-700 mb-1">Delete account</label>
+                <p class="text-sm text-stone-500 mb-3">
+                    Permanently delete your account and all associated data. This action cannot be undone.
+                </p>
                 <button
-                    class="px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-semibold rounded-lg border border-red-300 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 transition-colors duration-200 disabled:opacity-50"
-                    :disabled="loggingOut"
-                    @click="logout"
+                    class="px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors duration-200 disabled:opacity-50"
+                    :disabled="deletingAccount"
+                    @click="showDeleteConfirm = true"
                 >
-                    {{ loggingOut ? ' Logging you out...' : 'Log out' }}
+                    {{ deletingAccount ? 'Deleting...' : 'Delete account' }}
                 </button>
             </div>
         </div>
+
+        <Teleport to="body">
+            <Transition name="fade">
+                <div
+                    v-if="showDeleteConfirm"
+                    class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    @mousedown.self="cancelDelete"
+                >
+                    <div class="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+                    <div class="relative bg-white rounded-2xl shadow-xl max-w-sm w-full p-6 space-y-4">
+                        <h3 class="text-xl font-serif font-bold uppercase tracking-wide text-stone-800 text-center">
+                            Delete Account?
+                        </h3>
+                        <p class="text-base text-stone-800 text-center leading-relaxed">
+                            This will permanently delete your account, all your pieces, practice history, and uploaded sheet music. <strong>This action cannot be undone!</strong>
+                        </p>
+                        <div>
+                            <label class="block text-base font-semibold text-amber-600 mb-1.5">
+                                Type <strong>{{ auth.user?.email }}</strong> to confirm
+                            </label>
+                            <input
+                                v-model="deleteConfirmEmail"
+                                type="text"
+                                class="w-full px-3 py-2 text-sm rounded-lg border border-stone-300 bg-white text-stone-800 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-300/50 focus:border-red-400 transition-colors"
+                                placeholder="Enter your email"
+                            >
+                        </div>
+                        <div class="flex gap-3 pt-2">
+                            <button
+                                class="flex-1 px-4 py-2.5 text-sm font-semibold text-stone-600 bg-stone-100 rounded-xl hover:bg-stone-200 transition-colors duration-150"
+                                @click="cancelDelete"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                class="flex-1 px-4 py-2.5 text-sm font-semibold text-white rounded-xl bg-linear-to-r from-rose-500 to-pink-500 hover:shadow-md transition-all duration-150 hover:scale-[1.02] disabled:opacity-40 disabled:pointer-events-none"
+                                :disabled="deleteConfirmEmail !== auth.user?.email"
+                                @click="deleteAccount"
+                            >
+                                Delete my account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </Transition>
+        </Teleport>
     </div>
 </template>
 
@@ -363,7 +413,6 @@ import api from '@/api'
 import { auth } from '@/auth'
 
 const router = useRouter()
-const loggingOut = ref(false)
 
 // Account fields
 const accountName = ref(auth.user?.name || '')
@@ -470,16 +519,28 @@ function extractError(e) {
     return e.data?.message || 'Something went wrong.'
 }
 
-async function logout() {
-    loggingOut.value = true
+const showDeleteConfirm = ref(false)
+const deletingAccount = ref(false)
+const deleteConfirmEmail = ref('')
+
+function cancelDelete() {
+    showDeleteConfirm.value = false
+    deleteConfirmEmail.value = ''
+}
+
+async function deleteAccount() {
+    showDeleteConfirm.value = false
+    deleteConfirmEmail.value = ''
+    deletingAccount.value = true
     try {
-        await api.post('/api/logout')
+        await api.delete('/api/user')
         auth.clear()
         router.push({ name: 'login' })
     } catch {
-        loggingOut.value = false
+        deletingAccount.value = false
     }
 }
+
 </script>
 
 <style scoped>
