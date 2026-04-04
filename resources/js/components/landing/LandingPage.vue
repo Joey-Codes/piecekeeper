@@ -79,7 +79,7 @@
                     </div>
                 </div>
 
-                <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl font-bold text-stone-800 mb-6 leading-tight">
+                <h1 class="font-serif text-5xl sm:text-6xl md:text-7xl font-bold text-stone-800 mb-6 leading-tight">
                     Master your
                     <span class="text-transparent bg-clip-text bg-linear-to-r from-amber-500 to-orange-500">piano repertoire</span>
                 </h1>
@@ -140,19 +140,23 @@
                             <div
                                 v-for="(piece, i) in mockPieces"
                                 :key="i"
-                                class="flex items-center gap-3 p-3 rounded-xl"
+                                class="flex items-center gap-2 sm:gap-3 p-3 rounded-xl"
                                 :class="piece.done ? 'bg-emerald-50 border border-emerald-100' : 'bg-stone-50 border border-stone-100'"
                             >
                                 <div
-                                    class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                                    class="w-1 self-stretch rounded-full shrink-0"
+                                    :class="piece.color"
+                                />
+                                <div
+                                    class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
                                     :class="piece.done ? 'bg-emerald-500 text-white' : 'bg-stone-200 text-stone-400'"
                                 >
                                     <span v-if="piece.done">&#10003;</span>
                                     <span v-else>{{ i + 1 }}</span>
                                 </div>
-                                <div class="flex-1 text-left">
+                                <div class="flex-1 text-left min-w-0">
                                     <div
-                                        class="text-sm font-semibold"
+                                        class="text-sm font-semibold truncate"
                                         :class="piece.done ? 'text-emerald-700' : 'text-stone-700'"
                                     >
                                         {{ piece.name }}
@@ -165,10 +169,10 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="text-xs px-2 py-1 rounded-full font-medium"
-                                    :class="piece.done ? 'bg-emerald-100 text-emerald-600' : 'bg-amber-100 text-amber-600'"
+                                    v-if="piece.upNext"
+                                    class="text-xs px-2 py-1 rounded-full font-medium bg-amber-100 text-amber-600 shrink-0"
                                 >
-                                    {{ piece.done ? 'Done' : 'Up next' }}
+                                    Up next
                                 </div>
                             </div>
                         </div>
@@ -196,7 +200,6 @@
 
         <!-- Features Intro -->
         <section
-            ref="featuresSection"
             class="py-20 sm:py-30 bg-linear-to-br from-amber-500 to-orange-500 relative overflow-hidden"
         >
             <div class="absolute inset-0 pointer-events-none">
@@ -223,24 +226,32 @@
             <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8 sm:gap-16 items-center">
                 <!-- Visual -->
                 <div class="relative">
-                    <div class="bg-linear-to-br from-amber-100 to-orange-100 rounded-3xl p-5 sm:p-8 md:p-10 border-2 border-amber-300">
+                    <div
+                        ref="feature1El"
+                        class="bg-linear-to-br from-amber-100 to-orange-100 rounded-3xl p-5 sm:p-8 md:p-10 border-2 border-amber-300"
+                    >
                         <!-- Animated practice checklist visual -->
                         <div class="space-y-3 sm:space-y-4 md:space-y-5">
                             <div class="text-sm sm:text-base font-semibold text-amber-700 mb-2 flex items-center gap-2">
                                 <span class="text-lg sm:text-xl">&#9835;</span> Today's Practice
                             </div>
                             <div
-                                v-for="(item, i) in featureList1"
+                                v-for="(item, i) in checklistState"
                                 :key="i"
-                                class="flex items-center gap-2 sm:gap-3 bg-white rounded-xl p-2.5 sm:p-3 md:p-4 shadow-sm border border-amber-100"
+                                class="flex items-center gap-2 sm:gap-3 bg-white rounded-xl p-2.5 sm:p-3 md:p-4 shadow-sm border transition-colors duration-500"
+                                :class="item.done ? 'border-emerald-100' : 'border-amber-100'"
                             >
                                 <div
-                                    class="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center"
+                                    class="w-1 self-stretch rounded-full shrink-0 transition-colors duration-500"
+                                    :class="item.color"
+                                />
+                                <div
+                                    class="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-500"
                                     :class="item.done ? 'bg-linear-to-br from-emerald-400 to-emerald-500 text-white' : 'bg-stone-100 text-stone-400'"
                                 >
                                     <svg
                                         v-if="item.done"
-                                        class="w-3 h-3 sm:w-4 sm:h-4"
+                                        class="w-3 h-3 sm:w-4 sm:h-4 checklist-check"
                                         fill="none"
                                         stroke="currentColor"
                                         viewBox="0 0 24 24"
@@ -257,12 +268,28 @@
                                         class="text-[0.65rem] sm:text-xs font-bold"
                                     >{{ i + 1 }}</span>
                                 </div>
-                                <span
-                                    class="text-xs sm:text-sm font-medium"
-                                    :class="item.done ? 'text-emerald-700 line-through' : 'text-stone-700'"
-                                >
-                                    {{ item.text }}
-                                </span>
+                                <div class="flex-1 min-w-0">
+                                    <div
+                                        class="text-xs sm:text-sm font-semibold truncate transition-all duration-500"
+                                        :class="item.done ? 'text-emerald-700 line-through' : 'text-stone-700'"
+                                    >
+                                        {{ item.name }}
+                                    </div>
+                                    <div
+                                        class="text-[0.65rem] sm:text-xs transition-colors duration-500"
+                                        :class="item.done ? 'text-emerald-500' : 'text-stone-400'"
+                                    >
+                                        {{ item.composer }}
+                                    </div>
+                                </div>
+                                <Transition name="badge">
+                                    <div
+                                        v-if="item.upNext"
+                                        class="text-[0.65rem] sm:text-xs px-2 py-0.5 sm:py-1 rounded-full font-medium bg-amber-100 text-amber-600 shrink-0"
+                                    >
+                                        Up next
+                                    </div>
+                                </Transition>
                             </div>
                         </div>
                     </div>
@@ -273,7 +300,7 @@
                 </div>
                 <!-- Text -->
                 <div>
-                    <p class="text-amber-600 font-semibold text-md sm:text-xl mb-2 uppercase tracking-wide">
+                    <p class="text-amber-600 font-semibold text-base sm:text-xl mb-2 uppercase tracking-wide">
                         Smart Practice Schedule
                     </p>
                     <h3 class="font-serif text-2xl sm:text-4xl font-bold text-stone-800 mb-4">
@@ -316,7 +343,7 @@
             <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8 sm:gap-16 items-center">
                 <!-- Text -->
                 <div class="order-2 md:order-1">
-                    <p class="text-violet-600 font-semibold text-md sm:text-xl mb-2 uppercase tracking-wide">
+                    <p class="text-violet-600 font-semibold text-base sm:text-xl mb-2 uppercase tracking-wide">
                         Track Your Growth
                     </p>
                     <h3 class="font-serif text-2xl sm:text-4xl font-bold text-stone-800 mb-4">
@@ -352,53 +379,66 @@
                 </div>
                 <!-- Visual -->
                 <div class="order-1 md:order-2 relative">
-                    <div class="bg-linear-to-br from-violet-100 to-purple-100 rounded-3xl p-5 sm:p-8 border-2 border-violet-300">
+                    <div
+                        ref="feature2El"
+                        class="bg-linear-to-br from-violet-100 to-purple-100 rounded-3xl p-5 sm:p-8 border-2 border-violet-300"
+                    >
                         <!-- Mini calendar mockup -->
-                        <div class="text-xs sm:text-sm font-semibold text-violet-700 mb-3 sm:mb-4 flex items-center gap-2">
-                            <span class="text-base sm:text-lg">&#x1F4C8;</span> March 2026
+                        <div class="text-xs sm:text-lg font-semibold text-violet-700 mb-3 sm:mb-4 flex items-center gap-2">
+                            <span class="text-base sm:text-lg">&#x1F4C8;</span> {{ calendarMonthLabel }}
                         </div>
                         <div class="grid grid-cols-7 gap-1 text-center mb-1">
                             <span
                                 v-for="d in ['S','M','T','W','T','F','S']"
                                 :key="d"
-                                class="text-[0.6rem] font-bold text-violet-400 uppercase tracking-wider py-1"
+                                class="text-[0.6rem] font-bold text-violet-600 uppercase tracking-wider py-1"
                             >{{ d }}</span>
                         </div>
                         <div class="grid grid-cols-7 gap-1 mb-4 sm:mb-6">
                             <div
                                 v-for="(val, i) in calendarPreviewDays"
                                 :key="'cal-'+i"
-                                class="aspect-square rounded-lg border flex flex-col items-start p-1 relative"
-                                :class="val.practiced ? 'border-amber-300 bg-linear-to-br from-amber-100 to-orange-100' : val.day ? 'border-stone-200 bg-white' : 'border-transparent'"
+                                class="aspect-square rounded-lg border flex flex-col items-start p-1 relative transition-all duration-500"
+                                :class="val.practiced ? 'border-amber-300 bg-linear-to-br from-amber-100 to-orange-100' : val.day ? 'border-violet-200 bg-white' : 'border-transparent'"
                             >
                                 <span
                                     v-if="val.day"
                                     class="text-[0.65rem] font-bold"
-                                    :class="val.today ? 'text-white bg-amber-500 w-4 h-4 rounded-full flex items-center justify-center' : 'text-stone-400'"
+                                    :class="val.today ? 'text-white bg-amber-500 w-4 h-4 rounded-full flex items-center justify-center' : 'text-stone-700'"
                                 >{{ val.day }}</span>
-                                <span
-                                    v-if="val.practiced"
-                                    class="w-5 h-5 rounded-full bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white self-center mx-auto mt-auto mb-1"
-                                    style="font-size: 0.65rem;"
-                                >&#10003;</span>
+                                <Transition name="badge">
+                                    <span
+                                        v-if="val.practiced"
+                                        class="w-3.5 h-3.5 sm:w-7 sm:h-7 rounded-full bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center text-white absolute left-1/2 -translate-x-1/2 bottom-0.5 sm:top-1/2 sm:bottom-auto sm:-translate-y-1/2"
+                                        style="font-size: 0.65rem;"
+                                    >&#10003;</span>
+                                </Transition>
                             </div>
                         </div>
                         <!-- Mini stats -->
-                        <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                        <div class="grid grid-cols-3 gap-2 sm:gap-3">
                             <div class="bg-white rounded-xl p-2.5 sm:p-3 text-center border border-violet-100">
-                                <div class="text-lg sm:text-xl font-bold text-violet-600">
-                                    85%
+                                <div class="text-lg sm:text-xl font-bold text-rose-500 transition-all duration-300">
+                                    {{ insightsTotalHrs }}<span class="text-xs sm:text-sm font-semibold text-stone-700 ml-0.5">hrs</span>
                                 </div>
-                                <div class="text-[0.65rem] sm:text-xs text-stone-400">
-                                    Consistency
+                                <div class="text-[0.65rem] sm:text-xs text-stone-700">
+                                    Total Practice
                                 </div>
                             </div>
                             <div class="bg-white rounded-xl p-2.5 sm:p-3 text-center border border-violet-100">
-                                <div class="text-lg sm:text-xl font-bold text-amber-600 flex items-center justify-center gap-1">
-                                    14 &#x1F525;
+                                <div class="text-lg sm:text-xl font-bold text-sky-500 transition-all duration-300">
+                                    {{ insightsAvgMin }}<span class="text-xs sm:text-sm font-semibold text-stone-700 ml-0.5">min</span>
                                 </div>
-                                <div class="text-[0.65rem] sm:text-xs text-stone-400">
-                                    Best Streak
+                                <div class="text-[0.65rem] sm:text-xs text-stone-700">
+                                    Avg. Session
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-2.5 sm:p-3 text-center border border-violet-100">
+                                <div class="text-lg sm:text-xl font-bold text-emerald-500">
+                                    9
+                                </div>
+                                <div class="text-[0.65rem] sm:text-xs text-stone-700">
+                                    Pieces
                                 </div>
                             </div>
                         </div>
@@ -416,36 +456,45 @@
             <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-8 sm:gap-16 items-center">
                 <!-- Visual -->
                 <div class="relative">
-                    <div class="bg-linear-to-br from-emerald-100 to-teal-100 rounded-3xl p-5 sm:p-8 md:p-10 border-2 border-emerald-300">
+                    <div
+                        ref="feature3El"
+                        class="bg-linear-to-br from-emerald-100 to-teal-100 rounded-3xl p-5 sm:p-8 md:p-10 border-2 border-emerald-300 overflow-hidden"
+                    >
                         <!-- Repertoire management mockup -->
-                        <div class="text-xs sm:text-sm font-semibold text-emerald-700 mb-3 sm:mb-4 flex items-center gap-2">
+                        <div class="text-xs sm:text-lg font-semibold text-emerald-700 mb-3 sm:mb-4 flex items-center gap-2">
                             <span class="text-base sm:text-lg">&#127926;</span> My Repertoire
                         </div>
-                        <div class="space-y-2 sm:space-y-3 md:space-y-4">
-                            <div
-                                v-for="(piece, i) in repertoireDemo"
-                                :key="i"
-                                class="flex items-center gap-2 sm:gap-3 bg-white rounded-xl p-2.5 sm:p-3 md:p-4 shadow-sm border border-emerald-100"
-                            >
+                        <div
+                            ref="repertoireListEl"
+                            class="flex flex-col gap-2 sm:gap-3"
+                            :style="{ minHeight: listMinHeight }"
+                        >
+                            <TransitionGroup name="piece-slide">
                                 <div
-                                    class="w-1.5 h-6 sm:w-2 sm:h-8 rounded-full"
-                                    :class="piece.color"
-                                />
-                                <div class="flex-1">
-                                    <div class="text-xs sm:text-sm font-semibold text-stone-700">
-                                        {{ piece.name }}
-                                    </div>
-                                    <div class="text-[0.65rem] sm:text-xs text-stone-400">
-                                        {{ piece.composer }}
-                                    </div>
-                                </div>
-                                <span
-                                    class="text-[0.65rem] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-medium"
-                                    :class="piece.badgeClass"
+                                    v-for="piece in repertoireDemo"
+                                    :key="piece.name"
+                                    class="flex items-center gap-2 sm:gap-3 bg-white rounded-xl p-2.5 sm:p-3 md:p-4 shadow-sm border border-emerald-100"
                                 >
-                                    {{ piece.status }}
-                                </span>
-                            </div>
+                                    <div
+                                        class="w-1 self-stretch rounded-full shrink-0 transition-colors duration-500"
+                                        :class="piece.color"
+                                    />
+                                    <div class="flex-1 min-w-0">
+                                        <div class="text-xs sm:text-sm font-semibold text-stone-800 truncate">
+                                            {{ piece.name }}
+                                        </div>
+                                        <div class="text-[0.65rem] sm:text-xs text-stone-500 mt-0.5">
+                                            {{ piece.composer }}
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="text-[0.9rem] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full font-medium shrink-0 transition-all duration-500"
+                                        :class="piece.badgeClass"
+                                    >
+                                        {{ piece.status }}
+                                    </span>
+                                </div>
+                            </TransitionGroup>
                         </div>
                     </div>
                     <!-- Decorative -->
@@ -455,7 +504,7 @@
                 </div>
                 <!-- Text -->
                 <div>
-                    <p class="text-emerald-600 font-semibold text-md sm:text-xl mb-2 uppercase tracking-wide">
+                    <p class="text-emerald-600 font-semibold text-base sm:text-xl mb-2 uppercase tracking-wide">
                         Repertoire Management
                     </p>
                     <h3 class="font-serif text-2xl sm:text-4xl font-bold text-stone-800 mb-4">
@@ -557,7 +606,7 @@
                         >
                             {{ stat.value }}
                         </div>
-                        <div class="text-md sm:text-xl font-semibold text-stone-800 sm:whitespace-nowrap">
+                        <div class="text-base sm:text-xl font-semibold text-stone-800 sm:whitespace-nowrap">
                             {{ stat.label }}
                         </div>
                     </div>
@@ -584,7 +633,7 @@
                 <h2 class="font-serif text-3xl sm:text-5xl font-bold text-stone-800 mb-6">
                     Ready to transform your playing?
                 </h2>
-                <p class="text-stone-800 text-lg sm:text-xl mb-10 max-w-xl mx-auto">
+                <p class="text-stone-800 text-lg sm:text-2xl mb-10 max-w-3xl mx-auto">
                     Join and start building the practice routine you've always wanted.
                     It's free, it's simple, and your piano will thank you.
                 </p>
@@ -603,21 +652,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AppFooter from '../AppFooter.vue'
 
 const router = useRouter()
 
-const featuresSection = ref(null)
-
 function goToSignup() {
     window.scrollTo(0, 0)
     router.push({ name: 'signup' })
-}
-
-function scrollToFeatures() {
-    featuresSection.value?.scrollIntoView({ behavior: 'smooth' })
 }
 
 // Hero floating notes data
@@ -631,7 +674,6 @@ const heroNotes = [
     { symbol: '♫', style: 'top: 50%; right: 18%; font-size: 1.8rem; transform: rotate(-5deg);', animClass: 'animate-float-medium' },
 ]
 
-// Stats section floating notes
 // Features intro floating notes
 const featureIntroNotes = [
     { symbol: '♪', style: 'top: 15%; left: 8%; font-size: 2.5rem; transform: rotate(-12deg);', animClass: 'animate-float-slow' },
@@ -657,18 +699,45 @@ const ctaNotes = [
 
 // Mock data for hero dashboard
 const mockPieces = [
-    { name: 'Clair de Lune', composer: 'Debussy', done: true },
-    { name: 'Nocturne Op. 9 No. 2', composer: 'Chopin', done: true },
-    { name: 'Gymnopédie No. 1', composer: 'Satie', done: false },
+    { name: 'Clair de Lune', composer: 'Debussy', done: true, color: 'bg-amber-400' },
+    { name: 'Nocturne Op. 9 No. 2', composer: 'Chopin', done: true, color: 'bg-blue-400' },
+    { name: 'Gymnopédie No. 1', composer: 'Satie', done: false, color: 'bg-emerald-400', upNext: true },
 ]
 
-// Feature 1 checklist items
-const featureList1 = [
-    { text: 'Clair de Lune — Debussy', done: true },
-    { text: 'Prelude in C Major — Bach', done: true },
-    { text: 'Moonlight Sonata Mvt. 1 — Beethoven', done: false },
-    { text: 'Ballade No. 1 — Chopin', done: false },
-]
+// Feature 1 checklist — animated on scroll
+const feature1El = ref(null)
+const checklistState = reactive([
+    { name: 'Clair de Lune', composer: 'Debussy', done: true, color: 'bg-amber-400', upNext: false },
+    { name: 'Prelude in C Major', composer: 'Bach', done: true, color: 'bg-emerald-400', upNext: false },
+    { name: 'Moonlight Sonata, Mvt. 1', composer: 'Beethoven', done: false, color: 'bg-blue-400', upNext: true },
+    { name: 'Ballade No. 1', composer: 'Chopin', done: false, color: 'bg-blue-400', upNext: false },
+])
+let checklistObserver = null
+let checklistTimeouts = []
+
+function checklistTimeout(fn, ms) {
+    const id = setTimeout(fn, ms)
+    checklistTimeouts.push(id)
+    return id
+}
+
+function runChecklistAnimation() {
+    checklistTimeout(() => {
+        // Check off item 3
+        checklistState[2].done = true
+        checklistState[2].upNext = false
+        // Move "Up next" to item 4
+        checklistTimeout(() => {
+            checklistState[3].upNext = true
+            // Check off item 4
+            checklistTimeout(() => {
+                checklistState[3].done = true
+                checklistState[3].upNext = false
+            }, 1200)
+        }, 400)
+    }, 1200)
+}
+
 
 // Feature section bullet points
 const points1 = [
@@ -689,24 +758,85 @@ const points3 = [
     'Search and filter your entire library instantly',
 ]
 
-// Mini calendar preview data (March 2026 starts on Sunday)
+// Mini calendar preview data — animated on scroll
+const calendarMonthLabel = new Date().toLocaleString('default', { month: 'long' })
 const practicedPreviewDays = new Set([3, 5, 7, 8, 10, 12, 14, 15, 17])
-const calendarPreviewDays = (() => {
+const calendarPreviewDays = reactive((() => {
     const days = []
-    // March 2026 starts on Sunday (offset 0), show first 3 weeks
     for (let d = 1; d <= 21; d++) {
-        days.push({ day: d, practiced: practicedPreviewDays.has(d), today: d === 17 })
+        days.push({ day: d, practiced: practicedPreviewDays.has(d), today: false })
     }
     return days
-})()
+})())
+
+const feature2El = ref(null)
+const insightsTotalHrs = ref(12)
+const insightsAvgMin = ref(32)
+let insightsObserver = null
+let insightsTimeout1 = null
+let insightsTimeout2 = null
+
+function runInsightsAnimation() {
+    // Check off day 19
+    insightsTimeout1 = setTimeout(() => {
+        calendarPreviewDays[18].practiced = true
+        insightsTotalHrs.value = 13
+        insightsAvgMin.value = 33
+        // Check off day 21
+        insightsTimeout2 = setTimeout(() => {
+            calendarPreviewDays[20].practiced = true
+            insightsTotalHrs.value = 14
+            insightsAvgMin.value = 34
+        }, 1000)
+    }, 1200)
+}
+
 
 // Repertoire demo items
-const repertoireDemo = [
-    { name: 'Clair de Lune', composer: 'Debussy', status: 'Learning', color: 'bg-blue-400', badgeClass: 'bg-blue-50 text-blue-700' },
-    { name: 'Liebestraum No. 3', composer: 'Liszt', status: 'Polishing', color: 'bg-amber-400', badgeClass: 'bg-amber-50 text-amber-700' },
-    { name: 'Prelude in C Major', composer: 'Bach', status: 'Mastered', color: 'bg-emerald-400', badgeClass: 'bg-emerald-50 text-emerald-700' },
-    { name: 'Fantaisie-Impromptu', composer: 'Chopin', status: 'Relearning', color: 'bg-violet-400', badgeClass: 'bg-violet-50 text-violet-700' },
-]
+// Feature 3 repertoire list — animated on scroll
+const feature3El = ref(null)
+const repertoireDemo = reactive([
+    { name: 'Clair de Lune', composer: 'Debussy', status: 'Polishing', color: 'bg-amber-400', badgeClass: 'bg-amber-50 text-amber-700' },
+    { name: 'Liebestraum No. 3', composer: 'Liszt', status: 'Shelved', color: 'bg-stone-400', badgeClass: 'bg-stone-100 text-stone-700' },
+    { name: 'Prelude in C Major', composer: 'Bach', status: 'Mastered', color: 'bg-blue-400', badgeClass: 'bg-blue-50 text-blue-700' },
+])
+const repertoireListEl = ref(null)
+const listMinHeight = ref('auto')
+const slidePiece = { name: 'Fantaisie-Impromptu', composer: 'Chopin', status: 'Want to Learn', color: 'bg-rose-400', badgeClass: 'bg-rose-50 text-rose-700' }
+let repertoireObserver = null
+let repertoireTimeouts = []
+
+function repertoireTimeout(fn, ms) {
+    const id = setTimeout(fn, ms)
+    repertoireTimeouts.push(id)
+    return id
+}
+
+function setStatus(index, status, color, badgeClass) {
+    const piece = repertoireDemo[index]
+    piece.status = status
+    piece.color = color
+    piece.badgeClass = badgeClass
+}
+
+function runRepertoireAnimation() {
+    // Step 1: Slide in 4th piece as "Want to Learn"
+    repertoireTimeout(() => {
+        repertoireDemo.push({ ...slidePiece })
+        // Step 2: Liebestraum — Shelved → Relearning
+        repertoireTimeout(() => {
+            setStatus(1, 'Relearning', 'bg-violet-400', 'bg-violet-50 text-violet-700')
+            // Step 3: Clair de Lune — Polishing → Mastered
+            repertoireTimeout(() => {
+                setStatus(0, 'Mastered', 'bg-blue-400', 'bg-blue-50 text-blue-700')
+                // Step 4: Prelude — Mastered → Shelved
+                repertoireTimeout(() => {
+                    setStatus(2, 'Shelved', 'bg-stone-400', 'bg-stone-100 text-stone-600')
+                }, 1200)
+            }, 1200)
+        }, 1200)
+    }, 1200)
+}
 
 // Piano keys display helper
 function isBlackKey(i) {
@@ -835,10 +965,55 @@ function playNext() {
 onMounted(() => {
     const [, duration] = highlightSequence[0]
     pianoTimeout = setTimeout(playNext, duration)
+
+    // Observe feature 1 graphic for checklist animation (play once)
+    checklistObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            runChecklistAnimation()
+            checklistObserver.disconnect()
+        }
+    }, { threshold: 0.5 })
+    if (feature1El.value) checklistObserver.observe(feature1El.value)
+
+    // Observe feature 2 graphic for insights animation (play once)
+    insightsObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            runInsightsAnimation()
+            insightsObserver.disconnect()
+        }
+    }, { threshold: 0.5 })
+    if (feature2El.value) insightsObserver.observe(feature2El.value)
+
+    // Pre-calculate list height for 4 items so container doesn't grow on slide-in
+    if (repertoireListEl.value) {
+        const el = repertoireListEl.value
+        const firstChild = el.children[0]
+        if (firstChild) {
+            const gap = parseFloat(getComputedStyle(el).rowGap) || 8
+            const itemH = firstChild.offsetHeight
+            listMinHeight.value = (itemH * 4 + gap * 3) + 'px'
+        }
+    }
+
+    // Observe feature 3 graphic for repertoire animation (play once)
+    repertoireObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            runRepertoireAnimation()
+            repertoireObserver.disconnect()
+        }
+    }, { threshold: 0.5 })
+    if (feature3El.value) repertoireObserver.observe(feature3El.value)
 })
 
 onUnmounted(() => {
     clearTimeout(pianoTimeout)
+    checklistTimeouts.forEach(clearTimeout)
+    clearTimeout(insightsTimeout1)
+    clearTimeout(insightsTimeout2)
+    repertoireTimeouts.forEach(clearTimeout)
+    checklistObserver?.disconnect()
+    insightsObserver?.disconnect()
+    repertoireObserver?.disconnect()
 })
 
 // Stats data
@@ -851,6 +1026,26 @@ const stats = [
 </script>
 
 <style scoped>
+/* Checklist animation */
+.badge-enter-active { transition: opacity 0.3s ease, transform 0.3s ease; }
+.badge-leave-active { transition: opacity 0.2s ease, transform 0.2s ease; }
+.badge-enter-from { opacity: 0; transform: scale(0.8); }
+.badge-leave-to { opacity: 0; transform: scale(0.8); }
+
+.checklist-check {
+    animation: check-pop 0.4s ease;
+}
+@keyframes check-pop {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.3); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Repertoire piece slide-in */
+.piece-slide-enter-active { transition: opacity 0.6s ease, transform 0.6s ease; }
+.piece-slide-enter-from { opacity: 0; transform: translateX(40px); }
+.piece-slide-move { transition: transform 0.4s ease; }
+
 @keyframes float-slow {
     0%, 100% { transform: translateY(0) rotate(var(--rotation, 0deg)); }
     50% { transform: translateY(-15px) rotate(var(--rotation, 0deg)); }
